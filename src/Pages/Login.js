@@ -32,9 +32,8 @@ const Login = () => {
   return (
       <>
      {/*  <ThemeProvider theme={theme}> */}
-  <div className={classes.myDiv}>
+    <div className={classes.myDiv}>
         <div className={classes.myDiv1}>
-          {/* <img src='/images/VectorBody.png' width={1440} height={698}/> */}
           <p className={classes.textLogo}>LOGO</p>
         </div>
         <div className={classes.myDiv2}>
@@ -44,11 +43,9 @@ const Login = () => {
                   <p className={classes.subtitle1}>Lorem Ipsum is simply dummy text of the <br/>
                     printing and typesetting industry. </p>
             </div>
-
             <div>
                   <img src='/images/login-img.png'/>
             </div>
-
             <div className={classes.myDiv3}>
                 <div className={classes.myDiv4}>
                   <div>

@@ -8,6 +8,7 @@ export const useStyles = makeStyles({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   marginBottom: 100,
+  
   },
 
   myDiv1: {
@@ -84,20 +85,20 @@ export const useStyles = makeStyles({
     width : '362px',
     fontFamily: 'Poppins',
     marginTop: '10px',
-    '& .MuiInputBase-input': {
-          color: '#242424',
+    '& .MuiInputBase-input': { /* input field */
+          color: '#676767',
           fontSize: '17px',
           fontFamily: 'Poppins',
           fontWeight: 900,
         },
-    '& .MuiInputBase-root': {
+    '& .MuiInputBase-root': { /* input border */
       borderRadius: '14px',
       border: '1px solid #DDDDDD',
       height : '53px',
-          marginTop: '6px',
+      marginTop: '6px',
     },
     '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'transparent',
+      borderColor: 'transparent', /* remove input bordercolor focus */
     },
     '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
       borderColor: '#DDDDDD',
