@@ -1,21 +1,25 @@
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import AddUser from './Pages/AddUser';
-import Login from './Pages/Login';
+/* import {BrowserRouter,Routes,Route} from 'react-router-dom' */
+/* import AddNewCollector from './Pages/AddNewCollector'; */
+ /* import AddNewDoctor from './Pages/AddNewDoctor'; */
+import AddNewUser from './Pages/AddNewUser';
+/*import Login from './Pages/Login';  */
+
+/* import Options from "./Components/Shared/Options"; */
 
 
 function App() {
   return (
-  
-    <BrowserRouter>
-        <Routes>
-            <Route>
-              <Route exact path="/" element={<Login/>} />
-              <Route exact path="/adduser" element={<AddUser/>} />
-            </Route>
-        </Routes>
-    </BrowserRouter>
+   /*  <AddNewDoctor/>  */
+   <AddNewUser/>
+   /* <AddNewCollector/> */
+   /* <Options /> */
+   
+   
     
   );
 }
 
 export default App;
+
+
+

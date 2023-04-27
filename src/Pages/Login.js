@@ -4,7 +4,7 @@ import Input from '../Components/Shared/Input'
 import { useStyles } from '../Styles/InputStyle';
 import { AdminLogin } from '../Api/auth.js';
 /* import { createTheme, ThemeProvider } from '@material-ui/core/styles'; */
-import { Typography } from '@material-ui/core';
+/* import { Typography } from '@material-ui/core'; */
 
 
 const Login = () => {
