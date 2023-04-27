@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 const AddNewUser = () => {
   const tableclasses = tableStyles();
 
+ 
   const rows = [
     { 
       image: '../images/Rectangle.png' ,
@@ -115,12 +116,12 @@ const AddNewUser = () => {
       <Button className={tableclasses.filterButton3}>Access right</Button>
     </div>
 
-    {/* <div className={tableclasses.filterButtonHori}>
+    <div className={tableclasses.filterButtonHori}>
       <Button className={tableclasses.filterButtonh1}>Edit</Button>
-      <Button className={tableclasses.filterButtonh1}>Delete</Button>
-      <Button className={tableclasses.filterButtonh1}>Preview</Button>
-      <Button className={tableclasses.filterButtonh1}>Access right</Button>
-    </div> */}
+      <Button className={tableclasses.filterButtonh2}>Delete</Button>
+      <Button className={tableclasses.filterButtonh3}>Preview</Button>
+      <Button className={tableclasses.filterButtonh4}>Access right</Button>
+    </div>
 
     <div className={tableclasses.searchContainer}>
       <SearchIcon    className={tableclasses.searchIcon} />

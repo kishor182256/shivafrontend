@@ -9,7 +9,7 @@ export const tableStyles = makeStyles({
       },
     table: {
         border: 'none',
-        width : '90%',
+        width : '94%',
         '&.MuiTableCell-root':{
             borderBottom : 'none'
         },
@@ -19,11 +19,15 @@ export const tableStyles = makeStyles({
         borderRadius: '6px',height: '43px',
         margingBottom: '20px',
         fontFamily: 'Poppins',
+        borderRadius: '36px',
         '& .MuiTableHead-root': {
             width: '96%', // Set your desired width
             height: '43px', // Set your desired height
             color: '#B5B5C3',
             boxShadow: 'none',
+          },
+          '&  .MuiTableCell-head':{
+              color: '#B5B5C3',
           },
     },
       customTableCell: {
@@ -41,7 +45,7 @@ export const tableStyles = makeStyles({
     fontFamily: 'Poppins',
   },
       header: {
-        width : '90%',
+        width : '94%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'left',
@@ -96,6 +100,7 @@ export const tableStyles = makeStyles({
         marginLeft: '6%',
         marginRight: '6%',
         marginTop: '3%',
+        position: 'relative',
     },
     image: {
         width: '50px',
@@ -138,7 +143,7 @@ export const tableStyles = makeStyles({
         }
     }, 
     filterSearch:{
-        width : '90%',
+        width : '94%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'left',
@@ -155,10 +160,11 @@ export const tableStyles = makeStyles({
         border: '1px solid #B5B5C3',
         fontFamily: 'Poppins',
       },
-      
+
       searchField: {
         alignItems: 'center',
         fontFamily: 'Poppins',
+        marginLeft: 10,
         '& .MuiFormLabel-root.Mui-focused':{
             color: '#B5B5C3',
             },
@@ -241,8 +247,12 @@ export const tableStyles = makeStyles({
         alignItems: 'left',
         flexDirection: 'column',
         backgroundColor: '#273142',
-        padding: 20,
+        padding: 15,
         borderRadius: '15px',
+        position: 'absolute',
+        top: '330px',
+        right: '0px',
+        zIndex: '1',
     },
     filterButtonh1: {
         height : '33px',
@@ -251,7 +261,52 @@ export const tableStyles = makeStyles({
         '&.MuiButton-contained':{
             backgroundColor: '#273142',
             color: '#FFFFFF',
-            fontSize: '14px',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+        }
+    },
+    filterButtonh2: {
+        height : '33px',
+        width : '76px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+        }
+    },
+    filterButtonh3: {
+        height : '33px',
+        width : '86px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+        }
+    },
+    filterButtonh4: {
+        height : '33px',
+        width : '120px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
             boxShadow: 'none',
             borderRadius: '25px',
             textTransform: 'none',
