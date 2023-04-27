@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 
-const Input = ({ label, value, onChange, className, placeholder }) => {
+const Input = ({ label, value, onChange, className, placeholder,type }) => {
   return (
     <TextField
       label={label}
@@ -11,6 +11,7 @@ const Input = ({ label, value, onChange, className, placeholder }) => {
       className={className}
       variant="outlined"
       margin="normal"
+      type={type}
      
     />
   );

@@ -1,101 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Avatar } from '@material-ui/core';
 import { tableStyles } from '../Styles/AddNewDocStyle';
 import Button from '../Components/Shared/Button'
+import axios from 'axios';
+import { API, TOKEN } from '../config';
 
 const AddNewDoctor = () => {
   const tableclasses = tableStyles();
 
-  const rows = [
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Inactive',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Inactive',
-    },
-    { 
-      image: '../images/Rectangle.png' ,
-      id: 87364523, 
-      name: 'John Doe', 
-      specification: 'Dermatologists',
-      email: 'Brooklyn @mail.com',
-      number: '9876543210',
-      location: 'Jayanagar',
-      area: 'xyz',
-      status: 'Active',
-    },
-  ];
+
+  const [rows,setRows] = useState();
+
+  const fetchData = async() => {
+     const data=  await axios.get(`${API}/getdoctorlist`,{ headers: {"authtoken" :`${TOKEN}`} })
+     setRows(data.data.doctors);
+     console.log('datadoctor',data.data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  },[])
+
   return (
     <div className={tableclasses.root}>  
   <div className={tableclasses.body}>
@@ -126,11 +51,11 @@ const AddNewDoctor = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row) => (
-          <TableRow key={row.id}>
+        {rows?.map((row) => (
+          <TableRow key={row.email}>
             <TableCell component="th" scope="row" className={tableclasses.customTableCell}>
               <div className={tableclasses.profile}>
-                <div><img alt={row.name} src={row.image} /></div>
+                <div><img alt={row.name} src='../images/Rectangle.png' /></div>
                   <div  className={tableclasses.name}>
                     <div>{row.name}</div>
                     <div  className={tableclasses.specification}>{row.specification}</div>
@@ -144,7 +69,7 @@ const AddNewDoctor = () => {
               <div>{row.email}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.number}</div>
+              <div>{row.phone}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
               <div>{row.location}</div>
