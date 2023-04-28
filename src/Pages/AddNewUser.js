@@ -17,7 +17,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Active',
     },
@@ -28,7 +28,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Inactive',
     },
@@ -39,7 +39,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Active',
     },
@@ -50,7 +50,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Active',
     },
@@ -61,7 +61,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Active',
     },
@@ -72,7 +72,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Active',
     },
@@ -83,7 +83,7 @@ const AddNewUser = () => {
       specification: 'Dermatologists',
       email: 'Brooklyn @mail.com',
       number: '9876543210',
-      location: 'Jayanagar',
+      lockdays: '1200',
       area: 'xyz',
       status: 'Inactive',
     },
@@ -108,7 +108,6 @@ const AddNewUser = () => {
 
     <div className={tableclasses.filterSearch}>
     <div>
-      
       <Button className={tableclasses.filterButton1}>Options</Button>
       <Button className={tableclasses.filterButton2}>Export</Button>
       <Button className={tableclasses.filterButton2}>Edit</Button>
@@ -136,6 +135,7 @@ const AddNewUser = () => {
     </div>
     </div>
 
+ 
     <Table className={tableclasses.table}>
       <TableHead className={tableclasses.tableHead}>
         <TableRow >
@@ -143,7 +143,7 @@ const AddNewUser = () => {
           <TableCell className={tableclasses.customTableCell}>ID</TableCell>
           <TableCell className={tableclasses.customTableCell}>Email</TableCell>
           <TableCell className={tableclasses.customTableCell}>Phone number</TableCell>
-          <TableCell className={tableclasses.customTableCell}>Location</TableCell>
+          <TableCell className={tableclasses.customTableCell}>Audit lock days</TableCell>
           <TableCell className={tableclasses.customTableCell}>STATUS</TableCell>
           <TableCell className={tableclasses.customTableCell}>OPTIONS</TableCell>
         </TableRow>
@@ -170,8 +170,7 @@ const AddNewUser = () => {
               <div>{row.number}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.location}</div>
-              <div className={tableclasses.specification}>{row.area}</div>
+              <div>{row.lockdays}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
               <Button  className={tableclasses.customActive} ><div >{row.status}</div></Button>

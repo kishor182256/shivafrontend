@@ -64,7 +64,6 @@ export const tableStyles = makeStyles({
         fontFamily: 'Poppins',
       },
       customActive: {
-        backgroundColor: '#F4FFF3',
         borderRadius: '6px',
         height : '26px',
         width : '74px',
@@ -75,10 +74,13 @@ export const tableStyles = makeStyles({
             color: '#5F8D4E',
             boxShadow: 'none',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#F4FFF3',
+             },
         },
-        '&:hover': {
-            backgroundColor: 'none',
-        },
+
+          '&:hover': {
+          },
     },
     customArrow: {
         backgroundColor: '#FAFAFA',
@@ -140,6 +142,9 @@ export const tableStyles = makeStyles({
             fontSize: '10px',
             boxShadow: 'none',
             textTransform: 'none',
+            '&:hover': {
+             /*  transform: 'none', */ backgroundColor: '#B82C3A',
+            },
         }
     }, 
     filterSearch:{
@@ -152,7 +157,7 @@ export const tableStyles = makeStyles({
     searchContainer: {
         display: 'flex',
         alignItems: 'center',
-        maxWidth: '250px',
+        maxWidth: '230px',
         height: '38px',
        marginBottom: '40px',
         borderRadius: '63px',
@@ -193,7 +198,7 @@ export const tableStyles = makeStyles({
         },
       searchIcon:{
           color: '#B5B5C3',
-          marginLeft: '12px',
+          marginLeft: '16px',
           fontFamily: 'Poppins',
       },
 
@@ -210,6 +215,9 @@ export const tableStyles = makeStyles({
             borderRadius: '6px  0 0 6px',
             borderRight: '1px solid #3A4251',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButton2: {
@@ -225,6 +233,9 @@ export const tableStyles = makeStyles({
             borderRadius: '0  0 0 0',
             borderRight: '1px solid #3A4251',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButton3: {
@@ -239,6 +250,9 @@ export const tableStyles = makeStyles({
             boxShadow: 'none',
             borderRadius: '0 6px 6px 0',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButtonHori:{
@@ -267,6 +281,9 @@ export const tableStyles = makeStyles({
             textTransform: 'none',
             border: '1px solid #B5B5C3',
             marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButtonh2: {
@@ -282,6 +299,9 @@ export const tableStyles = makeStyles({
             textTransform: 'none',
             border: '1px solid #B5B5C3',
             marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButtonh3: {
@@ -297,6 +317,9 @@ export const tableStyles = makeStyles({
             textTransform: 'none',
             border: '1px solid #B5B5C3',
             marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButtonh4: {
@@ -312,6 +335,9 @@ export const tableStyles = makeStyles({
             textTransform: 'none',
             border: '1px solid #B5B5C3',
             marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
 });

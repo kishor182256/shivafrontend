@@ -1,33 +1,42 @@
-/* import React from 'react'
-import MenuItem from '@mui/@material-ui/MenuItem';
-import FormHelperText from '@mui/@material-ui/FormHelperText';
-import FormControl from '@mui/@material-ui/FormControl';
-import Select from '@mui/@material-ui/Select';
+/*  import React from 'react'
+ import { tableStyles } from '../Pages/AddNewDocStyle';
+ import Button from '../Components/Shared/Button'
+ import SearchIcon from '@material-ui/icons/Search';
+ import TextField from '@material-ui/core/TextField';
+ 
 
 const Options = () => {
-    const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const tableclasses = tableStyles(); 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <Select
-          value={age}
-          onChange={handleChange}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-        <FormHelperText>Without label</FormHelperText>
-      </FormControl>
+     <div className={tableclasses.filterSearch}>
+    <div>
+      <Button className={tableclasses.filterButton1}>Options</Button>
+      <Button className={tableclasses.filterButton2}>Export</Button>
+      <Button className={tableclasses.filterButton2}>Edit</Button>
+      <Button className={tableclasses.filterButton2}>Delete</Button>
+      <Button className={tableclasses.filterButton3}>Access right</Button>
+    </div>
+
+    <div className={tableclasses.filterButtonHori}>
+      <Button className={tableclasses.filterButtonh1}>Edit</Button>
+      <Button className={tableclasses.filterButtonh2}>Delete</Button>
+      <Button className={tableclasses.filterButtonh3}>Preview</Button>
+      <Button className={tableclasses.filterButtonh4}>Access right</Button>
+    </div>
+
+    <div className={tableclasses.searchContainer}>
+      <SearchIcon    className={tableclasses.searchIcon} />
+      <TextField
+        className={tableclasses.searchField}
+         displayEmpty 
+        placeholder="Search"
+         defaultValue="Search" 
+        variant="standard"
+        size="small"
+      />
+    </div>
+    </div>
   )
 }
 
-export default Options */
+export default Options  */
