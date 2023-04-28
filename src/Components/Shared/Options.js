@@ -1,8 +1,9 @@
-/*  import React from 'react'
- import { tableStyles } from '../Pages/AddNewDocStyle';
- import Button from '../Components/Shared/Button'
+ import React from 'react'
  import SearchIcon from '@material-ui/icons/Search';
  import TextField from '@material-ui/core/TextField';
+import Button from './Buttons';
+import { tableStyles } from '../../Styles/AddNewDocStyle';
+
  
 
 const Options = () => {
@@ -39,4 +40,4 @@ const Options = () => {
   )
 }
 
-export default Options  */
+export default Options 

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Avatar } from '@material-ui/core';
 import { tableStyles } from '../Styles/AddNewDocStyle';
-import Button from '../Components/Shared/Button'
+import Button from '../Components/Shared/Buttons'
 import SearchIcon from '@material-ui/icons/Search';
 import TextField from '@material-ui/core/TextField';
+/* import Options from '../Components/Shared/Options'; */
 
 const AddNewUser = () => {
   const tableclasses = tableStyles();
