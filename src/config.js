@@ -2,4 +2,6 @@
 
 export const API = 'http://localhost:8000/api';
 
+export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ4Yjk3YTIwNDU4MTc4ZWQ3NWY4OTgiLCJpYXQiOjE2ODI3NDI3MTAsImV4cCI6MTY4MjgyOTExMH0.YbbllXELFXaQV8Yl3FXOiz6kdiJxMEMX-UecTqj4Sv4'
+
 

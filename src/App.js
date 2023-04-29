@@ -1,41 +1,21 @@
-/* import {BrowserRouter,Routes,Route} from 'react-router-dom' */
-/* import AddNewCollector from './Pages/AddNewCollector'; */
- /* import AddNewDoctor from './Pages/AddNewDoctor'; */
-/* import AddNewUser from './Pages/AddNewUser'; */
-/*import Login from './Pages/Login';  */
-
-import CollectorForm from "./Pages/CollectorForm";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
-/* import AddNewTest from "./Pages/AddNewTest"; */
-/* import ReportFormat from "./Pages/ReportFormat"; */
-/* import ReportGroup from "./Pages/ReportGroup"; */
-
-/* import TablesComp from "./Components/Shared/TablesComp"; */
-/* import PriceList from "./Pages/PriceList"; */
+import AddNewDoctor from "./Pages/AddNewDoctor";
+import AddNewUser from "./Pages/AddNewUser";
+import Login from "./Pages/Login";
 
 
-
-/* import Options from "./Components/Shared/Options"; */
-
-
-function App() {
+const App = () => {
   return (
-    /*  <AddNewDoctor/>  */ 
-   /* <AddNewUser/> */
- /* <AddNewCollector/> */
-  /*  <Options /> */
-  /*  <TablesComp/> */
-  /* <PriceList/>  */
-   /*<AddNewTest/>  */
-    /* <ReportGroup/> */
-    /* <ReportFormat/> */
-    <CollectorForm/>
-
-    );
-}
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Login/>}/>
+        <Route exact path="/register-doctor" element={<AddNewDoctor/>}/>
+        <Route exact path="/register-user" element={<AddNewUser/>}/>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
-
-
-
