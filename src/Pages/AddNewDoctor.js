@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Avatar } from '@material-ui/core';
 import { tableStyles } from '../Styles/AddNewDocStyle';
-import Button from '../Components/Shared/Button'
+import Button from '../Components/Shared/Buttons'
 import axios from 'axios';
 import { API, TOKEN } from '../config';
 

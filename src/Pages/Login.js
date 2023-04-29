@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../Components/Shared/Button";
+import Button from "../Components/Shared/Buttons";
 import Input from "../Components/Shared/Input";
 import { useStyles } from "../Styles/InputStyle";
 import { AdminLogin } from "../Api/auth.js";
@@ -30,6 +30,7 @@ const Login = () => {
      
     const {data} = await axios.post(`${API}/login`,{email,password})
     setData(data);
+    console.log(data);
     if(apidata){
       navigate('/register-doctor')
     }else{

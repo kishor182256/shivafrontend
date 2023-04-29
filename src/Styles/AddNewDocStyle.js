@@ -16,7 +16,8 @@ export const tableStyles = makeStyles({
       },
       tableHead: {
         background: '#FAFAFA', // Set your desired background color
-        borderRadius: '6px',height: '43px',
+        borderRadius: '6px',
+        height: '43px',
         margingBottom: '20px',
         fontFamily: 'Poppins',
         borderRadius: '36px',
