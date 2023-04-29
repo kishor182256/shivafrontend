@@ -4,6 +4,8 @@ import { tableStyles } from '../Styles/AddNewDocStyle';
 import Buttons from '../Components/Shared/Buttons';
 import axios from 'axios';
 import { API, TOKEN } from '../config';
+import PopoverMenu from '../Components/Shared/Popover';
+import ArrowIcon from '../Components/Shared/ArrowIcon';
 
 const AddNewCollector = () => {
   const tableclasses = tableStyles();
@@ -19,6 +21,15 @@ const AddNewCollector = () => {
   useEffect(() => {
     fetchData()
   },[])
+
+  const handleEdit = (id) => {
+    console.log('handleEdititem_id',id)
+   };
+ 
+   const handleDelete = async(id) => {
+     const data = await axios.delete(`${API}/delete-collector/${id}`,{ headers: {"authtoken" :`${TOKEN}`} })
+     console.log('handleDelete',data)
+   };
 
 
   
@@ -81,10 +92,8 @@ const AddNewCollector = () => {
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
             <div className={tableclasses.customArrow}>
-            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect opacity="0.3" x="3.43604" y="11.5373" width="1.64102" height="7.38461" rx="0.820512" transform="rotate(-90 3.43604 11.5373)" fill="#181C32"/>
-              <path d="M9.41987 15.0597C9.09944 15.3801 9.09944 15.8996 9.41987 16.22C9.7403 16.5405 10.2598 16.5405 10.5803 16.22L15.5033 11.297C15.814 10.9863 15.8248 10.4862 15.528 10.1623L11.0152 5.23925C10.709 4.9052 10.1899 4.88264 9.85588 5.18885C9.52183 5.49506 9.49926 6.01409 9.80547 6.34813L13.7874 10.6921L9.41987 15.0597Z" fill="#181C32"/>
-            </svg>
+             <ArrowIcon/>
+            <PopoverMenu data={rows} handleEdit={()=>handleEdit(row._id)} handleDelete={()=>handleDelete(row._id)}/>
             </div>
 
             </TableCell>
