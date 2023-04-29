@@ -4,9 +4,12 @@
 /* import AddNewUser from './Pages/AddNewUser'; */
 /*import Login from './Pages/Login';  */
 
+import CollectorForm from "./Pages/CollectorForm";
+
+
 /* import AddNewTest from "./Pages/AddNewTest"; */
 /* import ReportFormat from "./Pages/ReportFormat"; */
-import ReportGroup from "./Pages/ReportGroup";
+/* import ReportGroup from "./Pages/ReportGroup"; */
 
 /* import TablesComp from "./Components/Shared/TablesComp"; */
 /* import PriceList from "./Pages/PriceList"; */
@@ -25,9 +28,11 @@ function App() {
   /*  <TablesComp/> */
   /* <PriceList/>  */
    /*<AddNewTest/>  */
-    /*  */<ReportGroup/>
+    /* <ReportGroup/> */
     /* <ReportFormat/> */
-  );
+    <CollectorForm/>
+
+    );
 }
 
 export default App;

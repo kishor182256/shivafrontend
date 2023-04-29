@@ -5,6 +5,7 @@ import Button from '../Components/Shared/Buttons'
 import SearchIcon from '@material-ui/icons/Search';
 import TextField from '@material-ui/core/TextField';
 
+
 const ReportFormat = () => {
   const tableclasses = tableStyles();
 
@@ -186,7 +187,7 @@ const ReportFormat = () => {
       <Button className={tableclasses.numButton}>1</Button>
       <Button className={tableclasses.pageButton}>Next</Button>
     </div>
-    {/* <div></div> */}
+   
     </div>
     </div>
     </div>

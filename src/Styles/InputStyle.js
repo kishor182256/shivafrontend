@@ -116,7 +116,6 @@ export const useStyles = makeStyles({
     '&:hover': {
         backgroundColor: '#B82C3A',
     },
-
-},
-
+  },
+    
 });
