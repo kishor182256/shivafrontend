@@ -11,8 +11,6 @@ const Input = ({ label, value, onChange, className, placeholder,type }) => {
       className={className}
       variant="outlined"
       margin="normal"
-      type={type}
-     
     />
   );
 }

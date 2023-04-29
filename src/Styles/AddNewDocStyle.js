@@ -9,7 +9,7 @@ export const tableStyles = makeStyles({
       },
     table: {
         border: 'none',
-        width : '90%',
+        width : '94%',
         '&.MuiTableCell-root':{
             borderBottom : 'none'
         },
@@ -19,11 +19,16 @@ export const tableStyles = makeStyles({
         borderRadius: '6px',height: '43px',
         margingBottom: '20px',
         fontFamily: 'Poppins',
+        borderRadius: '36px',
         '& .MuiTableHead-root': {
             width: '96%', // Set your desired width
             height: '43px', // Set your desired height
             color: '#B5B5C3',
             boxShadow: 'none',
+        textAlign: 'center',
+          },
+          '&  .MuiTableCell-head':{
+              color: '#B5B5C3',
           },
     },
       customTableCell: {
@@ -41,7 +46,7 @@ export const tableStyles = makeStyles({
     fontFamily: 'Poppins',
   },
       header: {
-        width : '90%',
+        width : '94%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'left',
@@ -60,7 +65,6 @@ export const tableStyles = makeStyles({
         fontFamily: 'Poppins',
       },
       customActive: {
-        backgroundColor: '#F4FFF3',
         borderRadius: '6px',
         height : '26px',
         width : '74px',
@@ -71,10 +75,13 @@ export const tableStyles = makeStyles({
             color: '#5F8D4E',
             boxShadow: 'none',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#F4FFF3',
+             },
         },
-        '&:hover': {
-            backgroundColor: 'none',
-        },
+
+          '&:hover': {
+          },
     },
     customArrow: {
         backgroundColor: '#FAFAFA',
@@ -96,6 +103,7 @@ export const tableStyles = makeStyles({
         marginLeft: '6%',
         marginRight: '6%',
         marginTop: '3%',
+        position: 'relative',
     },
     image: {
         width: '50px',
@@ -135,10 +143,13 @@ export const tableStyles = makeStyles({
             fontSize: '10px',
             boxShadow: 'none',
             textTransform: 'none',
+            '&:hover': {
+             /*  transform: 'none', */ backgroundColor: '#B82C3A',
+            },
         }
     }, 
     filterSearch:{
-        width : '90%',
+        width : '94%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'left',
@@ -147,7 +158,7 @@ export const tableStyles = makeStyles({
     searchContainer: {
         display: 'flex',
         alignItems: 'center',
-        maxWidth: '250px',
+        maxWidth: '230px',
         height: '38px',
        marginBottom: '40px',
         borderRadius: '63px',
@@ -155,10 +166,11 @@ export const tableStyles = makeStyles({
         border: '1px solid #B5B5C3',
         fontFamily: 'Poppins',
       },
-      
+
       searchField: {
         alignItems: 'center',
         fontFamily: 'Poppins',
+        marginLeft: 10,
         '& .MuiFormLabel-root.Mui-focused':{
             color: '#B5B5C3',
             },
@@ -187,13 +199,12 @@ export const tableStyles = makeStyles({
         },
       searchIcon:{
           color: '#B5B5C3',
-          marginLeft: '12px',
+          marginLeft: '16px',
           fontFamily: 'Poppins',
       },
 
       filterButton1: {
         height : '49px',
-        width : '89px',
         fontFamily: 'Poppins',
         '&.MuiButton-contained':{
             backgroundColor: '#273142',
@@ -204,11 +215,13 @@ export const tableStyles = makeStyles({
             borderRadius: '6px  0 0 6px',
             borderRight: '1px solid #3A4251',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButton2: {
         height : '49px',
-        width : '89px',
         fontFamily: 'Poppins',
         fontWeight: 500,
         '&.MuiButton-contained':{
@@ -219,6 +232,9 @@ export const tableStyles = makeStyles({
             borderRadius: '0  0 0 0',
             borderRight: '1px solid #3A4251',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButton3: {
@@ -233,6 +249,9 @@ export const tableStyles = makeStyles({
             boxShadow: 'none',
             borderRadius: '0 6px 6px 0',
             textTransform: 'none',
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
     filterButtonHori:{
@@ -241,8 +260,12 @@ export const tableStyles = makeStyles({
         alignItems: 'left',
         flexDirection: 'column',
         backgroundColor: '#273142',
-        padding: 20,
+        padding: 15,
         borderRadius: '15px',
+        position: 'absolute',
+        top: '330px',
+        right: '0px',
+        zIndex: '1',
     },
     filterButtonh1: {
         height : '33px',
@@ -251,12 +274,130 @@ export const tableStyles = makeStyles({
         '&.MuiButton-contained':{
             backgroundColor: '#273142',
             color: '#FFFFFF',
-            fontSize: '14px',
+            fontSize: '13px',
             boxShadow: 'none',
             borderRadius: '25px',
             textTransform: 'none',
             border: '1px solid #B5B5C3',
             marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
         }
     },
+    filterButtonh2: {
+        height : '33px',
+        width : '76px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
+        }
+    },
+    filterButtonh3: {
+        height : '33px',
+        width : '86px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
+        }
+    },
+    filterButtonh4: {
+        height : '33px',
+        width : '120px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '25px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginBottom: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
+        }
+    },
+    printButton:{
+      height : '49px',
+      fontFamily: 'Poppins',
+      '&.MuiButton-contained':{
+          backgroundColor: '#273142',
+          color: '#FFFFFF',
+          fontSize: '13px',
+          boxShadow: 'none',
+          borderRadius: '5px',
+          textTransform: 'none',
+          border: '1px solid #B5B5C3',
+          marginLeft: 10,
+          '&:hover': {
+             backgroundColor: '#273142',
+           },
+      },
+    },
+
+
+    pageButton:{
+      height : '33px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: 'transparent',
+            color: '#464E5F',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '5px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            '&:hover': {
+               backgroundColor: 'transparent',
+             },
+        }
+    },
+    numButton:{
+      height : '33px',
+      width: '30px',
+        fontFamily: 'Poppins',
+        '&.MuiButton-contained':{
+            backgroundColor: '#273142',
+            color: '#FFFFFF',
+            fontSize: '13px',
+            boxShadow: 'none',
+            borderRadius: '5px',
+            textTransform: 'none',
+            border: '1px solid #B5B5C3',
+            marginLeft: 10,
+            marginRight: 10,
+            '&:hover': {
+               backgroundColor: '#273142',
+             },
+        }
+    },
+    pagination:{
+      width : '90%',
+      display: 'flex',
+      justifyContent: 'space-between',
+      margin: '40px 0 40px 0',
+    }
+
 });
