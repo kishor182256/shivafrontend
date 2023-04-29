@@ -26,10 +26,11 @@ const Login = () => {
   console.log(apidata?.admin?.role)
 
   const handleLogin = async(e) => {
+    e.persist();
      
     const {data} = await axios.post(`${API}/login`,{email,password})
     setData(data);
-    if(apidata?.admin?.role ==='admin'){
+    if(apidata){
       navigate('/register-doctor')
     }else{
        console.log('Please Enter username and password correctly')

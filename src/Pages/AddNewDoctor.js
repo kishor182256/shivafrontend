@@ -27,7 +27,7 @@ const AddNewDoctor = () => {
     <div  className={tableclasses.header}>
       <div className={tableclasses.name}>
         <div className={tableclasses.h2}>List of doctors</div>
-        <div  className={tableclasses.specification}>345 available doctors</div>
+        <div  className={tableclasses.specification}>{rows?.length}{" "}available doctors</div>
       </div>
       <div>
         <Button className={tableclasses.addButton}> 
@@ -63,7 +63,7 @@ const AddNewDoctor = () => {
                 </div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.id}</div>
+              <div>{row._id}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
               <div>{row.email}</div>
