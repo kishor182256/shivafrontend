@@ -3,32 +3,55 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 import { tableStyles } from '../Styles/AddNewDocStyle';
 import Buttons from '../Components/Shared/Buttons';
 import axios from 'axios';
-import { API, TOKEN } from '../config';
+import { API } from '../config';
 import PopoverMenu from '../Components/Shared/Popover';
 import ArrowIcon from '../Components/Shared/ArrowIcon';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+
 
 const AddNewCollector = () => {
   const tableclasses = tableStyles();
 
   const [rows,setRows] = useState();
+  const [newData, setNewData] = useState(false);
+
+  const navigate = useNavigate();
+
+
+  const TOKEN = localStorage.getItem('logintoken');
 
   const fetchData = async() => {
      const data=  await axios.get(`${API}/getcollectorlist`,{ headers: {"authtoken" :`${TOKEN}`} })
      setRows(data.data.collector);
-     console.log('datadoctor',data.data.collector)
   }
 
   useEffect(() => {
     fetchData()
-  },[])
+  },[newData])
+
+  useEffect(() => {
+    if(!TOKEN){
+     navigate('/')
+    }
+  },[TOKEN])
 
   const handleEdit = (id) => {
     console.log('handleEdititem_id',id)
    };
  
    const handleDelete = async(id) => {
-     const data = await axios.delete(`${API}/delete-collector/${id}`,{ headers: {"authtoken" :`${TOKEN}`} })
-     console.log('handleDelete',data)
+     try{
+      const data = await axios.delete(`${API}/delete-collector/${id}`,{ headers: {"authtoken" :`${TOKEN}`} })
+      
+      if(data?.data?.message==='Collector removed successfully'){
+        setNewData(true)
+        toast.success('Collector removed successfully')
+        setNewData(false)
+      }
+     }catch(err){
+       toast.error('Error deleting')
+     }
    };
 
 

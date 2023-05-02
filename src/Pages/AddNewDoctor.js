@@ -8,27 +8,38 @@ import {
 } from "@material-ui/core";
 import { tableStyles } from "../Styles/AddNewDocStyle";
 import axios from "axios";
-import { API, TOKEN } from "../config";
+import { API } from "../config";
 import Buttons from "../Components/Shared/Buttons";
 import PopoverMenu from "../Components/Shared/Popover";
 import ArrowIcon from "../Components/Shared/ArrowIcon";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddNewDoctor = () => {
   const tableclasses = tableStyles();
+  const navigate = useNavigate();
 
   const [rows, setRows] = useState();
+  const [newData, setNewData] = useState(false);
+  const TOKEN = localStorage.getItem('logintoken');
+
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/getdoctorlist`, {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.doctors);
-    console.log("datadoctor", data.data);
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [newData]);
+
+  useEffect(() => {
+    if(!TOKEN){
+     navigate('/')
+    }
+  },[TOKEN])
 
   const handleEdit = (id) => {
     console.log("handleEdititem_id", id);
@@ -38,7 +49,12 @@ const AddNewDoctor = () => {
     const data = await axios.delete(`${API}/delete-doctor/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    console.log("handleDelete", data);
+    if(data?.data?.message ==='Doctor removed successfully'){
+      setNewData(true)
+      toast.success('Doctor removed successfully')
+      setNewData(false)
+    }
+    console.log("handleDelete", data?.data?.message);
   };
 
   return (

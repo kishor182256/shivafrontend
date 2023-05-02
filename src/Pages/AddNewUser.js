@@ -11,27 +11,48 @@ import Button from "../Components/Shared/Buttons";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import { API, TOKEN } from "../config";
+import { API } from "../config";
 import PopoverMenu from "../Components/Shared/Popover";
 import ArrowIcon from "../Components/Shared/ArrowIcon";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 /* import Options from '../Components/Shared/Options'; */
 
 const AddNewUser = () => {
   const tableclasses = tableStyles();
+  const navigate = useNavigate();
 
   const [rows, setRows] = useState();
+  const [newData, setNewData] = useState(false);
+
+  const [name, SetName] = useState('');
+  const TOKEN = localStorage.getItem('logintoken');
+
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/getuserlist`, {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.users);
-    console.log("datadoctor", data.data.users);
   };
+
+  // const filteredData = data.filter(item =>
+  //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+ 
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [newData]);
+
+ 
+
+  useEffect(() => {
+    if(!TOKEN){
+     navigate('/')
+    }
+  },[TOKEN])
 
   const handleEdit = (id) => {
     console.log("handleEdititem_id", id);
@@ -41,8 +62,16 @@ const AddNewUser = () => {
     const data = await axios.delete(`${API}/delete-user/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    console.log("handleDelete", data);
+    if(data.data.message ==='User removed successfully'){
+      setNewData(true);
+      toast.success('User removed successfully')
+      setNewData(false);
+    }
   };
+
+  const filteredData = rows?.filter(item =>
+    item.name.toLowerCase().includes(name.toLowerCase())
+  );
 
   return (
     <div className={tableclasses.root}>
@@ -98,6 +127,8 @@ const AddNewUser = () => {
               /*  defaultValue="Search" */
               variant="standard"
               size="small"
+              value={name}
+              onChange={(e)=>SetName(e.target.value)}
             />
           </div>
         </div>
@@ -127,7 +158,7 @@ const AddNewUser = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {filteredData?.map((row) => (
               <TableRow key={row._id}>
                 <TableCell
                   component="th"

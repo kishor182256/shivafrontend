@@ -5,6 +5,7 @@ import axios from "axios";
 import { API } from "../config";
 import { useNavigate } from "react-router-dom";
 import Buttons from "../Components/Shared/Buttons";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -15,19 +16,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apidata,setData] = useState()
-  console.log(email, password);
   const navigate = useNavigate();
-  console.log(apidata?.admin?.role)
 
   const handleLogin = async(e) => {
-    e.persist();
-     
+    e.stopPropagation();
     const {data} = await axios.post(`${API}/login`,{email,password})
     setData(data);
-    if(apidata){
+    localStorage.setItem('logintoken',data.token)
+    if(apidata?.admin?.role === 'admin'){
       navigate('/register-doctor')
     }else{
-       console.log('Please Enter username and password correctly')
+       toast.error('Please Enter username and password correctly')
     }
 
   };
@@ -88,7 +87,7 @@ const Login = () => {
                 <span className={classes.caption}>
                   Forget Password?
                 </span> <br /> <br />
-                <Buttons onClick={handleLogin} className={classes.customButton}>
+                <Buttons onClick={(e)=>handleLogin(e)} className={classes.customButton}>
                   {" "}
                   Login
                 </Buttons>

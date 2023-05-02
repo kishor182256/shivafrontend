@@ -37,7 +37,7 @@ const PopoverMenu = ({ data, handleEdit, handleDelete }) => {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        <MenuItem onClick={() => handleDelete(data)}>
+        <MenuItem onClick={() =>{ handleDelete(data);handleClose()}}>
           <ListItemIcon>
             <Delete />
           </ListItemIcon>
