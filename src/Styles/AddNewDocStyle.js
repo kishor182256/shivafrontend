@@ -6,6 +6,7 @@ export const tableStyles = makeStyles({
         paddingBottom: '3%',
         paddingTop: '3%',
         fontFamily: 'Poppins',
+        height:'100vh'
       },
     table: {
         border: 'none',

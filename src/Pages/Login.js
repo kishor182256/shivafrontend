@@ -1,40 +1,32 @@
 import React, { useState } from "react";
-import Button from "../Components/Shared/Buttons";
 import Input from "../Components/Shared/Input";
 import { useStyles } from "../Styles/InputStyle";
-import { AdminLogin } from "../Api/auth.js";
 import axios from "axios";
 import { API } from "../config";
 import { useNavigate } from "react-router-dom";
-/* import { createTheme, ThemeProvider } from '@material-ui/core/styles'; */
-/* import { Typography } from '@material-ui/core'; */
+import Buttons from "../Components/Shared/Buttons";
+import { toast } from "react-toastify";
+
 
 const Login = () => {
   const classes = useStyles();
 
-  /* const theme = createTheme({
-      typography: {
-        fontFamily: 'Poppins',
-      },
-    }); */
+  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apidata,setData] = useState()
-  console.log(email, password);
   const navigate = useNavigate();
-  console.log(apidata?.admin?.role)
 
   const handleLogin = async(e) => {
-    e.persist();
-     
+    e.stopPropagation();
     const {data} = await axios.post(`${API}/login`,{email,password})
     setData(data);
-    console.log(data);
-    if(apidata){
+    localStorage.setItem('logintoken',data.token)
+    if(apidata?.admin?.role === 'admin'){
       navigate('/register-doctor')
     }else{
-       console.log('Please Enter username and password correctly')
+       toast.error('Please Enter username and password correctly')
     }
 
   };
@@ -95,10 +87,10 @@ const Login = () => {
                 <span className={classes.caption}>
                   Forget Password?
                 </span> <br /> <br />
-                <Button onClick={handleLogin} className={classes.customButton}>
+                <Buttons onClick={(e)=>handleLogin(e)} className={classes.customButton}>
                   {" "}
                   Login
-                </Button>
+                </Buttons>
               </form>
             </div>
           </div>
