@@ -68,7 +68,7 @@ const AddNewDoctor = () => {
             </div>
           </div>
           <div>
-            <Buttons className={tableclasses.addButton}>
+            <Buttons className={tableclasses.addButton} onClick={()=>navigate('/add-doctor')}>
               <svg
                 width="20"
                 height="21"

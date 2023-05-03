@@ -84,7 +84,7 @@ const AddNewUser = () => {
             </div>
           </div>
           <div>
-            <Button className={tableclasses.addButton}>
+            <Button className={tableclasses.addButton} onClick={()=>navigate('/add-user')}>
               <svg
                 width="20"
                 height="21"
