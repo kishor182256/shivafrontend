@@ -30,7 +30,6 @@ const PriceList = () => {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.subTestCategory);
-    // console.log(data.data.subTestCategory);
   };
 
   useEffect(() => {
@@ -115,7 +114,6 @@ const PriceList = () => {
             {rows?.map((row) => (
               
               <TableRow key={row._id}>
-                {console.log('reportsubcategory',row)}
                 <TableCell
                   component="th"
                   scope="row"

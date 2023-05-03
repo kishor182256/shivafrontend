@@ -36,7 +36,6 @@ const EditCollectorForm = () => {
         const data = await axios.put(`${API}/edit-collector/${params.id}`,{id,phone,email,location,name,status}, {
           headers: { authtoken: `${TOKEN}` },
         });
-        console.log('data',data.data)
       } catch (e) {}
     };
     

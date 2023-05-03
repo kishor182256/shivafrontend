@@ -17,7 +17,7 @@ const AddNewTest = () => {
   const fetchData = async() => {
     const data=  await axios.get(`${API}/gettestcategory`,{ headers: {"authtoken" :`${TOKEN}`} })
     setRows(data.data.testCategory);
-    console.log(data.data.testCategory)
+    
  }
 
  useEffect(() => {

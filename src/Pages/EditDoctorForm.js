@@ -14,7 +14,6 @@ const EditDoctorForm = () => {
   const classes = formStyles();
   const [rows, setRows] = useState();
   const params = useParams();
-  console.log(params.id)
 
   const [name, setName] = useState();
   const [id, setId] = useState("");
@@ -34,7 +33,6 @@ const EditDoctorForm = () => {
       const data = await axios.get(`${API}/getdoctor/${params.id}`, {
         headers: { authtoken: `${TOKEN}` },
       });
-      console.log('data',data.data.doctors)
      
     } catch (e) {
       console.error(e);
@@ -53,7 +51,6 @@ const EditDoctorForm = () => {
       const data = await axios.put(`${API}/edit-doctor/${params.id}`,{id,phone,email,location,name,status}, {
         headers: { authtoken: `${TOKEN}` },
       });
-      console.log('data',data.data)
     } catch (e) {
       console.error(e);
     }

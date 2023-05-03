@@ -32,8 +32,10 @@ const AddCollectorForm = () => {
         const data = await axios.post(`${API}/register-collector`,{id,phone,email,location,name,status}, {
           headers: { authtoken: `${TOKEN}` },
         });
-        console.log('data',data.data)
-      } catch (e) {}
+        
+      } catch (e) {
+        console.log(e)
+      }
     };
     
 

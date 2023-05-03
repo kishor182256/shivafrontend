@@ -55,7 +55,6 @@ const User = () => {
   },[TOKEN])
 
   const handleEdit = (id) => {
-    console.log("handleEdititem_id", id);
     navigate(`/edit-user/${id}`)
   };
 

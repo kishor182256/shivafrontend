@@ -42,7 +42,6 @@ const Doctor = () => {
   },[TOKEN])
 
   const handleEdit = (id) => {
-    console.log("handleEdititem_id", id);
     navigate(`/edit-doctor/${id}`)
   };
 
@@ -55,7 +54,6 @@ const Doctor = () => {
       toast.success('Doctor removed successfully')
       setNewData(false)
     }
-    console.log("handleDelete", data?.data?.message);
   };
 
   return (

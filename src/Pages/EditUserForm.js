@@ -26,7 +26,6 @@ const EditUserForm = () => {
     setStatus(event.target.value);
   };
 
-  console.log("data-status", status);
 
   const TOKEN = localStorage.getItem("logintoken");
 

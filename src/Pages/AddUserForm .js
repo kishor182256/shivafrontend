@@ -36,8 +36,10 @@ const AddUserForm = () => {
           headers: { authtoken: `${TOKEN}` },
         }
       );
-      console.log("data", data.data);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+
+    }
   };
 
   return (
