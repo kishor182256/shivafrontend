@@ -122,9 +122,7 @@ const EditCollectorForm = () => {
                   value={status}
                   onChange={handleChange}
                 >
-                {/* <MenuItem disabled value="Select" selected className={classes.menuInput}> 
-                Select an option
-                </MenuItem> */}
+                
                 <MenuItem value="Active" style={{backgroundColor: 'transparent'}}>Active</MenuItem>
                 <MenuItem value="Inactive" className={classes.menuInput}>Inactive</MenuItem>
                 </Select>{" "}

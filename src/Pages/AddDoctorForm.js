@@ -18,7 +18,7 @@ const AddDoctorForm = () => {
   const [id, setId] = useState("");
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Inactive");
   const [location, setLocation] = useState("");
 
   const handleChange = (event) => {
@@ -30,10 +30,14 @@ const AddDoctorForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post(`${API}/register-doctor`,{id,phone,email,location,name}, {
-        headers: { authtoken: `${TOKEN}` },
-      });
-      console.log('data',data.data)
+      const data = await axios.post(
+        `${API}/register-doctor`,
+        { id, phone, email, location, name,status },
+        {
+          headers: { authtoken: `${TOKEN}` },
+        }
+      );
+      console.log("data", data.data);
     } catch (e) {}
   };
 
@@ -115,14 +119,15 @@ const AddDoctorForm = () => {
                       label="Select"
                       value={status}
                       onChange={handleChange}
-                    >Inactive
+                    >
+                      Inactive
                       <MenuItem
-                        value={10}
+                        value="Active"
                         style={{ backgroundColor: "transparent" }}
                       >
                         Active
                       </MenuItem>
-                      <MenuItem value={20} className={classes.menuInput}>
+                      <MenuItem value="Inactive" className={classes.menuInput}>
                         Inactive
                       </MenuItem>
                     </Select>{" "}

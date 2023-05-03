@@ -31,7 +31,7 @@ const AddUserForm = () => {
     try {
       const data = await axios.post(
         `${API}/register-user`,
-        { id, phone, email, auditlockdays, name },
+        { id, phone, email, auditlockdays, name,status },
         {
           headers: { authtoken: `${TOKEN}` },
         }
@@ -119,11 +119,9 @@ const AddUserForm = () => {
                       value={status}
                       onChange={handleChange}
                     >
-                      {/*  <MenuItem disabled value="Select" selected className={classes.menuInput}> 
-                Select an option
-                </MenuItem> */}
-                      <MenuItem value={10}>Active</MenuItem>
-                      <MenuItem value={20}>Inactive</MenuItem>
+                      
+                      <MenuItem value="Active">Active</MenuItem>
+                      <MenuItem value="Inactive">Inactive</MenuItem>
                     </Select>{" "}
                     <br />
                   </div>

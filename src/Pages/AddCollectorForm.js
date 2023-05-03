@@ -17,7 +17,7 @@ const AddCollectorForm = () => {
     const [id, setId] = useState("");
     const [phone, setPhone] = useState();
     const [email, setEmail] = useState("");
-    const [status, setStatus] = useState("");
+    const [status, setStatus] = useState("Inactive");
     const [location, setLocation] = useState("");
   
     const handleChange = (event) => {
@@ -29,7 +29,7 @@ const AddCollectorForm = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const data = await axios.post(`${API}/register-collector`,{id,phone,email,location,name}, {
+        const data = await axios.post(`${API}/register-collector`,{id,phone,email,location,name,status}, {
           headers: { authtoken: `${TOKEN}` },
         });
         console.log('data',data.data)
@@ -118,11 +118,9 @@ const AddCollectorForm = () => {
                   value={status}
                   onChange={handleChange}
                 >
-                {/* <MenuItem disabled value="Select" selected className={classes.menuInput}> 
-                Select an option
-                </MenuItem> */}
-                <MenuItem value={10} style={{backgroundColor: 'transparent'}}>Active</MenuItem>
-                <MenuItem value={20} className={classes.menuInput}>Inactive</MenuItem>
+               
+                <MenuItem value="Active" style={{backgroundColor: 'transparent'}}>Active</MenuItem>
+                <MenuItem value="Inactive" className={classes.menuInput}>Inactive</MenuItem>
                 </Select>{" "}
                 <br />
               </div>
