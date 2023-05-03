@@ -1,89 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Avatar } from '@material-ui/core';
 import { tableStyles } from '../Styles/AddNewDocStyle';
 import Button from '../Components/Shared/Buttons'
-import SearchIcon from '@material-ui/icons/Search';
 import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
+import { API } from '../config';
 
 
 const ReportFormat = () => {
   const tableclasses = tableStyles();
 
-  const rows = [
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    { 
-      testid : 'ad',
-      testname: 'Albumin',
-      unit: 'gms/dl',
-      dept: 'GEN',
-      options: '1|Negative 2|Positive',
-      actions: '...',
-    },
-    
-  ];
+
+  const TOKEN = localStorage.getItem("logintoken");
+
+  const [rows, setRows] = useState();
+  const [newData, setNewData] = useState(false);
+
+  const fetchData = async () => {
+    const data = await axios.get(`${API}/gettestcategory`, {
+      headers: { authtoken: `${TOKEN}` },
+    });
+    setRows(data.data.testCategory);
+    console.log(data.data.testCategory);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [newData]);
+
+ 
   return (
     <div className={tableclasses.root}>  
   <div className={tableclasses.body}>
@@ -129,7 +74,6 @@ const ReportFormat = () => {
     </div>
 
     <div className={tableclasses.searchContainer}>
-      <SearchIcon    className={tableclasses.searchIcon} />
       <TextField
         className={tableclasses.searchField}
         placeholder="Search"
@@ -151,28 +95,28 @@ const ReportFormat = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row) => (
+        {rows?.map((row) => (
           <TableRow key={row.id}>
             <TableCell component="th" scope="row" className={tableclasses.customTableCell}>
                   <div  className={tableclasses.name}>
-                    <div>{row.testid}</div>
+                    <div>{row.prefix}</div>
                   </div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.testname}</div>
+              <div>{row.name}</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.unit}</div>
+              <div>gms/dl</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.dept}</div>
+              <div>GEN</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
-              <div>{row.options}</div>
+              <div>1|Negative 2|Positive</div>
             </TableCell>
             <TableCell className={tableclasses.customTableCell}>
             <div className={tableclasses.customArrow}>
-            {row.actions}
+               ...
             </div>
 
             </TableCell>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem, ListItemIcon, ListItemText, Popover } from '@material-ui/core';
-import { Edit, Delete } from '@material-ui/icons';
 
 const PopoverMenu = ({ data, handleEdit, handleDelete }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,13 +32,13 @@ const PopoverMenu = ({ data, handleEdit, handleDelete }) => {
       >
         <MenuItem onClick={() => handleEdit(data)}>
           <ListItemIcon>
-            <Edit />
+            {/* <Edit /> */}
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
         <MenuItem onClick={() =>{ handleDelete(data);handleClose()}}>
           <ListItemIcon>
-            <Delete />
+            {/* <Delete /> */}
           </ListItemIcon>
           <ListItemText primary="Delete" />
         </MenuItem>

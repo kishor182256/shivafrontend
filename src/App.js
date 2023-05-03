@@ -4,26 +4,32 @@ import Header from "./Components/Shared/Header";
 
 import AddNewDoctor from "./Pages/AddNewDoctor";
 import AddNewUser from "./Pages/AddNewUser";
-import CollectorForm from "./Pages/CollectorForm";
 import Login from "./Pages/Login";
 import AddNewCollector from "./Pages/AddNewCollector";
 import AddNewTest from "./Pages/AddNewTest";
+import ReportGroup from "./Pages/ReportGroup";
+import ReportFormat from "./Pages/ReportFormat";
+import PriceList from "./Pages/PriceList";
 
 
 const App = () => {
+  let  TOKEN = localStorage.getItem('logintoken');
+  
+
   return (
     <BrowserRouter>
-      <Header/>
+      {TOKEN && <Header/>}
       <Routes>
         <Route exact path="/" element={<Login/>}/>
         <Route exact path="/register-doctor" element={<AddNewDoctor/>}/>
         <Route exact path="/register-user" element={<AddNewUser/>}/>
         <Route exact path="/register-collector" element={<AddNewCollector/>}/>
         <Route exact path="/add-test" element={<AddNewTest/>}/>
-
+        <Route exact path="/add-report-group" element={<ReportGroup/>}/>
+        <Route exact path="/add-report-format" element={<ReportFormat/>}/>
+        <Route exact path="/add-price-list" element={<PriceList/>}/>
       </Routes>
     </BrowserRouter>
-    /* <CollectorForm/> */
    
   );
 };

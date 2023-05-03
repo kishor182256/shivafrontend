@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { tableStyles } from "../Styles/AddNewDocStyle";
 import Button from "../Components/Shared/Buttons";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
@@ -119,7 +119,7 @@ const AddNewUser = () => {
           </div>
 
           <div className={tableclasses.searchContainer}>
-            <SearchIcon className={tableclasses.searchIcon} />
+            {/* <SearchIcon className={tableclasses.searchIcon} /> */}
             <TextField
               className={tableclasses.searchField}
               /* displayEmpty */
