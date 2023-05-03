@@ -5,7 +5,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-
 } from "@material-ui/core";
 import { tableStyles } from "../Styles/AddNewDocStyle";
 import Button from "../Components/Shared/Buttons";
@@ -19,11 +18,8 @@ const PriceList = () => {
   const tableclasses = tableStyles();
   const TOKEN = localStorage.getItem("logintoken");
 
-
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
-
-   
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/gettestsubcategory`, {
@@ -36,8 +32,14 @@ const PriceList = () => {
     fetchData();
   }, [newData]);
 
+  const handleDelete = (data) => {
+    console.log('handleDelete',data)
+  }
 
-  
+  const handleEdit = (data) => {
+    console.log('handleEdit',data)
+  }
+
   return (
     <div className={tableclasses.root}>
       <div className={tableclasses.body}>
@@ -77,8 +79,6 @@ const PriceList = () => {
             <Button className={tableclasses.printButton}>Print</Button>
           </div>
 
-          
-
           <div className={tableclasses.searchContainer}>
             {/* <SearchIcon className={tableclasses.searchIcon} /> */}
             <TextField
@@ -112,7 +112,6 @@ const PriceList = () => {
           </TableHead>
           <TableBody>
             {rows?.map((row) => (
-              
               <TableRow key={row._id}>
                 <TableCell
                   component="th"
@@ -130,11 +129,17 @@ const PriceList = () => {
                   <div>{row.Rate}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.category.name}</div>
+                  <div>{row?.category?.name}</div>
+                  {console.log("row?.category?.name", row)}
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>...</div>
-                  <PopoverMenu/>
+                  <div className={tableclasses.customArrow}>...
+                  <PopoverMenu
+                      data={rows}
+                      handleEdit={() => handleEdit(row._id)}
+                      handleDelete={() => handleDelete(row._id)}
+                    />
+                    </div>
                 </TableCell>
               </TableRow>
             ))}

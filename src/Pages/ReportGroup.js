@@ -14,6 +14,7 @@ import Button from "../Components/Shared/Buttons";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
+import PopoverMenu from "../Components/Shared/Popover";
 
 const ReportGroup = () => {
   const tableclasses = tableStyles();
@@ -33,6 +34,14 @@ const ReportGroup = () => {
   useEffect(() => {
     fetchData();
   }, [newData]);
+
+  const handleDelete = (data) => {
+    console.log('handleDelete',data)
+  }
+
+  const handleEdit = (data) => {
+    console.log('handleEdit',data)
+  }
 
   return (
     <div className={tableclasses.root}>
@@ -73,11 +82,6 @@ const ReportGroup = () => {
         <div className={tableclasses.filterSearch}>
           <div>
             <Button className={tableclasses.printButton}>Print</Button>
-          </div>
-
-          <div className={tableclasses.filterButtonHori}>
-            <Button className={tableclasses.filterButtonh1}>Edit</Button>
-            <Button className={tableclasses.filterButtonh2}>Delete</Button>
           </div>
 
           <div className={tableclasses.searchContainer}>
@@ -138,9 +142,13 @@ const ReportGroup = () => {
                   <div>{row.suffix}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>
-                    <div></div>...
-                  </div>
+                  <div className={tableclasses.customArrow}>...
+                  <PopoverMenu
+                      data={rows}
+                      handleEdit={() => handleEdit(row._id)}
+                      handleDelete={() => handleDelete(row._id)}
+                    />
+                    </div>
                 </TableCell>
               </TableRow>
             ))}
