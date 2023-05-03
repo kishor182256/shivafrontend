@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 
-const AddNewCollector = () => {
+const Collector = () => {
   const tableclasses = tableStyles();
 
   const [rows,setRows] = useState();
@@ -37,8 +37,9 @@ const AddNewCollector = () => {
   },[TOKEN])
 
   const handleEdit = (id) => {
-    console.log('handleEdititem_id',id)
-   };
+    console.log("handleEdititem_id", id);
+    navigate(`/edit-collector/${id}`)
+  };
  
    const handleDelete = async(id) => {
      try{
@@ -129,5 +130,5 @@ const AddNewCollector = () => {
   )
 }
 
-export default AddNewCollector;
+export default Collector;
 

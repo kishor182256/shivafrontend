@@ -7,46 +7,33 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { tableStyles } from "../Styles/AddNewDocStyle";
-import Button from "../Components/Shared/Buttons";
-// import SearchIcon from "@material-ui/icons/Search";
-import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
+import Buttons from "../Components/Shared/Buttons";
 import PopoverMenu from "../Components/Shared/Popover";
 import ArrowIcon from "../Components/Shared/ArrowIcon";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-/* import Options from '../Components/Shared/Options'; */
 
-const AddNewUser = () => {
+const Doctor = () => {
   const tableclasses = tableStyles();
   const navigate = useNavigate();
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
-
-  const [name, SetName] = useState('');
   const TOKEN = localStorage.getItem('logintoken');
 
 
   const fetchData = async () => {
-    const data = await axios.get(`${API}/getuserlist`, {
+    const data = await axios.get(`${API}/getdoctorlist`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    setRows(data.data.users);
+    setRows(data.data.doctors);
   };
-
-  // const filteredData = data.filter(item =>
-  //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
- 
 
   useEffect(() => {
     fetchData();
   }, [newData]);
-
- 
 
   useEffect(() => {
     if(!TOKEN){
@@ -56,35 +43,33 @@ const AddNewUser = () => {
 
   const handleEdit = (id) => {
     console.log("handleEdititem_id", id);
+    navigate(`/edit-doctor/${id}`)
   };
 
   const handleDelete = async (id) => {
-    const data = await axios.delete(`${API}/delete-user/${id}`, {
+    const data = await axios.delete(`${API}/delete-doctor/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    if(data.data.message ==='User removed successfully'){
-      setNewData(true);
-      toast.success('User removed successfully')
-      setNewData(false);
+    if(data?.data?.message ==='Doctor removed successfully'){
+      setNewData(true)
+      toast.success('Doctor removed successfully')
+      setNewData(false)
     }
+    console.log("handleDelete", data?.data?.message);
   };
-
-  const filteredData = rows?.filter(item =>
-    item.name.toLowerCase().includes(name.toLowerCase())
-  );
 
   return (
     <div className={tableclasses.root}>
       <div className={tableclasses.body}>
         <div className={tableclasses.header}>
           <div className={tableclasses.name}>
-            <div className={tableclasses.h2}>List of Users/Operators</div>
+            <div className={tableclasses.h2}>List of doctors</div>
             <div className={tableclasses.specification}>
-              345 available doctors
+              {rows?.length} available doctors
             </div>
           </div>
           <div>
-            <Button className={tableclasses.addButton} onClick={()=>navigate('/add-user')}>
+            <Buttons className={tableclasses.addButton} onClick={()=>navigate('/add-doctor')}>
               <svg
                 width="20"
                 height="21"
@@ -104,35 +89,10 @@ const AddNewUser = () => {
                   fill="white"
                 />
               </svg>{" "}
-              &nbsp; Add new user
-            </Button>
+              &nbsp; Add new doctor
+            </Buttons>
           </div>
         </div>
-
-        <div className={tableclasses.filterSearch}>
-          <div>
-            <Button className={tableclasses.filterButton1}>Options</Button>
-            <Button className={tableclasses.filterButton2}>Export</Button>
-            <Button className={tableclasses.filterButton2}>Edit</Button>
-            <Button className={tableclasses.filterButton2}>Delete</Button>
-            <Button className={tableclasses.filterButton3}>Access right</Button>
-          </div>
-
-          <div className={tableclasses.searchContainer}>
-            {/* <SearchIcon className={tableclasses.searchIcon} /> */}
-            <TextField
-              className={tableclasses.searchField}
-              /* displayEmpty */
-              placeholder="Search"
-              /*  defaultValue="Search" */
-              variant="standard"
-              size="small"
-              value={name}
-              onChange={(e)=>SetName(e.target.value)}
-            />
-          </div>
-        </div>
-
         <Table className={tableclasses.table}>
           <TableHead className={tableclasses.tableHead}>
             <TableRow>
@@ -147,7 +107,7 @@ const AddNewUser = () => {
                 Phone number
               </TableCell>
               <TableCell className={tableclasses.customTableCell}>
-                Audit lock days
+                Location
               </TableCell>
               <TableCell className={tableclasses.customTableCell}>
                 STATUS
@@ -158,8 +118,8 @@ const AddNewUser = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredData?.map((row) => (
-              <TableRow key={row._id}>
+            {rows?.map((row) => (
+              <TableRow key={row.email}>
                 <TableCell
                   component="th"
                   scope="row"
@@ -187,16 +147,17 @@ const AddNewUser = () => {
                   <div>{row.phone}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.auditlockdays}</div>
+                  <div>{row.location}</div>
+                  <div className={tableclasses.specification}>{row.area}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <Button className={tableclasses.customActive}>
+                  <Buttons className={tableclasses.customActive}>
                     <div>{row.status}</div>
-                  </Button>
+                  </Buttons>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>
-                    <ArrowIcon/>
+                    <ArrowIcon />
                     <PopoverMenu
                       data={rows}
                       handleEdit={() => handleEdit(row._id)}
@@ -213,4 +174,4 @@ const AddNewUser = () => {
   );
 };
 
-export default AddNewUser;
+export default Doctor;

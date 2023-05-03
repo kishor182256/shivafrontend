@@ -7,33 +7,46 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { tableStyles } from "../Styles/AddNewDocStyle";
+import Button from "../Components/Shared/Buttons";
+// import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
-import Buttons from "../Components/Shared/Buttons";
 import PopoverMenu from "../Components/Shared/Popover";
 import ArrowIcon from "../Components/Shared/ArrowIcon";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+/* import Options from '../Components/Shared/Options'; */
 
-const AddNewDoctor = () => {
+const User = () => {
   const tableclasses = tableStyles();
   const navigate = useNavigate();
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
+
+  const [name, SetName] = useState('');
   const TOKEN = localStorage.getItem('logintoken');
 
 
   const fetchData = async () => {
-    const data = await axios.get(`${API}/getdoctorlist`, {
+    const data = await axios.get(`${API}/getuserlist`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    setRows(data.data.doctors);
+    setRows(data.data.users);
   };
+
+  // const filteredData = data.filter(item =>
+  //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+ 
 
   useEffect(() => {
     fetchData();
   }, [newData]);
+
+ 
 
   useEffect(() => {
     if(!TOKEN){
@@ -43,32 +56,36 @@ const AddNewDoctor = () => {
 
   const handleEdit = (id) => {
     console.log("handleEdititem_id", id);
+    navigate(`/edit-user/${id}`)
   };
 
   const handleDelete = async (id) => {
-    const data = await axios.delete(`${API}/delete-doctor/${id}`, {
+    const data = await axios.delete(`${API}/delete-user/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    if(data?.data?.message ==='Doctor removed successfully'){
-      setNewData(true)
-      toast.success('Doctor removed successfully')
-      setNewData(false)
+    if(data.data.message ==='User removed successfully'){
+      setNewData(true);
+      toast.success('User removed successfully')
+      setNewData(false);
     }
-    console.log("handleDelete", data?.data?.message);
   };
+
+  const filteredData = rows?.filter(item =>
+    item.name.toLowerCase().includes(name.toLowerCase())
+  );
 
   return (
     <div className={tableclasses.root}>
       <div className={tableclasses.body}>
         <div className={tableclasses.header}>
           <div className={tableclasses.name}>
-            <div className={tableclasses.h2}>List of doctors</div>
+            <div className={tableclasses.h2}>List of Users/Operators</div>
             <div className={tableclasses.specification}>
-              {rows?.length} available doctors
+              345 available doctors
             </div>
           </div>
           <div>
-            <Buttons className={tableclasses.addButton} onClick={()=>navigate('/add-doctor')}>
+            <Button className={tableclasses.addButton} onClick={()=>navigate('/add-user')}>
               <svg
                 width="20"
                 height="21"
@@ -88,10 +105,35 @@ const AddNewDoctor = () => {
                   fill="white"
                 />
               </svg>{" "}
-              &nbsp; Add new doctor
-            </Buttons>
+              &nbsp; Add new user
+            </Button>
           </div>
         </div>
+
+        <div className={tableclasses.filterSearch}>
+          <div>
+            <Button className={tableclasses.filterButton1}>Options</Button>
+            <Button className={tableclasses.filterButton2}>Export</Button>
+            <Button className={tableclasses.filterButton2}>Edit</Button>
+            <Button className={tableclasses.filterButton2}>Delete</Button>
+            <Button className={tableclasses.filterButton3}>Access right</Button>
+          </div>
+
+          <div className={tableclasses.searchContainer}>
+            {/* <SearchIcon className={tableclasses.searchIcon} /> */}
+            <TextField
+              className={tableclasses.searchField}
+              /* displayEmpty */
+              placeholder="Search"
+              /*  defaultValue="Search" */
+              variant="standard"
+              size="small"
+              value={name}
+              onChange={(e)=>SetName(e.target.value)}
+            />
+          </div>
+        </div>
+
         <Table className={tableclasses.table}>
           <TableHead className={tableclasses.tableHead}>
             <TableRow>
@@ -106,7 +148,7 @@ const AddNewDoctor = () => {
                 Phone number
               </TableCell>
               <TableCell className={tableclasses.customTableCell}>
-                Location
+                Audit lock days
               </TableCell>
               <TableCell className={tableclasses.customTableCell}>
                 STATUS
@@ -117,8 +159,8 @@ const AddNewDoctor = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
-              <TableRow key={row.email}>
+            {filteredData?.map((row) => (
+              <TableRow key={row._id}>
                 <TableCell
                   component="th"
                   scope="row"
@@ -146,17 +188,16 @@ const AddNewDoctor = () => {
                   <div>{row.phone}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.location}</div>
-                  <div className={tableclasses.specification}>{row.area}</div>
+                  <div>{row.auditlockdays}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <Buttons className={tableclasses.customActive}>
+                  <Button className={tableclasses.customActive}>
                     <div>{row.status}</div>
-                  </Buttons>
+                  </Button>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>
-                    <ArrowIcon />
+                    <ArrowIcon/>
                     <PopoverMenu
                       data={rows}
                       handleEdit={() => handleEdit(row._id)}
@@ -173,4 +214,4 @@ const AddNewDoctor = () => {
   );
 };
 
-export default AddNewDoctor;
+export default User;
