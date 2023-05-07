@@ -12,11 +12,14 @@ import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
 import PopoverMenu from "../Components/Shared/Popover";
+import { useNavigate } from "react-router-dom";
 
 const AddNewTest = () => {
   const tableclasses = tableStyles();
 
   const TOKEN = localStorage.getItem("logintoken");
+
+  const navigate = useNavigate();
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
@@ -33,12 +36,12 @@ const AddNewTest = () => {
   }, [newData]);
 
   const handleDelete = (data) => {
-    console.log('handleDelete',data)
-  }
+    console.log("handleDelete", data);
+  };
 
   const handleEdit = (data) => {
-    console.log('handleEdit',data)
-  }
+    console.log("handleEdit", data);
+  };
 
   return (
     <div className={tableclasses.root}>
@@ -49,7 +52,10 @@ const AddNewTest = () => {
             <div className={tableclasses.specification}>345 available test</div>
           </div>
           <div>
-            <Button className={tableclasses.addButton}>
+            <Button
+              className={tableclasses.addButton}
+              onClick={() => navigate("/register-new-test")}
+            >
               <svg
                 width="20"
                 height="21"
@@ -183,13 +189,14 @@ const AddNewTest = () => {
                   <div>1|Negative 2|Positive</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>...
-                  <PopoverMenu
+                  <div className={tableclasses.customArrow}>
+                    ...
+                    <PopoverMenu
                       data={rows}
                       handleEdit={() => handleEdit(row._id)}
                       handleDelete={() => handleDelete(row._id)}
                     />
-                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

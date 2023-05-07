@@ -13,6 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import { API } from "../config";
 import axios from "axios";
 import PopoverMenu from "../Components/Shared/Popover";
+import { useNavigate } from "react-router-dom";
 
 const PriceList = () => {
   const tableclasses = tableStyles();
@@ -20,6 +21,8 @@ const PriceList = () => {
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/gettestsubcategory`, {
@@ -33,12 +36,12 @@ const PriceList = () => {
   }, [newData]);
 
   const handleDelete = (data) => {
-    console.log('handleDelete',data)
-  }
+    console.log("handleDelete", data);
+  };
 
   const handleEdit = (data) => {
-    console.log('handleEdit',data)
-  }
+    console.log("handleEdit", data);
+  };
 
   return (
     <div className={tableclasses.root}>
@@ -49,7 +52,10 @@ const PriceList = () => {
             <div className={tableclasses.specification}>345 available test</div>
           </div>
           <div>
-            <Button className={tableclasses.addButton}>
+            <Button
+              className={tableclasses.addButton}
+              onClick={() => navigate("/register-price-list")}
+            >
               <svg
                 width="20"
                 height="21"
@@ -130,16 +136,16 @@ const PriceList = () => {
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div>{row?.category?.name}</div>
-                  {console.log("row?.category?.name", row)}
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>...
-                  <PopoverMenu
+                  <div className={tableclasses.customArrow}>
+                    ...
+                    <PopoverMenu
                       data={rows}
                       handleEdit={() => handleEdit(row._id)}
                       handleDelete={() => handleDelete(row._id)}
                     />
-                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

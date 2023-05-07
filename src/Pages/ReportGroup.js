@@ -15,11 +15,13 @@ import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { API } from "../config";
 import PopoverMenu from "../Components/Shared/Popover";
+import { useNavigate } from "react-router-dom";
 
 const ReportGroup = () => {
   const tableclasses = tableStyles();
 
   const TOKEN = localStorage.getItem("logintoken");
+  const navigate = useNavigate()
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
@@ -54,7 +56,7 @@ const ReportGroup = () => {
             </div>
           </div>
           <div>
-            <Button className={tableclasses.addButton}>
+            <Button className={tableclasses.addButton} onClick={()=>navigate('/register-report-group')}>
               <svg
                 width="20"
                 height="21"
@@ -74,7 +76,7 @@ const ReportGroup = () => {
                   fill="white"
                 />
               </svg>{" "}
-              &nbsp; Add new test
+              &nbsp; Add new category
             </Button>
           </div>
         </div>
