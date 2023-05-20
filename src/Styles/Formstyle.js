@@ -31,15 +31,12 @@ export const formStyles = makeStyles({
        borderRadius: '4px',
        border: '2px solid #c4c4c4',
        marginTop: '9px',
+       marginBottom: '28px',
        padding: '0 12px',
        color: '#676767',
        fontSize: '13px',
        fontFamily: 'Poppins',
-       fontWeight: 400,/* 
-       backgroundColor: 'transparent',
-       '&.MuiSelect-select:focus':{
-        backgroundColor: 'transparent',
-       }, */
+       fontWeight: 400,
        '&.MuiInput-underline:before':{
             borderBottom: 0,
             content: 'none',
@@ -129,10 +126,11 @@ export const formStyles = makeStyles({
      },
      formDiv1:{
        display: 'flex',
+       /* margin: '0 5%' */
 
      },
      formDiv3:{
-       marginTop: '92px',
+       marginTop: '90px',
      },
      formLable:{
       fontFamily: 'Poppins',
@@ -211,8 +209,191 @@ export const formStyles = makeStyles({
           boxShadow: 'none',
           textTransform: 'none',
           '&:hover': {
-           /*  transform: 'none', */ backgroundColor: '#B82C3A',
+          backgroundColor: '#B82C3A',
           },
       }
   }, 
+  tablist:{
+    textTransform: 'none',
+    '&.MuiTabs-root':{
+        textTransform: 'none',
+        color: '#C9C9C9',
+    },
+    '&.Mui-selected':{
+        borderBottom: '1px solid #e8e8e8',
+        textTransform: 'none',
+        color: '#273142',
+        fontWeight: '600px',
+    },
+    '&.MuiTab-wrapper':{
+      backgroundColor: '#273142',
+    }, '& .MuiTabs-indicator': {
+      display: 'flex',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+  },
+
+  tabs:{
+      '&.MuiTabs-root':{
+          height: '72px',
+          textTransform: 'none',
+      },
+      '& .MuiTabs-indicator':{
+      bottom: "none",
+      border: "none",
+      display: 'none',
+      },  
+  }, 
+
+  genderDiv1:{
+    backgroundColor: '#FAFAFA',
+    padding: '5%',
+    margin: '5% 0',
+    borderRadius: '12px',
+  },
+  genderDiv2:{
+    margin: '40px 0',
+    display: 'flex',
+   /*  flexDirection: 'column', */
+  },
+  genderHeading:{
+    fontSize:'16px',
+    color: '#B82C3A',
+  },
+  genformInput: {
+    width : '90%',
+    fontFamily: 'Poppins',
+    margin: '4px 48px 0px 0px',
+    '& .MuiInputBase-input': { /* input field */
+          color: '#676767',
+          fontSize: '13px',
+          fontFamily: 'Poppins',
+          fontWeight: 400,
+        },
+    '& .MuiInputBase-root': { /* input border */
+      borderRadius: '4px',
+      border: '1px solid #DDDDDD',
+      height : '42px',
+      marginTop: '6px',
+    },
+    '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'transparent', /* remove input bordercolor focus */
+    },
+    '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#DDDDDD',
+    },
+    
+  },
+ 
+  addButton: {
+    borderRadius: '6px',
+    height : '40px',
+    fontFamily: 'Poppins',
+    marginLeft: '2%',
+    marginTop: '1%',
+    '&.MuiButton-contained':{
+      backgroundColor: '#B82C3A',
+        color: '#FFFFFF',
+        fontSize: '10px',
+        boxShadow: 'none',
+        textTransform: 'none',
+        '&:hover': {
+         /*  transform: 'none', */ backgroundColor: '#B82C3A',
+        },
+    }
+}, 
+addTestInput:{
+  width : '60%',
+  height : '42px',
+  fontFamily: 'Poppins',
+  borderRadius: '4px',
+  border: '2px solid #c4c4c4',
+  marginTop: '11px',
+  marginBottom: '28px',
+  padding: '0 12px',
+  color: '#676767',
+  fontSize: '13px',
+  fontFamily: 'Poppins',
+  fontWeight: 400,/* 
+  backgroundColor: 'transparent',
+  '&.MuiSelect-select:focus':{
+   backgroundColor: 'transparent',
+  }, */
+  '&.MuiInput-underline:before':{
+       borderBottom: 0,
+       content: 'none',
+  },
+  '&.MuiInput-underline:after':{
+       borderBottom: 0,
+       content: 'none',
+  },
+ 
+},
+testSelect:{
+  '&. MuiOutlinedInput':{
+    borderColor: 'red',
+}
+
+},
+testName:{
+  paddingLeft: '24px',
+  backgroundColor: '#FAFAFA',
+  borderBottom: '1px solid #c4c4c4',
+  height: '40px',
+  display: 'flex',
+  alignItems: 'center',
+},
+testMain:{
+  display: 'flex',
+
+},
+
+selectInput2:{
+  width : '260px',
+  height : '42px',
+  fontFamily: 'Poppins',
+  borderRadius: '4px',
+  border: '2px solid #c4c4c4',
+  marginTop: '11px',
+  marginBottom: '28px',
+  padding: '0 12px',
+  color: '#676767',
+  fontSize: '13px',
+  fontFamily: 'Poppins',
+  fontWeight: 400,
+  '&.MuiInput-underline:before':{
+       borderBottom: 0,
+       content: 'none',
+  },
+  '&.MuiInput-underline:after':{
+       borderBottom: 0,
+       content: 'none',
+  },
+ 
+},
+formInput2: {
+  width : '260px',
+  fontFamily: 'Poppins',
+  margin: '4px 48px 28px 0px',
+  '& .MuiInputBase-input': { /* input field */
+        color: '#676767',
+        fontSize: '13px',
+        fontFamily: 'Poppins',
+        fontWeight: 400,
+      },
+  '& .MuiInputBase-root': { /* input border */
+    borderRadius: '4px',
+    border: '1px solid #DDDDDD',
+    height : '42px',
+    marginTop: '6px',
+  },
+  '&  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'transparent', /* remove input bordercolor focus */
+  },
+  '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#DDDDDD',
+  },
+  
+},
     });     

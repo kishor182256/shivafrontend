@@ -12,27 +12,70 @@ import Buttons from "../Components/Shared/Buttons";
 import Input from "../Components/Shared/Input";
 import axios from "axios";
 import { API } from "../config";
-import AddButton from "../Components/Shared/AddButton";
 
 const AddNewTestForm = () => {
   const classes = formStyles();
   const [value, setValue] = useState("1");
   const [rows, setRows] = useState();
-  const [status, setStatus] = useState("");
-  const [values, setValues] = useState([]);
+  const [status, setStatus] = useState('');
+  const [category,setCategory] = useState();
+
+  const [low, setLow] = useState();
+  const [high, setHigh] = useState();
+  const [age, setAge] = useState();
+  const [refvalue, setRefvalue] = useState();
+
+  const [lowf, setfLow] = useState();
+  const [highf, setfHigh] = useState();
+  const [agef, setfAge] = useState();
+  const [reffvalue, setfRefvalue] = useState();
+
+
+  const [testname, setTestname] = useState();
+  const [testid, setTestid] = useState();
+  const [unit, setUnit] = useState();
+  const [deltalimit, setDeltaLimit] = useState();
+  const [tat, setTat] = useState();
+  const [normal, setNormal] = useState();
+  const [deltime, setDeltime] = useState();
+
+
+  const testdata = {
+    low,
+    high,
+    age,
+    refvalue,
+    deltime,
+    lowf,
+    highf,
+    agef,
+    reffvalue,
+    status,
+    category,
+    testname,
+    testid,
+    unit,
+    deltalimit,
+    tat,
+    normal,
+  };
+
+  console.log('testdata',category,status);
+
+
+
+
+
+
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
 
-  console.log("values", values);
+
 
   const [inputFields, setInputFields] = useState([
-    { ageUpto: null, low: null, high: null, refRange: null },
-  ]);
-
-  const [femaleinputFields, setFemaleInputFields] = useState([
-    { ageUpto: null, low: null, high: null, refRange: null },
+    { ageUpto: "", low: "", high: "", refRange: "" },
   ]);
 
   const TOKEN = localStorage.getItem("logintoken");
@@ -58,22 +101,27 @@ const AddNewTestForm = () => {
     setInputFields(values);
   };
 
-  const handleFemaleChangeInput = (index, event) => {
-    const values = [...inputFields];
-    values[index][event.target.name] = event.target.value;
-    setFemaleInputFields(values);
-  };
-
   const handleAddFields = () => {
-    setValues([...inputFields]);
-    values.push({ firstname: "", lastname: "", mobile: "" });
+    const values = [...inputFields];
+    values.push({ ageUpto: "", low: "", high: "", refRange: "" });
     setInputFields(values);
   };
 
-  const handleRemoveFields = (index) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
+  const handleSubmit = async() => {
+    try{
+    
+          try {
+            const data = await axios.post(`${API}/addtestsubcategory`,{testdata}, {
+              headers: { authtoken: `${TOKEN}` },
+            });
+            console.log("----->testdata", data.data);
+          } catch (e) {
+            console.log(e);
+          }
+      
+    }catch(e){
+      console.error(e)
+    }
   };
 
   const handleChange1 = (event, newValue) => {
@@ -129,9 +177,9 @@ const AddNewTestForm = () => {
                           <div className={classes.formLable}>Category</div>
                           <FormControl>
                             <Select
-                              value={status}
+                              value={category}
                               onChange={(event) =>
-                                setStatus(event.target.value)
+                                setCategory(event.target.value)
                               }
                               className={classes.selectInput}
                             >
@@ -148,6 +196,8 @@ const AddNewTestForm = () => {
                             type="number"
                             placeholder="Enter Test Name"
                             className={classes.formInput}
+                            value={testname}
+                            onChange={(e)=>setTestname(e.target.value)}
                           />{" "}
                           <br />
                           <div className={classes.formLable}>Normals</div>
@@ -155,6 +205,8 @@ const AddNewTestForm = () => {
                             type="text"
                             placeholder="Enter Normals"
                             className={classes.formInput}
+                            value={normal}
+                            onChange={(e)=>setNormal(e.target.value)}
                           />{" "}
                           <br />
                           <div className={classes.formLable}>
@@ -164,6 +216,8 @@ const AddNewTestForm = () => {
                             type="text"
                             placeholder="Enter TAT"
                             className={classes.formInput}
+                            value={tat}
+                            onChange={(e)=>setTat(e.target.value)}
                           />{" "}
                           <br />
                           <div className={classes.formLable}>
@@ -182,6 +236,8 @@ const AddNewTestForm = () => {
                             type="text"
                             placeholder="Enter Test ID"
                             className={classes.formInput}
+                            value={testid}
+                            onChange={(e)=>setTestid(e.target.value)}
                           />{" "}
                           <br />
                           <div className={classes.formLable}>Unit</div>
@@ -189,6 +245,8 @@ const AddNewTestForm = () => {
                             type="email"
                             placeholder="Enter Unit"
                             className={classes.formInput}
+                            value={unit}
+                            onChange={(e)=>setUnit(e.target.value)}
                           />{" "}
                           <br />
                           <div className={classes.formLable}>Default value</div>
@@ -200,6 +258,8 @@ const AddNewTestForm = () => {
                             type="text"
                             placeholder="Enter Delta limit"
                             className={classes.formInput}
+                            value={deltalimit}
+                            onChange={(e)=>setDeltaLimit(e.target.value)}
                           />
                           <div>
                             <RadioGroup
@@ -242,6 +302,8 @@ const AddNewTestForm = () => {
                             type="text"
                             placeholder="Enter Delta duration"
                             className={classes.formInput}
+                            value={deltime}
+                            onChange={(e)=>setDeltime(e.target.value)}
                           />{" "}
                           <br />
                         </div>
@@ -276,13 +338,13 @@ const AddNewTestForm = () => {
                       onChange={handleChange}
                     >
                       <MenuItem
-                        value={10}
+                        value="male"
                         style={{ backgroundColor: "transparent" }}
                       >
-                        Category
+                        Male
                       </MenuItem>
-                      <MenuItem value={20} className={classes.menuInput}>
-                        Category
+                      <MenuItem value="female" className={classes.menuInput}>
+                        Female
                       </MenuItem>
                     </Select>{" "}
                     <Buttons className={classes.addButton}>Add</Buttons>
@@ -293,99 +355,6 @@ const AddNewTestForm = () => {
                     <div className={classes.genderDiv1}>
                       <div>
                         <div className={classes.genderHeading}>For Male</div>
-                        {inputFields.map((inputFields, index) => (
-                          <div
-                            className={classes.genderDiv2}
-                            style={{ display: "flex" }}
-                          >
-                            <div>
-                              <div className={classes.formLable}>Age upto</div>
-                              <Input
-                                type="number"
-                                placeholder="Enter Age Range"
-                                className={classes.genformInput}
-                                value={inputFields.ageUpto}
-                                onChange={(event) =>
-                                  handleChangeInput(index, event)
-                                }
-                              />{" "}
-                              <br />
-                            </div>
-
-                            <div>
-                              <div className={classes.formLable}>
-                                High value
-                              </div>
-                              <Input
-                                type="number"
-                                placeholder="Enter high value"
-                                className={classes.genformInput}
-                                value={inputFields.high}
-                                onChange={(event) =>
-                                  handleChangeInput(index, event)
-                                }
-                              />{" "}
-                              <br />
-                            </div>
-                            <div>
-                              <div className={classes.formLable}>Low value</div>
-                              <Input
-                                type="number"
-                                placeholder="Enter low value"
-                                className={classes.genformInput}
-                                value={inputFields.low}
-                                onChange={(event) =>
-                                  handleChangeInput(index, event)
-                                }
-                              />{" "}
-                              <br />
-                            </div>
-                            <div>
-                              <div className={classes.formLable}>
-                                Refrange value
-                              </div>
-                              <Input
-                                type="text"
-                                placeholder="Enter Refrange value"
-                                className={classes.genformInput}
-                                value={inputFields.refRange}
-                                onChange={(event) =>
-                                  handleChangeInput(index, event)
-                                }
-                              />{" "}
-                              <br />
-                            </div>
-                            <div style={{ marginTop: "28px" }}>
-                              <svg
-                                width="36"
-                                height="36"
-                                viewBox="0 0 36 36"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                onClick={handleAddFields}
-                              >
-                                <rect
-                                  x="0.469727"
-                                  y="0.24408"
-                                  width="35"
-                                  height="35"
-                                  rx="17.5"
-                                  fill="#273142"
-                                />
-                                <path
-                                  d="M12.0297 18.8481V16.5341H16.9437V11.9321H19.3357V16.5341H24.2497V18.8481H19.3357V23.4761H16.9437V18.8481H12.0297Z"
-                                  fill="white"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className={classes.genderDiv1}>
-                      <div>
-                        <div className={classes.genderHeading}>For Female</div>
                         <div
                           className={classes.genderDiv2}
                           style={{ display: "flex" }}
@@ -394,12 +363,22 @@ const AddNewTestForm = () => {
                             <div className={classes.formLable}>Age upto</div>
                             <Input
                               type="number"
-                              placeholder="Enter age value"
+                              placeholder="Enter Age Range"
                               className={classes.genformInput}
-                              value={femaleinputFields.ageUpto}
-                              onChange={(event) =>
-                                handleChangeInput("index", event)
-                              }
+                              value={age}
+                              onChange={(e) => setAge(e.target.value)}
+                            />{" "}
+                            <br />
+                          </div>
+
+                          <div>
+                            <div className={classes.formLable}>High value</div>
+                            <Input
+                              type="number"
+                              placeholder="Enter high value"
+                              className={classes.genformInput}
+                              value={high}
+                              onChange={(e) => setHigh(e.target.value)}
                             />{" "}
                             <br />
                           </div>
@@ -407,40 +386,23 @@ const AddNewTestForm = () => {
                             <div className={classes.formLable}>Low value</div>
                             <Input
                               type="number"
-                              placeholder="Enter lowest value"
+                              placeholder="Enter low value"
                               className={classes.genformInput}
-                              value={femaleinputFields.low}
-                              onChange={(event) =>
-                                handleChangeInput("index", event)
-                              }
-                            />{" "}
-                            <br />
-                          </div>
-                          <div>
-                            <div className={classes.formLable}>High Value</div>
-                            <Input
-                              type="number"
-                              placeholder="Enter high value"
-                              className={classes.genformInput}
-                              value={femaleinputFields.high}
-                              onChange={(event) =>
-                                handleChangeInput("index", event)
-                              }
+                              value={low}
+                              onChange={(e) => setLow(e.target.value)}
                             />{" "}
                             <br />
                           </div>
                           <div>
                             <div className={classes.formLable}>
-                              Enter Referance
+                              Refrange value
                             </div>
                             <Input
-                              type="number"
-                              placeholder="Enter Referance value"
+                              type="text"
+                              placeholder="Enter Refrange value"
                               className={classes.genformInput}
-                              value={femaleinputFields.refRange}
-                              onChange={(event) =>
-                                handleChangeInput("index", event)
-                              }
+                              value={refvalue}
+                              onChange={(e) => setRefvalue(e.target.value)}
                             />{" "}
                             <br />
                           </div>
@@ -451,6 +413,90 @@ const AddNewTestForm = () => {
                               viewBox="0 0 36 36"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
+                              onClick={handleAddFields}
+                            >
+                              <rect
+                                x="0.469727"
+                                y="0.24408"
+                                width="35"
+                                height="35"
+                                rx="17.5"
+                                fill="#273142"
+                              />
+                              <path
+                                d="M12.0297 18.8481V16.5341H16.9437V11.9321H19.3357V16.5341H24.2497V18.8481H19.3357V23.4761H16.9437V18.8481H12.0297Z"
+                                fill="white"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={classes.genderDiv}>
+                    <div className={classes.genderDiv1}>
+                      <div>
+                        <div className={classes.genderHeading}>For FeMale</div>
+                        <div
+                          className={classes.genderDiv2}
+                          style={{ display: "flex" }}
+                        >
+                          <div>
+                            <div className={classes.formLable}>Age upto</div>
+                            <Input
+                              type="number"
+                              placeholder="Enter Age Range"
+                              className={classes.genformInput}
+                              value={agef}
+                              onChange={(e) => setfAge(e.target.value)}
+                            />{" "}
+                            <br />
+                          </div>
+
+                          <div>
+                            <div className={classes.formLable}>High value</div>
+                            <Input
+                              type="number"
+                              placeholder="Enter high value"
+                              className={classes.genformInput}
+                              value={highf}
+                              onChange={(e) => setfHigh(e.target.value)}
+                            />{" "}
+                            <br />
+                          </div>
+                          <div>
+                            <div className={classes.formLable}>Low value</div>
+                            <Input
+                              type="number"
+                              placeholder="Enter low value"
+                              className={classes.genformInput}
+                              value={lowf}
+                              onChange={(e) => setfLow(e.target.value)}
+                            />{" "}
+                            <br />
+                          </div>
+                          <div>
+                            <div className={classes.formLable}>
+                              Refrange value
+                            </div>
+                            <Input
+                              type="text"
+                              placeholder="Enter Refrange value"
+                              className={classes.genformInput}
+                              value={reffvalue}
+                              onChange={(e) => setfRefvalue(e.target.value)}
+                            />{" "}
+                            <br />
+                          </div>
+                          <div style={{ marginTop: "28px" }}>
+                            <svg
+                              width="36"
+                              height="36"
+                              viewBox="0 0 36 36"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              onClick={handleAddFields}
                             >
                               <rect
                                 x="0.469727"
@@ -473,7 +519,12 @@ const AddNewTestForm = () => {
 
                   <div className={classes.formDiv4}>
                     <Buttons className={classes.cancelButton}>Cancel</Buttons>
-                    <Buttons className={classes.submitButton}>Submit</Buttons>
+                    <Buttons
+                      className={classes.submitButton}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </Buttons>
                   </div>
                 </div>
               </TabPanel>

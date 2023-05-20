@@ -25,6 +25,8 @@ const ReportGroup = () => {
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
+  const [name, setName] = useState("");
+
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/gettestcategory`, {
@@ -44,6 +46,10 @@ const ReportGroup = () => {
   const handleEdit = (data) => {
     console.log('handleEdit',data)
   }
+
+  const filteredData = rows?.filter((item) =>
+    item?.name?.toLowerCase().includes(name?.toLowerCase())
+  );
 
   return (
     <div className={tableclasses.root}>
@@ -92,6 +98,8 @@ const ReportGroup = () => {
               placeholder="Search"
               variant="standard"
               size="small"
+              value={name}
+              onChange={(e)=>setName(e.target.value)}
             />
           </div>
         </div>
@@ -120,7 +128,7 @@ const ReportGroup = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row, index) => (
+            {filteredData?.map((row, index) => (
               <TableRow key={row.id}>
                 <TableCell
                   component="th"

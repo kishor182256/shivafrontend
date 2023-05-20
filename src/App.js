@@ -21,6 +21,9 @@ import AddNewTestForm from "./MasterForms/AddNewTestForm";
 import AddReportGroupForm from "./MasterForms/AddReportGroupForm";
 import AddPriceListForm from "./MasterForms/AddPriceListForm";
 import AddReportFormatForm from "./MasterForms/AddReportFormatForm";
+import Patient from "./Pages/Patient";
+import AddPatience from "./Pages/AddPatients";
+import PatientInformationForm from "./Pages/AddPatients";
 
 
 const App = () => {
@@ -52,6 +55,11 @@ const App = () => {
         <Route exact path="/register-report-group" element={<AddReportGroupForm/>}/>
         <Route exact path="/register-report-format" element={<AddReportFormatForm/>}/>
         <Route exact path="/register-price-list" element={<AddPriceListForm/>}/>
+
+        <Route exact path="/list-patience" element={<Patient/>}/>
+        <Route exact path="/add-patience" element={<PatientInformationForm/>}/>
+
+        
 
         
 

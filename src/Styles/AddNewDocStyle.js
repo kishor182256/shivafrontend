@@ -6,7 +6,7 @@ export const tableStyles = makeStyles({
         paddingBottom: '3%',
         paddingTop: '3%',
         fontFamily: 'Poppins',
-        height:'100vh'
+        height:'100%'
       },
     table: {
         border: 'none',
@@ -72,6 +72,7 @@ export const tableStyles = makeStyles({
         width : '74px',
         fontFamily: 'Poppins',
         fontSize: '11px',
+        fontWeight: 500,
         '&.MuiButton-contained':{
             backgroundColor: '#F4FFF3',
             color: '#5F8D4E',

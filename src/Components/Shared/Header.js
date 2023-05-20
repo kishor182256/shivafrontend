@@ -19,6 +19,11 @@ const Header = () => {
     navigate('/register-doctor')
   },[]);
 
+  const logout = () =>{
+    localStorage.removeItem("logintoken")
+    navigate('/')
+  }
+
   return (
     <div className={headclasses.headerMain}>
       <div style={{ width: "100%", display: "flex" }}>
@@ -128,13 +133,15 @@ const Header = () => {
             </TabPanel>
             <TabPanel value="3">
               <div style={{ height: "80px" }}>
+              <Link to='/list-patience'>
                 <Button
                   component={Link}
-                  to="/my-page"
+                  to="/list-patience"
                   className={headclasses.customButton}
                 >
                   Patients
                 </Button>
+                </Link>
                 <Button
                   component={Link}
                   to="/my-page"
@@ -170,9 +177,12 @@ const Header = () => {
               color: "#F4FFF3",
               textAlign: "right",
               marginRight: "6px",
+              cursor:"pointer"
+        
             }}
+            onClick={logout}
           >
-            <span>Marvin McKinney</span>
+            <span >Marvin McKinney</span>
             <span>Admin</span>
           </div>
           <div>

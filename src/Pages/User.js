@@ -25,9 +25,8 @@ const User = () => {
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
 
-  const [name, SetName] = useState('');
-  const TOKEN = localStorage.getItem('logintoken');
-
+  const [name, SetName] = useState("");
+  const TOKEN = localStorage.getItem("logintoken");
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/getuserlist`, {
@@ -40,36 +39,32 @@ const User = () => {
   //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
 
- 
-
   useEffect(() => {
     fetchData();
   }, [newData]);
 
- 
-
   useEffect(() => {
-    if(!TOKEN){
-     navigate('/')
+    if (!TOKEN) {
+      navigate("/");
     }
-  },[TOKEN])
+  }, [TOKEN]);
 
   const handleEdit = (id) => {
-    navigate(`/edit-user/${id}`)
+    navigate(`/edit-user/${id}`);
   };
 
   const handleDelete = async (id) => {
     const data = await axios.delete(`${API}/delete-user/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    if(data.data.message ==='User removed successfully'){
+    if (data.data.message === "User removed successfully") {
       setNewData(true);
-      toast.success('User removed successfully')
+      toast.success("User removed successfully");
       setNewData(false);
     }
   };
 
-  const filteredData = rows?.filter(item =>
+  const filteredData = rows?.filter((item) =>
     item.name.toLowerCase().includes(name.toLowerCase())
   );
 
@@ -84,7 +79,10 @@ const User = () => {
             </div>
           </div>
           <div>
-            <Button className={tableclasses.addButton} onClick={()=>navigate('/add-user')}>
+            <Button
+              className={tableclasses.addButton}
+              onClick={() => navigate("/add-user")}
+            >
               <svg
                 width="20"
                 height="21"
@@ -128,7 +126,7 @@ const User = () => {
               variant="standard"
               size="small"
               value={name}
-              onChange={(e)=>SetName(e.target.value)}
+              onChange={(e) => SetName(e.target.value)}
             />
           </div>
         </div>
@@ -196,7 +194,7 @@ const User = () => {
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>
-                    <ArrowIcon/>
+                    <ArrowIcon />
                     <PopoverMenu
                       data={rows}
                       handleEdit={() => handleEdit(row._id)}

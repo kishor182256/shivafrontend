@@ -22,18 +22,19 @@ const AddNewTest = () => {
   const navigate = useNavigate();
 
   const [rows, setRows] = useState();
-  const [newData, setNewData] = useState(false);
+  const [name, SetName] = useState("");
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/gettestcategory`, {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.testCategory);
+    console.log(data.data.testCategory);
   };
 
   useEffect(() => {
     fetchData();
-  }, [newData]);
+  }, []);
 
   const handleDelete = (data) => {
     console.log("handleDelete", data);
@@ -42,6 +43,10 @@ const AddNewTest = () => {
   const handleEdit = (data) => {
     console.log("handleEdit", data);
   };
+
+  const filteredData = rows?.filter((item) =>
+    item?.name?.toLowerCase().includes(name?.toLowerCase())
+  );
 
   return (
     <div className={tableclasses.root}>
@@ -82,61 +87,17 @@ const AddNewTest = () => {
 
         <div className={tableclasses.filterSearch}>
           <div>
-            <Button className={tableclasses.filterButton1}>
-              <svg
-                width="16"
-                height="17"
-                viewBox="0 0 16 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M2.63119 3.349H13.3687C13.4657 3.34903 13.5606 3.37727 13.6418 3.43027C13.723 3.48327 13.7871 3.55875 13.8261 3.64752C13.8652 3.73628 13.8776 3.83449 13.8619 3.93019C13.8461 4.02589 13.8029 4.11494 13.7374 4.1865L9.63119 8.70525C9.54573 8.79672 9.49873 8.91757 9.49994 9.04275V12.5802C9.5007 12.6633 9.48048 12.7453 9.44115 12.8185C9.40182 12.8917 9.34465 12.9538 9.27494 12.999L7.27494 14.3302C7.19992 14.3797 7.11297 14.408 7.02323 14.4121C6.9335 14.4163 6.84429 14.3963 6.76499 14.3541C6.68569 14.3118 6.61922 14.2491 6.57258 14.1723C6.52594 14.0955 6.50085 14.0076 6.49994 13.9177V9.04275C6.50114 8.91757 6.45415 8.79672 6.36869 8.70525L2.26244 4.1865C2.19697 4.11494 2.15373 4.02589 2.13798 3.93019C2.12224 3.83449 2.13466 3.73628 2.17374 3.64752C2.21282 3.55875 2.27688 3.48327 2.3581 3.43027C2.43932 3.37727 2.5342 3.34903 2.63119 3.349V3.349Z"
-                  stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </Button>
-            <Button className={tableclasses.filterButton2}>Filter By</Button>
-            <Button className={tableclasses.filterButton2}>Department</Button>
-            <Button className={tableclasses.filterButton2}>Aphabets</Button>
-            <Button className={tableclasses.filterButton2}>Sort by</Button>
-            <Button className={tableclasses.filterButton3}>
-              <svg
-                width="16"
-                height="18"
-                viewBox="0 0 16 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4.9873 6.58026H1.9873V3.58026"
-                  stroke="#FF8743"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M4.1123 12.2365C4.88131 13.0061 5.86131 13.5304 6.92833 13.743C7.99535 13.9556 9.10145 13.8469 10.1067 13.4308C11.112 13.0146 11.9712 12.3097 12.5757 11.4051C13.1803 10.5005 13.503 9.43699 13.503 8.349C13.503 7.26101 13.1803 6.19747 12.5757 5.2929C11.9712 4.38833 11.112 3.68338 10.1067 3.26723C9.10145 2.85108 7.99535 2.74243 6.92833 2.95501C5.86131 3.16759 4.88131 3.69186 4.1123 4.4615L1.9873 6.58025"
-                  stroke="#FF8743"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span style={{ color: "#FF8743", marginLeft: 6, text: "center" }}>
-                Reset FIlter
-              </span>{" "}
-            </Button>
             <Button className={tableclasses.printButton}>Print</Button>
           </div>
 
           <div className={tableclasses.searchContainer}>
-            {/* <SearchIcon    className={tableclasses.searchIcon} /> */}
             <TextField
               className={tableclasses.searchField}
               placeholder="Search"
               variant="standard"
               size="small"
+              value={name}
+              onChange={(e) => SetName(e.target.value)}
             />
           </div>
         </div>
@@ -165,7 +126,7 @@ const AddNewTest = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {filteredData?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell
                   component="th"
