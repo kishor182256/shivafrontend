@@ -16,6 +16,7 @@ import PopoverMenu from "../Components/Shared/Popover";
 import ArrowIcon from "../Components/Shared/ArrowIcon";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as XLSX from 'xlsx'
 /* import Options from '../Components/Shared/Options'; */
 
 const User = () => {
@@ -34,6 +35,13 @@ const User = () => {
     });
     setRows(data.data.users);
   };
+
+  const exportToExcel=()=> {
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'data.xlsx');
+  }
 
   // const filteredData = data.filter(item =>
   //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -110,7 +118,7 @@ const User = () => {
         <div className={tableclasses.filterSearch}>
           <div>
             <Button className={tableclasses.filterButton1}>Options</Button>
-            <Button className={tableclasses.filterButton2}>Export</Button>
+            <Button className={tableclasses.filterButton2} onClick={exportToExcel}>Export</Button>
             <Button className={tableclasses.filterButton2}>Edit</Button>
             <Button className={tableclasses.filterButton2}>Delete</Button>
             <Button className={tableclasses.filterButton3}>Access right</Button>

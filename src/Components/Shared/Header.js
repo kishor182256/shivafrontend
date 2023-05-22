@@ -87,7 +87,7 @@ const Header = () => {
                 </Link>
                 <Link to="/register-collector">
                   <Button className={headclasses.customButton}>
-                    Sample collectors
+                    Sample collector
                   </Button>
                 </Link>
               </div>
@@ -149,6 +149,7 @@ const Header = () => {
                 >
                   Patient cards
                 </Button>
+                <Link to="/assign-collector">
                 <Button
                   component={Link}
                   to="/my-page"
@@ -156,6 +157,7 @@ const Header = () => {
                 >
                   Sample collectors
                 </Button>
+                </Link>
               </div>
             </TabPanel>
           </TabContext>

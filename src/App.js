@@ -24,6 +24,7 @@ import AddReportFormatForm from "./MasterForms/AddReportFormatForm";
 import Patient from "./Pages/Patient";
 import AddPatience from "./Pages/AddPatients";
 import PatientInformationForm from "./Pages/AddPatients";
+import PatientSample from "./Pages/PatienceSampleCollection";
 
 
 const App = () => {
@@ -58,6 +59,9 @@ const App = () => {
 
         <Route exact path="/list-patience" element={<Patient/>}/>
         <Route exact path="/add-patience" element={<PatientInformationForm/>}/>
+        <Route exact path="/assign-collector" element={<PatientSample/>}/>
+
+
 
         
 
