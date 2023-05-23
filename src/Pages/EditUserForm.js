@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../Components/Shared/Input";
 import { formStyles } from "../Styles/Formstyle";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -28,6 +28,34 @@ const EditUserForm = () => {
 
 
   const TOKEN = localStorage.getItem("logintoken");
+
+
+  const fetchUser = async(e)=> {
+    try {
+      const data = await axios.get(`${API}/getuserlist/${params.id}`, {
+        headers: { authtoken: `${TOKEN}` },
+      });
+
+      console.log(data.data.singleuser);
+
+      const { name, phone, email, auditlockdays,_id} = data.data.singleuser;
+      setName(name);
+      setId(_id);
+      setPhone(phone);
+      setEmail(email);
+      setauditlockdays(auditlockdays);
+
+     
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchUser()
+  },[])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,6 +131,7 @@ const EditUserForm = () => {
                       className={classes.formInput}
                       value={id}
                       onChange={(e)=>setId(e.target.value)}
+                      disabled
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Email Id</div>

@@ -51,6 +51,17 @@ const Patient = () => {
     item?.name?.toLowerCase().includes(name?.toLowerCase())
   );
 
+  const formatedDate = (newDate) => {
+    const date = new Date(newDate);
+    const options = { day: "2-digit", month: "long", year: "numeric" };
+    return date.toLocaleDateString("en-GB", options);
+  };
+
+  const formatTime = (newTime) => {
+    const time = new Date(newTime);
+    return time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
   return (
     <div className={tableclasses.root}>
       <div className={tableclasses.body}>
@@ -58,7 +69,7 @@ const Patient = () => {
           <div className={tableclasses.name}>
             <div className={tableclasses.h2}>Patients</div>
             <div className={tableclasses.specification}>
-              345 pending patient reports
+              {rows?.length} pending patient reports
             </div>
           </div>
           <div>
@@ -212,8 +223,8 @@ const Patient = () => {
                   </div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.date}</div>
-                  <div className={tableclasses.specification}>{row.time}</div>
+                  <div>{formatedDate(row.updatedAt)}</div>
+                  <div className={tableclasses.specification}>{formatTime(row.updatedAt)}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div>{row.labnumber}</div>

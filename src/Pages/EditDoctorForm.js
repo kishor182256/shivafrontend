@@ -15,7 +15,7 @@ const EditDoctorForm = () => {
   const [rows, setRows] = useState();
   const params = useParams();
 
-  const [name, setName] = useState();
+  const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState("");
@@ -33,6 +33,17 @@ const EditDoctorForm = () => {
       const data = await axios.get(`${API}/getdoctor/${params.id}`, {
         headers: { authtoken: `${TOKEN}` },
       });
+
+      console.log(data.data);
+
+      const { name, id, phone, email, status, location } = data.data.doctors
+      ;
+      setName(name);
+      setId(id);
+      setPhone(phone);
+      setEmail(email);
+      setStatus(status);
+      setLocation(location);
      
     } catch (e) {
       console.error(e);
@@ -51,6 +62,7 @@ const EditDoctorForm = () => {
       const data = await axios.put(`${API}/edit-doctor/${params.id}`,{id,phone,email,location,name,status}, {
         headers: { authtoken: `${TOKEN}` },
       });
+
     } catch (e) {
       console.error(e);
     }

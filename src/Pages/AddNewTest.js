@@ -13,6 +13,7 @@ import axios from "axios";
 import { API } from "../config";
 import PopoverMenu from "../Components/Shared/Popover";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddNewTest = () => {
   const tableclasses = tableStyles();
@@ -23,6 +24,8 @@ const AddNewTest = () => {
 
   const [rows, setRows] = useState();
   const [name, SetName] = useState("");
+  const [newData, setNewData] = useState(false);
+
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/gettestcategory`, {
@@ -34,10 +37,17 @@ const AddNewTest = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [newData]);
 
-  const handleDelete = (data) => {
-    console.log("handleDelete", data);
+  const handleDelete = async (id) => {
+    const data = await axios.delete(`${API}/deletetestcategory/${id}`, {
+      headers: { authtoken: `${TOKEN}` },
+    });
+    if(data?.data?.message ==='Test  removed successfully'){
+      setNewData(true)
+      toast.success('Test removed successfully')
+      setNewData(false)
+    }
   };
 
   const handleEdit = (data) => {

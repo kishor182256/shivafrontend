@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Components/Shared/Input'
 import { formStyles } from '../Styles/Formstyle';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -27,6 +27,31 @@ const EditCollectorForm = () => {
     };
   
     const TOKEN = localStorage.getItem("logintoken");
+
+    const fetchCollector = async(e)=> {
+      try {
+        const data = await axios.get(`${API}/getsinglecollector/${params.id}`, {
+          headers: { authtoken: `${TOKEN}` },
+        });
+  
+        console.log("singlecollector",data.data);
+  
+        const { name, phone, email,_id} = data.data.singlecollector;
+        setName(name);
+        setId(_id);
+        setPhone(phone);
+        setEmail(email);
+  
+       
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  
+  
+    useEffect(()=>{
+      fetchCollector()
+    },[])
 
     
   
