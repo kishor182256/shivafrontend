@@ -40,7 +40,7 @@ const PatientSample = () => {
     const data = await axios.get(`${API}/getpatiencelist`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    setRows(data.data.patients);
+    setRows(data?.data?.patients);
   };
 
   useEffect(() => {
@@ -141,10 +141,7 @@ const PatientSample = () => {
             <Buttons className={tableclasses.printButton}>Print</Buttons>
           </div>
 
-          {/* <div className={tableclasses.filterButtonHori}>
-            <Buttons className={tableclasses.filterButtonh1}>View</Buttons>
-            <Buttons className={tableclasses.filterButtonh2}>Delete</Buttons>
-          </div> */}
+          
 
           <div className={tableclasses.searchContainer}>
             {/* <SearchIcon    className={tableclasses.searchIcon} /> */}
