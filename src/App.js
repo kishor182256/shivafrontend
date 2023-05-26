@@ -20,16 +20,23 @@ import AddReportGroupForm from "./MasterForms/AddReportGroupForm";
 import AddPriceListForm from "./MasterForms/AddPriceListForm";
 import AddReportFormatForm from "./MasterForms/AddReportFormatForm";
 import Patient from "./Pages/Patient";
-import AddPatience from "./Pages/AddPatients";
 import PatientInformationForm from "./Pages/AddPatients";
 import PatientSample from "./Pages/PatienceSampleCollection";
+import { useEffect, useState } from "react";
 
 const App = () => {
-  let TOKEN = localStorage.getItem("logintoken");
+
+  const [token,setToken] = useState();
+
+  useEffect(()=>{
+    setToken(localStorage.getItem("logintoken"))
+  },[token])
+
+ 
 
   return (
     <BrowserRouter>
-      {TOKEN && <Header />}
+      {token && <Header />}
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register-doctor" element={<Doctor />} />

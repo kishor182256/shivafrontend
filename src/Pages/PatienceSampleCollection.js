@@ -11,6 +11,7 @@ import Buttons from "../Components/Shared/Buttons";
 import { tableStyles } from "../Styles/AddNewDocStyle";
 import axios from "axios";
 import { API } from "../config";
+import PopoverMenu from "../Components/Shared/Popover";
 
 const PatientSample = () => {
   const tableclasses = tableStyles();
@@ -34,7 +35,6 @@ const PatientSample = () => {
     item?.firstname.toLowerCase().includes(name?.toLowerCase())
   );
 
-  console.log("filteredData", filteredData);
 
   const fetchData = async () => {
     const data = await axios.get(`${API}/getpatiencelist`, {
@@ -46,6 +46,12 @@ const PatientSample = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  
+
+  const handleDelete = (id) => {
+    console.log("changed", id);
+}
 
   return (
     <div className={tableclasses.root}>
@@ -135,10 +141,10 @@ const PatientSample = () => {
             <Buttons className={tableclasses.printButton}>Print</Buttons>
           </div>
 
-          <div className={tableclasses.filterButtonHori}>
+          {/* <div className={tableclasses.filterButtonHori}>
             <Buttons className={tableclasses.filterButtonh1}>View</Buttons>
             <Buttons className={tableclasses.filterButtonh2}>Delete</Buttons>
-          </div>
+          </div> */}
 
           <div className={tableclasses.searchContainer}>
             {/* <SearchIcon    className={tableclasses.searchIcon} /> */}
@@ -194,7 +200,6 @@ const PatientSample = () => {
                   className={tableclasses.customTableCell}
                 >
                   <div className={tableclasses.name}>
-                    {console.log("row?.collector", row)}
                     <div>{row?.collector.name.toString()}</div>
                   </div>
                 </TableCell>
@@ -271,7 +276,15 @@ const PatientSample = () => {
                   </div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>{row.actions}</div>
+                  <div className={tableclasses.customArrow}>...
+                  {console.log("row._id",row)}
+                  <PopoverMenu
+                      data={rows}
+                      // handleEdit={() => handleEdit(row._id)}
+                      handleDelete={() =>{ console.log("row._id",row)}}
+                    />
+                  </div>
+                  
                 </TableCell>
               </TableRow>
             ))}

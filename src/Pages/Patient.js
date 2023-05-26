@@ -4,10 +4,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
-  Paper,
-  Typography,
-  Avatar,
 } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { tableStyles } from "../Styles/AddNewDocStyle";
@@ -15,6 +13,9 @@ import Buttons from "../Components/Shared/Buttons";
 import axios from "axios";
 import { API } from "../config";
 import { useNavigate } from "react-router-dom";
+import PopoverMenu from "../Components/Shared/Popover";
+import AssignCollector from "../Components/Shared/CollectorAssign";
+import TableContainer from "@material-ui/core/TableContainer";
 
 const Patient = () => {
   const tableclasses = tableStyles();
@@ -25,22 +26,38 @@ const Patient = () => {
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
   const [name, setName] = useState();
+  const [assign, setAssign] = useState(false);
+  const [id, setID] = useState();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const fetchData = async () => {
-    const data = await axios.get(`${API}/getpatiencelist`, {
-      headers: { authtoken: `${TOKEN}` },
-    });
-    setRows(data.data.patients);
+    try {
+      const response = await axios.get(`${API}/getpatiencelist/`, {
+        headers: { authtoken: `${TOKEN}` },
+        params: { page, rowsPerPage },
+      });
+      setRows(response.data.patients);
+    } catch (error) {
+      console.error("Fetching Data Error", error);
+    }
   };
 
-  console.log("rows", rows);
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     fetchData();
-  }, [newData]);
+  }, [newData, page, rowsPerPage]);
 
-  const handleDelete = (data) => {
-    console.log("handleDelete", data);
+  const handleAssign = (data) => {
+    setAssign(true);
   };
 
   const handleEdit = (data) => {
@@ -62,6 +79,11 @@ const Patient = () => {
     return time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
+  const slicedRows = rows?.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
   return (
     <div className={tableclasses.root}>
       <div className={tableclasses.body}>
@@ -73,7 +95,10 @@ const Patient = () => {
             </div>
           </div>
           <div>
-            <Buttons className={tableclasses.addButton} onClick={()=>navigate('/add-patience')}>
+            <Buttons
+              className={tableclasses.addButton}
+              onClick={() => navigate("/add-patience")}
+            >
               <svg
                 width="20"
                 height="21"
@@ -162,141 +187,166 @@ const Patient = () => {
             />
           </div>
         </div>
-
-        <Table className={tableclasses.table}>
-          <TableHead className={tableclasses.tableHead}>
-            <TableRow>
-              <TableCell className={tableclasses.customHeadName}>
-                SL No
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Patient Name
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Date & Time
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Lab No
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Reffered by
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Sample
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Price
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Status
-              </TableCell>
-              <TableCell className={tableclasses.customHeadName}>
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows?.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  className={tableclasses.customTableCell}
-                  style={{ display: "flex" }}
-                >
-                  <div className={tableclasses.name}>
-                    <div>{index + 1}</div>
-                  </div>
+        <TableContainer>
+          <Table className={tableclasses.table}>
+            <TableHead className={tableclasses.tableHead}>
+              <TableRow>
+                <TableCell className={tableclasses.customHeadName}>
+                  SL No
                 </TableCell>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  className={tableclasses.customTableCell}
-                >
-                  <div className={tableclasses.name}>
-                    <div>
-                      {row.firstname} {row.lastname}
-                    </div>
-                    <div className={tableclasses.specification}>
-                      {row.sampNo}
-                    </div>
-                  </div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Patient Name
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div>{formatedDate(row.updatedAt)}</div>
-                  <div className={tableclasses.specification}>{formatTime(row.updatedAt)}</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Date & Time
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.labnumber}</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Lab No
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.referedby}</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Reffered by
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.sample}</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Sample
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div>{row?.subcategories?.map((rate) => rate?.Rate)}</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Price
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div
-                    style={{
-                      text: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div>
-                      <svg
-                        width="16"
-                        height="17"
-                        viewBox="0 0 16 17"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8 8.61523L4.2 5.76523C4.13826 5.71833 4.08811 5.65787 4.05344 5.58852C4.01876 5.51916 4.00048 5.44277 4 5.36523V3.11523C4 2.98263 4.05268 2.85545 4.14645 2.76168C4.24021 2.66791 4.36739 2.61523 4.5 2.61523H11.5C11.6326 2.61523 11.7598 2.66791 11.8536 2.76168C11.9473 2.85545 12 2.98263 12 3.11523V5.34023C11.9995 5.41777 11.9812 5.49416 11.9466 5.56352C11.9119 5.63287 11.8617 5.69333 11.8 5.74023L8 8.61523Z"
-                          stroke="#D48A48"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M8 8.61523L4.2 11.4652C4.13826 11.5121 4.08811 11.5726 4.05344 11.642C4.01876 11.7113 4.00048 11.7877 4 11.8652V14.1152C4 14.2478 4.05268 14.375 4.14645 14.4688C4.24021 14.5626 4.36739 14.6152 4.5 14.6152H11.5C11.6326 14.6152 11.7598 14.5626 11.8536 14.4688C11.9473 14.375 12 14.2478 12 14.1152V11.8902C11.9995 11.8127 11.9812 11.7363 11.9466 11.667C11.9119 11.5976 11.8617 11.5371 11.8 11.4902L8 8.61523Z"
-                          stroke="#D48A48"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <span
-                        style={{
-                          color: "#D48A48",
-                          marginLeft: 6,
-                          text: "center",
-                        }}
-                      >
-                        {row.status}
-                      </span>
-                    </div>
-                  </div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Status
                 </TableCell>
-                <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>...</div>
+                <TableCell className={tableclasses.customHeadName}>
+                  Actions
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {slicedRows?.map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={tableclasses.customTableCell}
+                    style={{ display: "flex" }}
+                  >
+                    <div className={tableclasses.name}>
+                      <div>{index + 1}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={tableclasses.customTableCell}
+                  >
+                    <div className={tableclasses.name}>
+                      <div>
+                        {row.firstname} {row.lastname}
+                      </div>
+                      <div className={tableclasses.specification}>
+                        {row.sampNo}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div>{formatedDate(row.updatedAt)}</div>
+                    <div className={tableclasses.specification}>
+                      {formatTime(row.updatedAt)}
+                    </div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div>{row.labnumber}</div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div>{row.referedby}</div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div>{row.sample}</div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div>{row?.subcategories?.map((rate) => rate?.Rate)}</div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div
+                      style={{
+                        text: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <svg
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8 8.61523L4.2 5.76523C4.13826 5.71833 4.08811 5.65787 4.05344 5.58852C4.01876 5.51916 4.00048 5.44277 4 5.36523V3.11523C4 2.98263 4.05268 2.85545 4.14645 2.76168C4.24021 2.66791 4.36739 2.61523 4.5 2.61523H11.5C11.6326 2.61523 11.7598 2.66791 11.8536 2.76168C11.9473 2.85545 12 2.98263 12 3.11523V5.34023C11.9995 5.41777 11.9812 5.49416 11.9466 5.56352C11.9119 5.63287 11.8617 5.69333 11.8 5.74023L8 8.61523Z"
+                            stroke="#D48A48"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M8 8.61523L4.2 11.4652C4.13826 11.5121 4.08811 11.5726 4.05344 11.642C4.01876 11.7113 4.00048 11.7877 4 11.8652V14.1152C4 14.2478 4.05268 14.375 4.14645 14.4688C4.24021 14.5626 4.36739 14.6152 4.5 14.6152H11.5C11.6326 14.6152 11.7598 14.5626 11.8536 14.4688C11.9473 14.375 12 14.2478 12 14.1152V11.8902C11.9995 11.8127 11.9812 11.7363 11.9466 11.667C11.9119 11.5976 11.8617 11.5371 11.8 11.4902L8 8.61523Z"
+                            stroke="#D48A48"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <span
+                          style={{
+                            color: "#D48A48",
+                            marginLeft: 6,
+                            text: "center",
+                          }}
+                        >
+                          {row.status}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className={tableclasses.customTableCell}>
+                    <div className={tableclasses.customArrow}>
+                      ...
+                      <PopoverMenu
+                        data={rows}
+                        handleEdit={() => handleEdit(row._id)}
+                        handleAssign={() => {
+                          handleAssign(row._id);
+                          setID(row._id);
+                        }}
+                      />
+                    </div>
+                  </TableCell>
+                  {assign && (
+                    <AssignCollector
+                      assign={assign}
+                      setAssign={setAssign}
+                      patienceId={id}
+                    />
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
         <div className={tableclasses.pagination}>
-          <div className={tableclasses.name}>Showing 1 to 3 of 3 entries</div>
-          <div>
-            <Buttons className={tableclasses.pageButton}>Previous</Buttons>
-            <Buttons className={tableclasses.numButton}>1</Buttons>
-            <Buttons className={tableclasses.pageButton}>Next</Buttons>
+          <div className={tableclasses.name}>
+            Showing {page} to {rowsPerPage} of {rows?.length} entries
           </div>
-          {/* <div></div> */}
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={rows?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </div>
       </div>
     </div>
