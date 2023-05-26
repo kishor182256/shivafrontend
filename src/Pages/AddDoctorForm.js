@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Input from "../Components/Shared/Input";
 import { formStyles } from "../Styles/Formstyle";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import Buttons from "../Components/Shared/Buttons";
-import { Box } from "@material-ui/core";
 import axios from "axios";
 import { API } from "../config";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddDoctorForm = () => {
   const classes = formStyles();
@@ -20,6 +20,7 @@ const AddDoctorForm = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("Inactive");
   const [location, setLocation] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -32,14 +33,18 @@ const AddDoctorForm = () => {
     try {
       const data = await axios.post(
         `${API}/register-doctor`,
-        { id, phone, email, location, name,status },
+        { id, phone, email, location, name, status },
         {
           headers: { authtoken: `${TOKEN}` },
         }
       );
-      
+        if(data.data.errors){
+          toast.error('Doctor already Registered')
+        }else{
+          toast.success('Doctor Registered Succesfully')
+        }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -55,7 +60,10 @@ const AddDoctorForm = () => {
               </div>
             </div>
             <div>
-              <Buttons className={classes.formButton}>
+              <Buttons
+                className={classes.formButton}
+                onClick={() => navigate("/register-doctor")}
+              >
                 &nbsp; Back to test table
               </Buttons>
             </div>
@@ -137,7 +145,12 @@ const AddDoctorForm = () => {
                   </div>
                 </div>
                 <div className={classes.formDiv4}>
-                  <Buttons className={classes.cancelButton}>Cancel</Buttons>
+                  <Buttons
+                    className={classes.cancelButton}
+                    onClick={() => navigate("/register-doctor")}
+                  >
+                    Cancel
+                  </Buttons>
 
                   <Buttons
                     className={classes.submitButton}

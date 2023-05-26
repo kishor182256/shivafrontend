@@ -8,6 +8,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Buttons from "../Components/Shared/Buttons";
 import axios from "axios";
 import { API } from "../config";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddUserForm = () => {
   const classes = formStyles();
@@ -19,6 +21,7 @@ const AddUserForm = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [auditlockdays, setauditlockdays] = useState();
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -31,14 +34,18 @@ const AddUserForm = () => {
     try {
       const data = await axios.post(
         `${API}/register-user`,
-        { id, phone, email, auditlockdays, name,status },
+        { id, phone, email, auditlockdays, name, status },
         {
           headers: { authtoken: `${TOKEN}` },
         }
       );
+      if (data.data.errors) {
+        toast.error("User already Registered");
+      } else {
+        toast.success("User Registered Succesfully");
+      }
     } catch (e) {
       console.log(e);
-
     }
   };
 
@@ -54,7 +61,10 @@ const AddUserForm = () => {
               </div>
             </div>
             <div>
-              <Buttons className={classes.formButton}>
+              <Buttons
+                className={classes.formButton}
+                onClick={() => navigate("/register-user")}
+              >
                 &nbsp; Back to test table
               </Buttons>
             </div>
@@ -72,7 +82,7 @@ const AddUserForm = () => {
                       placeholder="Enter name"
                       className={classes.formInput}
                       value={name}
-                      onChange={(e)=>setName(e.target.value)}
+                      onChange={(e) => setName(e.target.value)}
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Phone number</div>
@@ -81,7 +91,7 @@ const AddUserForm = () => {
                       placeholder="Enter Phone number"
                       className={classes.formInput}
                       value={phone}
-                      onChange={(e)=>setPhone(e.target.value)}
+                      onChange={(e) => setPhone(e.target.value)}
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Audit lock days</div>
@@ -90,7 +100,7 @@ const AddUserForm = () => {
                       placeholder="Enter Audit lock days"
                       className={classes.formInput}
                       value={auditlockdays}
-                      onChange={(e)=>setauditlockdays(e.target.value)}
+                      onChange={(e) => setauditlockdays(e.target.value)}
                     />{" "}
                     <br />
                   </div>
@@ -101,7 +111,7 @@ const AddUserForm = () => {
                       placeholder="Enter ID"
                       className={classes.formInput}
                       value={id}
-                      onChange={(e)=>setId(e.target.value)}
+                      onChange={(e) => setId(e.target.value)}
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Email Id</div>
@@ -110,7 +120,7 @@ const AddUserForm = () => {
                       placeholder="Enter Email Id"
                       className={classes.formInput}
                       value={email}
-                      onChange={(e)=>setEmail(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Status</div>
@@ -121,7 +131,6 @@ const AddUserForm = () => {
                       value={status}
                       onChange={handleChange}
                     >
-                      
                       <MenuItem value="Active">Active</MenuItem>
                       <MenuItem value="Inactive">Inactive</MenuItem>
                     </Select>{" "}
@@ -129,9 +138,19 @@ const AddUserForm = () => {
                   </div>
                 </div>
                 <div className={classes.formDiv4}>
-                  <Buttons className={classes.cancelButton}>Cancel</Buttons>
+                  <Buttons
+                    className={classes.cancelButton}
+                    onClick={() => navigate("/register-user")}
+                  >
+                    Cancel
+                  </Buttons>
 
-                  <Buttons className={classes.submitButton} onClick={handleSubmit}>Submit</Buttons>
+                  <Buttons
+                    className={classes.submitButton}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </Buttons>
                 </div>
               </FormControl>
             </div>
