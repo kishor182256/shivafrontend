@@ -61,7 +61,6 @@ const AssignCollector = ({ assign, setAssign, patienceId }) => {
   const [rows, setRows] = useState();
   const [collectorId, setCollector] = useState();
 
-  console.log("collectorId", collectorId);
 
   const handleClickOpen = () => {
     setAssign(true);

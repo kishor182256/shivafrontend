@@ -34,7 +34,6 @@ const EditCollectorForm = () => {
           headers: { authtoken: `${TOKEN}` },
         });
   
-        console.log("singlecollector",data.data);
   
         const { name, phone, email,_id} = data.data.singlecollector;
         setName(name);

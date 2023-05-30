@@ -16,6 +16,7 @@ import axios from "axios";
 import { API } from "../config";
 import PopoverMenu from "../Components/Shared/Popover";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ReportGroup = () => {
   const tableclasses = tableStyles();
@@ -39,12 +40,19 @@ const ReportGroup = () => {
     fetchData();
   }, [newData]);
 
-  const handleDelete = (data) => {
-    console.log('handleDelete',data)
-  }
+  const handleDelete = async (id) => {
+    const data = await axios.delete(`${API}/deletetestcategory/${id}`, {
+      headers: { authtoken: `${TOKEN}` },
+    });
+    if(data?.data?.message ==='Test  removed successfully'){
+      setNewData(true)
+      toast.success('Test removed successfully')
+      setNewData(false)
+    }
+  };
 
   const handleEdit = (data) => {
-    console.log('handleEdit',data)
+    navigate(`/edit-report-format/${data}`)
   }
 
   const filteredData = rows?.filter((item) =>

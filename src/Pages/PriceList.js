@@ -22,6 +22,8 @@ const PriceList = () => {
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
 
+
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -135,7 +137,8 @@ const PriceList = () => {
                   <div>{row.Rate}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row?.category?.name}</div>
+                  {console.log("gettestsubcategory--->",row.category.map((cat)=>cat.name))}
+                  <div>{row.category.map((cat)=>cat.name)}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>

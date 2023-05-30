@@ -36,7 +36,6 @@ const EditUserForm = () => {
         headers: { authtoken: `${TOKEN}` },
       });
 
-      console.log(data.data.singleuser);
 
       const { name, phone, email, auditlockdays,_id} = data.data.singleuser;
       setName(name);

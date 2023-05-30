@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -9,8 +9,9 @@ import Buttons from '../Components/Shared/Buttons';
 import Input from '../Components/Shared/Input';
 import axios from 'axios';
 import { API } from '../config';
+import { useParams } from 'react-router-dom';
 
-const AddReportGroupForm = () => {
+const EditReportGroupForm = () => {
     const classes = formStyles();
     const [name, setName] = useState();
     const [prefix, setPrefix] = useState();
@@ -18,26 +19,46 @@ const AddReportGroupForm = () => {
     const [lastnumber, setLastnumber] = useState();
 
 
+    const params = useParams()
+
+
+
   
 
   const TOKEN = localStorage.getItem("logintoken");
 
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+    
+    const fetchCollector = async (e) => {
       try {
-        const data = await axios.post(
-          `${API}/addtestcategory`,
-          { name, prefix, suffix, lastnumber},
-          {
-            headers: { authtoken: `${TOKEN}` },
-          }
-        );
+        const data = await axios.get(`${API}/gettestcategory/${params.id}`, {
+          headers: { authtoken: `${TOKEN}` },
+        });
+
+        console.log('gettestcategory',data.data.testCategory)
+        const { name, lastnumber, prefix, suffix } = data.data.testCategory;
+        setName(name);
+        setLastnumber(lastnumber);
+        setPrefix(prefix);
+        setSuffix(suffix);
       } catch (e) {
-        console.log(e);
-  
+        console.error(e);
       }
-  }
+    };
+  
+  
+    useEffect(()=>{
+      fetchCollector()
+    },[])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+         await axios.put(`${API}/edittestcategory/${params.id}`,{name, lastnumber, prefix, suffix}, {
+            headers: { authtoken: `${TOKEN}` },
+          });
+        } catch (e) {}
+      };
     
 
   return (
@@ -46,9 +67,9 @@ const AddReportGroupForm = () => {
       <div  className={classes.collectorForm}> 
         <div className={classes.formheader}>
           <div className={classes.formname}>
-            <div className={classes.formh2}>Add New Report category/group </div>
+            <div className={classes.formh2}>Edit Report category/group </div>
             <div className={classes.formspecification}>
-              You can create new report group here 
+              You can Edit report group here 
             </div>
           </div>
           <div>
@@ -127,4 +148,4 @@ const AddReportGroupForm = () => {
   )
 }
 
-export default AddReportGroupForm
+export default EditReportGroupForm

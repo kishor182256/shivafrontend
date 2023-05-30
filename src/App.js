@@ -22,11 +22,10 @@ import AddReportFormatForm from "./MasterForms/AddReportFormatForm";
 import Patient from "./Pages/Patient";
 import PatientInformationForm from "./Pages/AddPatients";
 import PatientSample from "./Pages/PatienceSampleCollection";
+import EditReportGroupForm from "./MasterForms/EditReportFormatForm";
 
 const App = () => {
-
-    const token = localStorage.getItem("logintoken")
- 
+  const token = localStorage.getItem("logintoken");
 
   return (
     <BrowserRouter>
@@ -63,6 +62,12 @@ const App = () => {
           exact
           path="/register-report-format"
           element={<AddReportFormatForm />}
+        />
+
+        <Route
+          exact
+          path="/edit-report-format/:id"
+          element={<EditReportGroupForm />}
         />
         <Route
           exact

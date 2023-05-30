@@ -21,7 +21,6 @@ const Login = () => {
   const [apidata,setData] = useState()
   const navigate = useNavigate();
   localStorage.setItem('logintoken', data?.token);
-  console.log("enter the username",data)
 
 
 

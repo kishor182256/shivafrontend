@@ -38,6 +38,7 @@ const AddReportFormatForm = () => {
   const [reportName, setReportName] = useState();
   const [reportTat, setReportIdtat] = useState();
   const [reportshortName, setShortReportName] = useState();
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -70,11 +71,9 @@ const AddReportFormatForm = () => {
   useEffect(() => {
     fetchTest();
     fetchsubCategory();
-    window.location.reload();
   }, []);
 
   const handleSubmit = async () => {
-    console.log("Submit report format");
     try {
       const data = await axios.post(
         `${API}/addreportformat`,

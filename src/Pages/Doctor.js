@@ -29,7 +29,6 @@ const Doctor = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.patience.data.doctors);
   const [rows, setRows] = useState(data);
-  console.log("data", data);
 
   
 

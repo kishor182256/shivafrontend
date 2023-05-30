@@ -20,8 +20,7 @@ const AddPriceListForm = () => {
 
 
 
-  console.log("status", status);
-  console.log("subid", subid);
+ 
 
 
   const TOKEN = localStorage.getItem("logintoken");
@@ -43,7 +42,6 @@ const AddPriceListForm = () => {
         headers: { authtoken: `${TOKEN}` },
       });
       setSub(data.data.subTestCategory);
-      console.log("----->testdata", data.data);
     } catch (e) {
       console.log(e);
     }
@@ -56,13 +54,11 @@ const AddPriceListForm = () => {
 
 
   const handleSubmit = async() => {
-    console.log('Submit',status,subid,rate);
 
       try {
         const data = await axios.put(`${API}/addtestcategoryprice`,{status,subid,rate}, {
           headers: { authtoken: `${TOKEN}` },
         });
-        console.log("----->testdata", data);
       } catch (e) {
         console.log(e);
       }

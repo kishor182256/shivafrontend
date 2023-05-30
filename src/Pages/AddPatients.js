@@ -49,7 +49,6 @@ const PatientInformationForm = () => {
   const [subcategories, setsubcategories] = useState();
   const [isChecked, setIsChecked] = useState(false);
 
-  console.log("setIsChecked", isChecked);
 
   const handleChange2 = (event) => {
     const {
@@ -88,7 +87,6 @@ const PatientInformationForm = () => {
   };
 
   const registerPatience = async () => {
-    console.log("kishor ");
 
     try {
       const data = await axios.post(

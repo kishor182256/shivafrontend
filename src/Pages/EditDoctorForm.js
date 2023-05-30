@@ -34,7 +34,6 @@ const EditDoctorForm = () => {
         headers: { authtoken: `${TOKEN}` },
       });
 
-      console.log(data.data);
 
       const { name, id, phone, email, status, location } = data.data.doctors
       ;

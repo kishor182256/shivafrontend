@@ -32,7 +32,6 @@ const AddNewTest = () => {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.testCategory);
-    console.log(data.data.testCategory);
   };
 
   useEffect(() => {
