@@ -22,16 +22,10 @@ import AddReportFormatForm from "./MasterForms/AddReportFormatForm";
 import Patient from "./Pages/Patient";
 import PatientInformationForm from "./Pages/AddPatients";
 import PatientSample from "./Pages/PatienceSampleCollection";
-import { useEffect, useState } from "react";
 
 const App = () => {
 
-  const [token,setToken] = useState();
-
-  useEffect(()=>{
-    setToken(localStorage.getItem("logintoken"))
-  },[token])
-
+    const token = localStorage.getItem("logintoken")
  
 
   return (

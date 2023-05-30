@@ -15,24 +15,26 @@ import ArrowIcon from "../Components/Shared/ArrowIcon";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DoctorSvg } from "../Components/Shared/UserSvg";
+import { getdoctorlist } from "../redux/accounts/action";
+import { useDispatch, useSelector } from "react-redux";
 
 const Doctor = () => {
   const tableclasses = tableStyles();
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState();
+  
   const [newData, setNewData] = useState(false);
   const TOKEN = localStorage.getItem("logintoken");
 
-  const fetchData = async () => {
-    const data = await axios.get(`${API}/getdoctorlist`, {
-      headers: { authtoken: `${TOKEN}` },
-    });
-    setRows(data.data.doctors);
-  };
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.patience.data.doctors);
+  const [rows, setRows] = useState(data);
+  console.log("data", data);
+
+  
 
   useEffect(() => {
-    fetchData();
+    dispatch(getdoctorlist());
   }, [newData]);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Doctor = () => {
   };
 
   const handleDelete = async (id) => {
-    const data = await axios.delete(`${API}/delete-doctor/${id}`, {
+     const data = await axios.delete(`${API}/delete-doctor/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
     if (data?.data?.message === "Doctor removed successfully") {

@@ -16,6 +16,7 @@ import Input from "../Components/Shared/Input";
 import { formStyles } from "../Styles/Formstyle";
 import axios from "axios";
 import { API } from "../config";
+import { CrossIcon } from "../Components/Shared/UserSvg";
 
 const PatientInformationForm = () => {
   const classes = formStyles();
@@ -48,8 +49,7 @@ const PatientInformationForm = () => {
   const [subcategories, setsubcategories] = useState();
   const [isChecked, setIsChecked] = useState(false);
 
-  console.log('setIsChecked',isChecked)
-
+  console.log("setIsChecked", isChecked);
 
   const handleChange2 = (event) => {
     const {
@@ -65,9 +65,7 @@ const PatientInformationForm = () => {
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
-  const handleChangestatus1 = (event) => {
-    setStatus1(event.target.value);
-  };
+  
   const handleChange1 = (event, newValue) => {
     setValue(newValue);
   };
@@ -77,57 +75,56 @@ const PatientInformationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post(
+       await axios.post(
         `${API}/register-user`,
-        { },
+        {},
         {
           headers: { authtoken: `${TOKEN}` },
         }
       );
     } catch (e) {
       console.log(e);
-
     }
   };
 
-  const registerPatience =async()=>{
-    debugger;
-    console.log('kishor ')
+  const registerPatience = async () => {
+    console.log("kishor ");
 
-    try{
-      const data = await axios.post(`${API}/register-patience`,{
-        // labprescition,
-        labnumber,
-        totalamount,
-        discount,
-        city,
-        lastname,
-        firstname,
-        gender,
-        samplestatus,
-        netamount,
-        sample,
-        referedby,
-        age,
-        address,
-        refID,
-        paidamount,
-        dueamount,
-        discountreason,
-        // phone,
-        reportcategory,
-        subcategories,
-        email
-      },
+    try {
+      const data = await axios.post(
+        `${API}/register-patience`,
+        {
+          // labprescition,
+          labnumber,
+          totalamount,
+          discount,
+          city,
+          lastname,
+          firstname,
+          gender,
+          samplestatus,
+          netamount,
+          sample,
+          referedby,
+          age,
+          address,
+          refID,
+          paidamount,
+          dueamount,
+          discountreason,
+          // phone,
+          reportcategory,
+          subcategories,
+          email,
+        },
         {
           headers: { authtoken: `${TOKEN}` },
         }
-      )
-    }catch(err){
+      );
+    } catch (err) {
       console.log(err);
     }
-
-  }
+  };
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -607,44 +604,7 @@ const PatientInformationForm = () => {
                           <List style={{ margin: "0 120px" }}>BLOOD GRCT</List>
                           <List style={{ margin: "0 50px" }}>₹564</List>
                           <List style={{ margin: "0 40px" }}>
-                            <svg
-                              width="23"
-                              height="23"
-                              viewBox="0 0 23 23"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_75_4396)">
-                                <path
-                                  d="M5.92578 17.3074L17.2098 6.02344M5.92578 6.02344L17.2098 17.3074"
-                                  stroke="#B82C3A"
-                                  stroke-width="1.88067"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </g>
-                              <rect
-                                x="0.645773"
-                                y="0.872336"
-                                width="21.146"
-                                height="21.146"
-                                rx="3.84321"
-                                stroke="#B82C3A"
-                                stroke-width="0.854047"
-                              />
-                              <defs>
-                                <clipPath id="clip0_75_4396">
-                                  <rect
-                                    x="0.21875"
-                                    y="0.445312"
-                                    width="22"
-                                    height="22"
-                                    rx="4.27023"
-                                    fill="white"
-                                  />
-                                </clipPath>
-                              </defs>
-                            </svg>
+                            <CrossIcon/>
                           </List>
                         </div>
                         <div
@@ -661,44 +621,7 @@ const PatientInformationForm = () => {
                           <List style={{ margin: "0 120px" }}>BLOOD GRCT</List>
                           <List style={{ margin: "0 50px" }}>₹564</List>
                           <List style={{ margin: "0 40px" }}>
-                            <svg
-                              width="23"
-                              height="23"
-                              viewBox="0 0 23 23"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_75_4396)">
-                                <path
-                                  d="M5.92578 17.3074L17.2098 6.02344M5.92578 6.02344L17.2098 17.3074"
-                                  stroke="#B82C3A"
-                                  stroke-width="1.88067"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </g>
-                              <rect
-                                x="0.645773"
-                                y="0.872336"
-                                width="21.146"
-                                height="21.146"
-                                rx="3.84321"
-                                stroke="#B82C3A"
-                                stroke-width="0.854047"
-                              />
-                              <defs>
-                                <clipPath id="clip0_75_4396">
-                                  <rect
-                                    x="0.21875"
-                                    y="0.445312"
-                                    width="22"
-                                    height="22"
-                                    rx="4.27023"
-                                    fill="white"
-                                  />
-                                </clipPath>
-                              </defs>
-                            </svg>
+                            <CrossIcon/>
                           </List>
                         </div>
                         <div
@@ -867,29 +790,29 @@ const PatientInformationForm = () => {
                               </Select>
                             </FormControl>{" "}
                             <br />
-                         <div className={classes.formDiv3}>
-                            <div
-                              className={classes.formLable}
-                              style={{ marginTop: "60px" }}
-                            >
-                              Payment mode
-                            </div>
-                            <FormControl>
-                              <Select
-                                className={classes.selectInput}
-                                value={status}
-                                onChange={handleChange}
-                                disabled={isChecked}
+                            <div className={classes.formDiv3}>
+                              <div
+                                className={classes.formLable}
+                                style={{ marginTop: "60px" }}
                               >
-                                <MenuItem value="">
-                                  <p>Select</p>
-                                </MenuItem>
-                                <MenuItem value="online">OnLine</MenuItem>
-                                <MenuItem value="cash">Cash</MenuItem>
-                              </Select>
-                            </FormControl>{" "}
-                            <br />
-                            {/* <div className={classes.formLable}>Payment no</div>
+                                Payment mode
+                              </div>
+                              <FormControl>
+                                <Select
+                                  className={classes.selectInput}
+                                  value={status}
+                                  onChange={handleChange}
+                                  disabled={isChecked}
+                                >
+                                  <MenuItem value="">
+                                    <p>Select</p>
+                                  </MenuItem>
+                                  <MenuItem value="online">OnLine</MenuItem>
+                                  <MenuItem value="cash">Cash</MenuItem>
+                                </Select>
+                              </FormControl>{" "}
+                              <br />
+                              {/* <div className={classes.formLable}>Payment no</div>
                             <Input
                               type="text"
                               placeholder="Enter here"
@@ -897,41 +820,49 @@ const PatientInformationForm = () => {
                               value={dueamount}
                               onChange={(e)=>setdueamount(e.target.value)}
                             />{" "} */}
-                            <br />
-                            <br />
-                            <div className={classes.formLable}>Due amount</div>
-                            <Input
-                              type="text"
-                              placeholder="Enter here"
-                              className={classes.formInput}
-                              value={dueamount}
-                              onChange={(e) => setdueamount(e.target.value)}
-                              disabled={isChecked}
-                            />{" "}
-                            <br />
-                            <div className={classes.formLable}>
-                              FOC/Discount reason
+                              <br />
+                              <br />
+                              <div className={classes.formLable}>
+                                Due amount
+                              </div>
+                              <Input
+                                type="text"
+                                placeholder="Enter here"
+                                className={classes.formInput}
+                                value={dueamount}
+                                onChange={(e) => setdueamount(e.target.value)}
+                                disabled={isChecked}
+                              />{" "}
+                              <br />
+                              <div className={classes.formLable}>
+                                FOC/Discount reason
+                              </div>
+                              <Input
+                                type="text"
+                                placeholder="Enter Discount reason here"
+                                className={classes.formInput}
+                                value={discountreason}
+                                onChange={(e) =>
+                                  setdiscountreason(e.target.value)
+                                }
+                                disabled={isChecked}
+                              />
+                              <br />
                             </div>
-                            <Input
-                              type="text"
-                              placeholder="Enter Discount reason here"
-                              className={classes.formInput}
-                              value={discountreason}
-                              onChange={(e) =>
-                                setdiscountreason(e.target.value)
-                              }
-                              disabled={isChecked}
-                            />
-                            <br />
-                          </div>
                           </div>
                         </div>
                         <div className={classes.formDiv4}>
-                          <Buttons className={classes.cancelButton} onclick={handleSubmit}>
+                          <Buttons
+                            className={classes.cancelButton}
+                            onclick={handleSubmit}
+                          >
                             Cancel
                           </Buttons>
-                          <Buttons className={classes.submitButton} onclick={handleSubmit}>
-                            Submit 
+                          <Buttons
+                            className={classes.submitButton}
+                            onclick={handleSubmit}
+                          >
+                            Submit
                           </Buttons>
                         </div>
                       </FormControl>

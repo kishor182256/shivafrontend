@@ -6,29 +6,34 @@ import { API } from "../config";
 import { useNavigate } from "react-router-dom";
 import Buttons from "../Components/Shared/Buttons";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/auth/action";
 
 
 const Login = () => {
   const classes = useStyles();
 
-  
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.user.token);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apidata,setData] = useState()
   const navigate = useNavigate();
+  localStorage.setItem('logintoken', data?.token);
+  console.log("enter the username",data)
 
-  const handleLogin = async(e) => {
+
+
+  const handleLogin = async (e) => {
     e.stopPropagation();
-    const {data} = await axios.post(`${API}/login`,{email,password})
+    await dispatch(loginUser({ email, password }));
     setData(data);
-    localStorage.setItem('logintoken',data.token)
-    if(apidata?.admin?.role === 'admin'){
-      navigate('/register-doctor')
-    }else{
-       toast.error('Please Enter username and password correctly')
+    if (data?.admin?.role === 'admin') {
+      navigate('/register-doctor');
+    } else {
+      toast.error('Please enter the username and password correctly');
     }
-
   };
 
   return (
