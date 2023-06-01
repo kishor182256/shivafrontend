@@ -137,7 +137,6 @@ const PriceList = () => {
                   <div>{row.Rate}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  {console.log("gettestsubcategory--->",row.category.map((cat)=>cat.name))}
                   <div>{row.category.map((cat)=>cat.name)}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>

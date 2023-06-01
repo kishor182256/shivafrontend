@@ -144,7 +144,7 @@ const Header = () => {
                 </Link>
                 <Button
                   component={Link}
-                  to="/my-page"
+                  to="/patience-cards"
                   className={headclasses.customButton}
                 >
                   Patient cards

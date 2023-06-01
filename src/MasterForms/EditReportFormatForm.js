@@ -35,7 +35,6 @@ const EditReportGroupForm = () => {
           headers: { authtoken: `${TOKEN}` },
         });
 
-        console.log('gettestcategory',data.data.testCategory)
         const { name, lastnumber, prefix, suffix } = data.data.testCategory;
         setName(name);
         setLastnumber(lastnumber);

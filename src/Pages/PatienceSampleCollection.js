@@ -84,8 +84,8 @@ const PatientSample = () => {
         </div>
 
         <div className={tableclasses.filterSearch}>
-          <div>
-            <Buttons className={tableclasses.filterButton1}>
+           <div>
+            {/* <Buttons className={tableclasses.filterButton1}>
               <FilterSvg />
             </Buttons>
             <Buttons className={tableclasses.filterButton2}>Filter By</Buttons>
@@ -99,9 +99,9 @@ const PatientSample = () => {
               <span style={{ color: "#FF8743", marginLeft: 6, text: "center" }}>
                 Reset FIlter
               </span>{" "}
-            </Buttons>
+            </Buttons> */}
             <Buttons className={tableclasses.printButton}>Print</Buttons>
-          </div>
+          </div> 
 
           <div className={tableclasses.searchContainer}>
             {/* <SearchIcon    className={tableclasses.searchIcon} /> */}
@@ -196,7 +196,6 @@ const PatientSample = () => {
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>
                     ...
-                    {console.log("row._id", row)}
                     <PopoverMenu
                       data={rows}
                       // handleEdit={() => handleEdit(row._id)}

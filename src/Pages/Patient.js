@@ -126,7 +126,7 @@ const Patient = () => {
 
         <div className={tableclasses.filterSearch}>
           <div>
-            <Buttons className={tableclasses.filterButton1}>
+            {/* <Buttons className={tableclasses.filterButton1}>
               <FilterSvg />
             </Buttons>
             <Buttons className={tableclasses.filterButton2}>Filter By</Buttons>
@@ -140,7 +140,7 @@ const Patient = () => {
               <span style={{ color: "#FF8743", marginLeft: 6, text: "center" }}>
                 Reset FIlter
               </span>{" "}
-            </Buttons>
+            </Buttons> */}
             <Buttons className={tableclasses.printButton}>Print</Buttons>
           </div>
 

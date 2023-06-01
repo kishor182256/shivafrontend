@@ -81,7 +81,7 @@ const ReportFormat = () => {
           </div>
         </div>
 
-        <div className={tableclasses.filterSearch}>
+        {/* <div className={tableclasses.filterSearch}>
           <div>
             <Button className={tableclasses.filterButton1}>
               <svg
@@ -139,7 +139,7 @@ const ReportFormat = () => {
               size="small"
             />
           </div>
-        </div>
+        </div> */}
 
         <Table className={tableclasses.table}>
           <TableHead className={tableclasses.tableHead}>
