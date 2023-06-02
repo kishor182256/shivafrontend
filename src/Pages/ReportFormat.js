@@ -38,12 +38,12 @@ const ReportFormat = () => {
   }, [newData]);
 
   const handleDelete = (data) => {
-    console.log('handleDelete',data)
-  }
+    console.log("handleDelete", data);
+  };
 
   const handleEdit = (data) => {
-    console.log('handleEdit',data)
-  }
+    console.log("handleEdit", data);
+  };
 
   return (
     <div className={tableclasses.root}>
@@ -56,7 +56,10 @@ const ReportFormat = () => {
             </div>
           </div>
           <div>
-            <Button className={tableclasses.addButton} onClick={() =>navigate('/register-report-format')}>
+            <Button
+              className={tableclasses.addButton}
+              onClick={() => navigate("/register-report-format")}
+            >
               <svg
                 width="20"
                 height="21"
@@ -154,7 +157,7 @@ const ReportFormat = () => {
                 Unit
               </TableCell>
               <TableCell className={tableclasses.customHeadName}>
-                Department
+                Category
               </TableCell>
               <TableCell className={tableclasses.customHeadName}>
                 Options
@@ -180,22 +183,23 @@ const ReportFormat = () => {
                   <div>{row.name}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>gms/dl</div>
+                  <div>{row.unit}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>GEN</div>
+                  <div>{row.name}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div>1|Negative 2|Positive</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div className={tableclasses.customArrow}>...
-                  <PopoverMenu
+                  <div className={tableclasses.customArrow}>
+                    ...
+                    {/* <PopoverMenu
                       data={rows}
-                      handleEdit={() => handleEdit(row._id)}
+                      // handleEdit={() => handleEdit(row._id)}
                       handleDelete={() => handleDelete(row._id)}
-                    />
-                    </div>
+                    /> */}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

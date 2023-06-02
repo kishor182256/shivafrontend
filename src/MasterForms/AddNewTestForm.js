@@ -14,6 +14,7 @@ import axios from "axios";
 import { API } from "../config";
 import { AddFemaleFieldSvg, AddFieldSvg } from "../Components/Shared/UserSvg";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddNewTestForm = () => {
   const classes = formStyles();
@@ -106,15 +107,20 @@ const AddNewTestForm = () => {
   const handleSubmit = async () => {
     try {
       try {
-       await axios.post(
+       const data = await axios.post(
           `${API}/addtestsubcategory`,
           { testdata, formFields, FemaleformFields },
           {
             headers: { authtoken: `${TOKEN}` },
           }
         );
+        console.log('addtestsubcategory',data?.data?.message)
+        if(data?.data?.message === 'Test Subcategory saved successfully'){
+          toast.success('Test Subcategory saved successfully')
+        }
       } catch (e) {
         console.log(e);
+        toast.error('Error saving Subcategory')
       }
     } catch (e) {
       console.error(e);
@@ -217,14 +223,14 @@ const AddNewTestForm = () => {
                             onChange={(e) => setTat(e.target.value)}
                           />{" "}
                           <br />
-                          <div className={classes.formLable}>
+                          {/* <div className={classes.formLable}>
                             Result visble to all:
                             <Checkbox {...label} color="default" />
                           </div>
                           <div className={classes.formLable}>
                             Print in card:
                             <Checkbox {...label} color="default" />
-                          </div>{" "}
+                          </div>{" "} */}
                           <br />
                         </div>
                         <div className={classes.formDiv3}>
@@ -246,7 +252,7 @@ const AddNewTestForm = () => {
                             onChange={(e) => setUnit(e.target.value)}
                           />{" "}
                           <br />
-                          <div className={classes.formLable}>Default value</div>
+                          {/* <div className={classes.formLable}>Default value</div> */}
                           <br />
                           <div className={classes.formLable}>
                             Delta check limit

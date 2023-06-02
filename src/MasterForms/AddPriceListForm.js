@@ -9,6 +9,7 @@ import Buttons from "../Components/Shared/Buttons";
 import Input from "../Components/Shared/Input";
 import axios from "axios";
 import { API } from "../config";
+import { useNavigate } from "react-router-dom";
 
 const AddPriceListForm = () => {
   const classes = formStyles();
@@ -17,6 +18,7 @@ const AddPriceListForm = () => {
   const [status, setStatus] = useState("");
   const [subid, setSubId] = useState("");
   const [rate, setPrice] = useState(0);
+  const navigate = useNavigate();
 
 
 
@@ -76,7 +78,7 @@ const AddPriceListForm = () => {
               </div>
             </div>
             <div>
-              <Buttons className={classes.formButton}>
+              <Buttons className={classes.formButton} onClick={() =>navigate('/add-price-list')}>
                 &nbsp; Back to test table
               </Buttons>
             </div>

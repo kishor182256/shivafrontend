@@ -23,6 +23,8 @@ import Patient from "./Pages/Patient";
 import PatientInformationForm from "./Pages/AddPatients";
 import PatientSample from "./Pages/PatienceSampleCollection";
 import EditReportGroupForm from "./MasterForms/EditReportFormatForm";
+import PatientCardForm from "./MasterForms/PatientCardForm";
+import PatienceCardList from "./Pages/PatienceCardList";
 
 const App = () => {
   const token = localStorage.getItem("logintoken");
@@ -80,6 +82,18 @@ const App = () => {
           exact
           path="/add-patience"
           element={<PatientInformationForm />}
+        />
+
+        <Route
+          exact
+          path="/patience-cards"
+          element={<PatienceCardList />}
+        />
+
+<Route
+          exact
+          path="/add-patience-cards"
+          element={<PatientCardForm />}
         />
         <Route exact path="/assign-collector" element={<PatientSample />} />
       </Routes>

@@ -15,6 +15,8 @@ import Buttons from "../Components/Shared/Buttons";
 import Input from "../Components/Shared/Input";
 import axios from "axios";
 import { API } from "../config";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,6 +40,7 @@ const AddReportFormatForm = () => {
   const [reportName, setReportName] = useState();
   const [reportTat, setReportIdtat] = useState();
   const [reportshortName, setShortReportName] = useState();
+  const navigate = useNavigate();
   
 
   const handleChange = (event, newValue) => {
@@ -82,22 +85,22 @@ const AddReportFormatForm = () => {
           headers: { authtoken: `${TOKEN}` },
         }
       );
-      console.log(data);
+          console.log("Report Format saved",data);
+         if(data?.data?.message === 'Report Format saved'){
+          toast.success(data?.data?.message)
+         }else{
+          toast.error(data?.data?.errors)
+         }
     } catch (e) {
       console.log(e);
+      toast.error(e)
     }
   };
 
-  const [personName, setPersonName] = React.useState([]);
+  const [categoryName, setCategoryValue] = React.useState();
 
-  const handleChange2 = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const handleChange2 = (e) => {
+    setCategoryValue(e.target.value)
   };
   return (
     <div className={classes.root}>
@@ -110,7 +113,7 @@ const AddReportFormatForm = () => {
             </div>
           </div>
           <div>
-            <Buttons className={classes.formButton}>
+            <Buttons className={classes.formButton} onClick={()=>navigate('/add-report-format')}>
               &nbsp; Back to test table
             </Buttons>
           </div>
@@ -223,15 +226,17 @@ const AddReportFormatForm = () => {
                         <Buttons className={classes.cancelButton}>
                           Cancel
                         </Buttons>
-                        <Buttons className={classes.submitButton}>
-                          Submit
+                        <Buttons
+                         onClick={() => setValue("tab2")}
+                         className={classes.submitButton}>
+                          Add Test Data
                         </Buttons>
                       </div>
                     </FormControl>
                   </div>
                 </div>
               </TabPanel>
-              <TabPanel value="2" sx={{}}>
+              <TabPanel value="tab2" sx={{}}>
                 <div className={classes.formHeading}>List Test Available</div>
                 <div>
                   <FormControl
@@ -268,14 +273,11 @@ const AddReportFormatForm = () => {
                       className={classes.selectInput}
                       labelId="demo-multiple-checkbox-label"
                       id="demo-multiple-checkbox"
-                      multiple
-                      value={personName}
+                      value={categoryName}
                       onChange={handleChange2}
-                      /*  input={<OutlinedInput label="Tag" />} */
-                      renderValue={(selected) => selected.join(", ")}
-                      MenuProps={MenuProps}
+          
                     >
-                      <div
+                      {/* <div
                         style={{
                           paddingLeft: "16px",
                           backgroundColor: "#FAFAFA",
@@ -287,19 +289,14 @@ const AddReportFormatForm = () => {
                         }}
                       >
                         <div>Test Name</div> <div>Test ID</div>
-                      </div>
+                      </div> */}
                       {subcategory?.map((name) => (
                         <MenuItem key={name.name} value={name.name}>
                           <ListItemText primary={name.name} />
-                          <ListItemText primary={name.name} />
-                          <Checkbox
-                            color="default"
-                            checked={personName.indexOf(name) > -1}
-                          />
                         </MenuItem>
                       ))}
 
-                      <Button
+                      {/* <Button
                         variant="contained"
                         style={{
                           marginLeft: "18px",
@@ -309,7 +306,7 @@ const AddReportFormatForm = () => {
                         }}
                       >
                         Contained
-                      </Button>
+                      </Button> */}
                     </Select>
                   </FormControl>
                 </div>

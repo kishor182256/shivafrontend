@@ -142,13 +142,16 @@ const Header = () => {
                   Patients
                 </Button>
                 </Link>
+                <Link to='/patience-cards'>
                 <Button
                   component={Link}
                   to="/patience-cards"
                   className={headclasses.customButton}
                 >
-                  Patient cards
+                  Patient cards 
                 </Button>
+                </Link>
+
                 <Link to="/assign-collector">
                 <Button
                   component={Link}

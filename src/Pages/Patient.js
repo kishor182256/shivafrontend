@@ -22,6 +22,7 @@ import {
   PendingSvg,
   ResetFilterSvg,
 } from "../Components/Shared/UserSvg";
+import { toast } from "react-toastify";
 
 const Patient = () => {
   const tableclasses = tableStyles();
@@ -60,14 +61,26 @@ const Patient = () => {
 
   useEffect(() => {
     fetchData();
-  }, [newData, page, rowsPerPage]);
+  }, [newData, page, rowsPerPage,fetch]);
 
   const handleAssign = (data) => {
     setAssign(true);
   };
 
-  const handleEdit = (data) => {
-    console.log("handleEdit", data);
+  const handleDelete = async(id) => {
+    try {
+      const response = await axios.delete(`${API}/delete-patience/${id}`, {
+        headers: { authtoken: `${TOKEN}` },
+      });
+      if(response.data){
+        setNewData(true);
+        toast.success("Patience deleted successfully")
+        setNewData(false);
+
+      }
+    } catch (error) {
+      console.error("Fetching Data Error", error);
+    }
   };
 
   const filteredData = rows?.filter((item) =>
@@ -243,7 +256,7 @@ const Patient = () => {
                       ...
                       <PopoverMenu
                         data={rows}
-                        handleEdit={() => handleEdit(row._id)}
+                        handleDelete={() => handleDelete(row._id)}
                         handleAssign={() => {
                           handleAssign(row._id);
                           setID(row._id);

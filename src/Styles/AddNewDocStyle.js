@@ -27,7 +27,7 @@ export const tableStyles = makeStyles({
             height: '43px', // Set your desired height
             color: '#B5B5C3',
             boxShadow: 'none',
-        textAlign: 'center',
+            textAlign: 'center',
           },
           '&  .MuiTableCell-head':{
               color: '#B5B5C3',
