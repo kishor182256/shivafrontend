@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../Components/Shared/Input";
 import { useStyles } from "../Styles/InputStyle";
 import axios from "axios";
@@ -8,32 +8,57 @@ import Buttons from "../Components/Shared/Buttons";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/auth/action";
-
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const Login = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
   const data = useSelector((state) => state.user.token);
+  console.log("data",data);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [apidata,setData] = useState()
+  const [apidata, setData] = useState();
   const navigate = useNavigate();
-  localStorage.setItem('logintoken', data?.token);
 
-
-
-  const handleLogin = async (e) => {
-    e.stopPropagation();
-    await dispatch(loginUser({ email, password }));
-    setData(data);
-    if (data?.admin?.role === 'admin') {
-      navigate('/register-doctor');
-    } else {
-      toast.error('Please enter the username and password correctly');
+  const handleLogin = async ({ email, password }) => {
+    try {
+      await dispatch(loginUser({ email, password }));
+    } catch (error) {
+      // Handle error
     }
   };
+
+  useEffect(() => {
+    if (data?.admin?.role === "admin") {
+      localStorage.setItem("logintoken", data?.token);
+      navigate("/register-doctor");
+    } else if (data?.token) {
+      toast.error("Please enter the username and password correctly");
+    }
+  }, [data, navigate]);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
+
+  // Initialize useFormik hook
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      handleLogin(values);
+    },
+  });
+
+  // Extract formik props
+  const { values, errors, touched, handleChange, handleSubmit } = formik;
 
   return (
     <>
@@ -55,7 +80,7 @@ const Login = () => {
             </p>
           </div>
           <div>
-            <img src="/images/login-img.png" alt=''/>
+            <img src="/images/login-img.png" alt="" />
           </div>
           <div className={classes.myDiv3}>
             <div className={classes.myDiv4}>
@@ -67,40 +92,41 @@ const Login = () => {
                 </p>
               </div>
 
-              <form>
+              <form onSubmit={handleSubmit}>
                 <Input
+                  name="email"
                   type="email"
                   placeholder="Mobile / Email ID"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  value={values.email}
+                  onChange={handleChange}
                   className={classes.customInput}
-                />{" "}
+                />
+                {errors.email && touched.email && (
+                  <div style={{color:"red"}}>{errors.email}</div>
+                )}
                 <br />
                 <Input
+                  name="password"
                   type="password"
                   placeholder="Password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  value={values.password}
+                  onChange={handleChange}
                   className={classes.customInput}
-                />{" "}
+                />
+                {errors.password && touched.password && (
+                  <div style={{color:"red"}}>{errors.password}</div>
+                )}
                 <br /> <br />
-                <span className={classes.caption}>
-                  Forget Password?
-                </span> <br /> <br />
-                <Buttons onClick={(e)=>handleLogin(e)} className={classes.customButton}>
-                  {" "}
+                <span className={classes.caption}>Forget Password?</span>{" "}
+                <br /> <br />
+                <Buttons type="submit" className={classes.customButton}>
                   Login
                 </Buttons>
               </form>
             </div>
           </div>
         </div>
-      </div>
-      {" "}
+      </div>{" "}
     </>
   );
 };

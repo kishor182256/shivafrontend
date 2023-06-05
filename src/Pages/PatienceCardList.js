@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { UserSvg } from "../Components/Shared/UserSvg";
+import { RowingSharp } from "@mui/icons-material";
 /* import Options from '../Components/Shared/Options'; */
 
 const PatienceCardList = () => {
@@ -29,12 +30,13 @@ const PatienceCardList = () => {
 
   const [name, SetName] = useState("");
   const TOKEN = localStorage.getItem("logintoken");
+  console.log('roes',rows)
 
   const fetchData = async () => {
-    const data = await axios.get(`${API}/getuserlist`, {
+    const data = await axios.get(`${API}/get-patience-card`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    setRows(data.data.users);
+    setRows(data?.data?.patients);
   };
 
   const exportToExcel = () => {
@@ -63,18 +65,19 @@ const PatienceCardList = () => {
   };
 
   const handleDelete = async (id) => {
-    const data = await axios.delete(`${API}/delete-user/${id}`, {
+    const data = await axios.delete(`${API}/delete-patience-card/${id}`, {
       headers: { authtoken: `${TOKEN}` },
     });
-    if (data.data.message === "User removed successfully") {
+    console.log("Card removed successfully",data.data)
+    if (data?.data?.message === "Card removed successfully") {
       setNewData(true);
-      toast.success("User removed successfully");
+      toast.success("Card removed successfully");
       setNewData(false);
     }
   };
 
   const filteredData = rows?.filter((item) =>
-    item.name.toLowerCase().includes(name.toLowerCase())
+    item?.name?.toLowerCase().includes(name.toLowerCase())
   );
 
   const header = [
@@ -97,7 +100,7 @@ const PatienceCardList = () => {
           <div className={tableclasses.name}>
             <div className={tableclasses.h2}>Patience Cards</div>
             <div className={tableclasses.specification}>
-              {rows?.length} available doctors
+              {rows?.length} available cards
             </div>
           </div>
           <div>
@@ -152,7 +155,7 @@ const PatienceCardList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredData?.map((row,index) => (
+            {rows?.map((row,index) => (
               <TableRow key={row._id}>
                 <TableCell
                   component="th"
@@ -164,7 +167,7 @@ const PatienceCardList = () => {
                       {index+1}
                     </div>
                     <div className={tableclasses.name}>
-                      <div>{row.name}</div>
+                      <div></div>
                       <div className={tableclasses.specification}>
                         {row.specification}
                       </div>
@@ -172,22 +175,42 @@ const PatienceCardList = () => {
                   </div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row._id}</div>
+                  <div>{row.firstName}{" "}{row.lastName}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.email}</div>
+                  <div>{row.patientId}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.phone}</div>
+                  <div>{row.labNumber}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.auditlockdays}</div>
+                  <div>{row.createdAt}</div>
                 </TableCell>
+                <TableCell className={tableclasses.customTableCell}>
+                  <Button className={tableclasses.customActive}>
+                    <div>{row.referredBy}</div>
+                  </Button>
+                </TableCell>
+
+                <TableCell className={tableclasses.customTableCell}>
+                  <Button className={tableclasses.customActive}>
+                    <div>{row.phoneNumber}</div>
+                  </Button>
+                </TableCell>
+
+
+                <TableCell className={tableclasses.customTableCell}>
+                  <Button className={tableclasses.customActive}>
+                    <div>0</div>
+                  </Button>
+                </TableCell>
+
                 <TableCell className={tableclasses.customTableCell}>
                   <Button className={tableclasses.customActive}>
                     <div>{row.status}</div>
                   </Button>
                 </TableCell>
+
                 <TableCell className={tableclasses.customTableCell}>
                   <div className={tableclasses.customArrow}>
                     <ArrowIcon />

@@ -25,13 +25,25 @@ import PatientSample from "./Pages/PatienceSampleCollection";
 import EditReportGroupForm from "./MasterForms/EditReportFormatForm";
 import PatientCardForm from "./MasterForms/PatientCardForm";
 import PatienceCardList from "./Pages/PatienceCardList";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const token = localStorage.getItem("logintoken");
+
+  const [token,setToken] = useState();
+  const data = useSelector((state) => state.user.token);
+  const TOKEN = localStorage.getItem("logintoken");
+
+
+  useEffect(()=>{
+     setToken(data || TOKEN )
+  },[token,TOKEN ])
+
+
 
   return (
     <BrowserRouter>
-      {token && <Header />}
+      {(token || TOKEN) && <Header />}
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register-doctor" element={<Doctor />} />
