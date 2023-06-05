@@ -40,6 +40,7 @@ const AddReportFormatForm = () => {
   const [reportName, setReportName] = useState();
   const [reportTat, setReportIdtat] = useState();
   const [reportshortName, setShortReportName] = useState();
+  const [validation,setValidation] = useState(false);
   const navigate = useNavigate();
   
 
@@ -77,24 +78,29 @@ const AddReportFormatForm = () => {
   }, []);
 
   const handleSubmit = async () => {
-    try {
-      const data = await axios.post(
-        `${API}/addreportformat`,
-        { reportId, reportName, reportTat, reportshortName, category, status },
-        {
-          headers: { authtoken: `${TOKEN}` },
-        }
-      );
-          console.log("Report Format saved",data);
-         if(data?.data?.message === 'Report Format saved'){
-          toast.success(data?.data?.message)
-         }else{
-          toast.error(data?.data?.errors)
-         }
-    } catch (e) {
-      console.log(e);
-      toast.error(e)
-    }
+    if(!reportId||!reportName||!reportTat||!reportshortName||!category||!status){
+     toast.error("Please Check All fields Are Entered")
+  }
+      try {
+        const data = await axios.post(
+          `${API}/addreportformat`,
+          { reportId, reportName, reportTat, reportshortName, category, status },
+          {
+            headers: { authtoken: `${TOKEN}` },
+          }
+        );
+            console.log("Report Format saved",data);
+           if(data?.data?.message === 'Report Format saved'){
+            toast.success(data?.data?.message)
+           }else{
+            toast.error(data?.data?.errors)
+           }
+      } catch (e) {
+        console.log(e);
+        toast.error(e)
+      }
+    
+    
   };
 
   const [categoryName, setCategoryValue] = React.useState();
@@ -102,6 +108,8 @@ const AddReportFormatForm = () => {
   const handleChange2 = (e) => {
     setCategoryValue(e.target.value)
   };
+
+  
   return (
     <div className={classes.root}>
       <div className={classes.collectorForm}>
@@ -152,7 +160,9 @@ const AddReportFormatForm = () => {
                             className={classes.formInput}
                             value={reportId}
                             onChange={(e) => setReportId(e.target.value)}
-                          />{" "}
+                          />
+                           {(!reportId && validation) ? <p style={{color:"red"}}>reportId is Required</p>:null}
+                          {" "}
                           <br />
                           <div className={classes.formLable}>Report group</div>
                           <FormControl>
@@ -169,7 +179,9 @@ const AddReportFormatForm = () => {
                                 </MenuItem>
                               ))}
                             </Select>
-                          </FormControl>{" "}
+                          </FormControl>
+                          {(!category && validation) ? <p style={{color:"red"}}>Category is Required</p>:null}
+                          {" "}
                           <br />
                           <div className={classes.formLable}>Sample name</div>
                           <FormControl>
@@ -185,7 +197,9 @@ const AddReportFormatForm = () => {
                               <MenuItem value="blood">Blood</MenuItem>
                               <MenuItem value="urine">Urine</MenuItem>
                             </Select>
-                          </FormControl>{" "}
+                          </FormControl>
+                          
+                          {" "}
                           <br />
                         </div>
                         <div className={classes.formDiv3}>
@@ -207,7 +221,11 @@ const AddReportFormatForm = () => {
                             className={classes.formInput}
                             value={reportshortName}
                             onChange={(e) => setShortReportName(e.target.value)}
-                          />{" "}
+                          />
+                                                    {(!reportshortName && validation) ?
+                                                     <p style={{color:"red"}}>ReportshortName is Required</p>:null}
+
+                          {" "}
                           <br />
                           <div className={classes.formLable}>
                             Time arount test(TAT) in minutes
@@ -227,9 +245,9 @@ const AddReportFormatForm = () => {
                           Cancel
                         </Buttons>
                         <Buttons
-                         onClick={() => setValue("tab2")}
+                         onClick={() => {setValue("tab2")}}
                          className={classes.submitButton}>
-                          Add Test Data
+                          {validation ? 'Add Test Data': 'All Fileds Required'}
                         </Buttons>
                       </div>
                     </FormControl>
@@ -277,36 +295,13 @@ const AddReportFormatForm = () => {
                       onChange={handleChange2}
           
                     >
-                      {/* <div
-                        style={{
-                          paddingLeft: "16px",
-                          backgroundColor: "#FAFAFA",
-                          borderBottom: "1px solid #c4c4c4",
-                          height: "40px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "36%",
-                        }}
-                      >
-                        <div>Test Name</div> <div>Test ID</div>
-                      </div> */}
                       {subcategory?.map((name) => (
                         <MenuItem key={name.name} value={name.name}>
                           <ListItemText primary={name.name} />
                         </MenuItem>
                       ))}
 
-                      {/* <Button
-                        variant="contained"
-                        style={{
-                          marginLeft: "18px",
-                          backgroundColor: "#B82C3A",
-                          color: "#FFFFFF",
-                          marginTop: "20px",
-                        }}
-                      >
-                        Contained
-                      </Button> */}
+              
                     </Select>
                   </FormControl>
                 </div>

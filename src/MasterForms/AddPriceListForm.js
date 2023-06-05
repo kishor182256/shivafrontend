@@ -10,24 +10,19 @@ import Input from "../Components/Shared/Input";
 import axios from "axios";
 import { API } from "../config";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const AddPriceListForm = () => {
   const classes = formStyles();
   const [rows, setRows] = useState();
   const [sub, setSub] = useState();
-  const [status, setStatus] = useState("");
-  const [subid, setSubId] = useState("");
-  const [rate, setPrice] = useState(0);
   const navigate = useNavigate();
-
-
-
- 
-
 
   const TOKEN = localStorage.getItem("logintoken");
 
-  const fetchTest = async (e) => {
+  const fetchTest = async () => {
     try {
       const data = await axios.get(`${API}/gettestcategory`, {
         headers: { authtoken: `${TOKEN}` },
@@ -38,7 +33,7 @@ const AddPriceListForm = () => {
     }
   };
 
-  const fetchSubTest = async (e) => {
+  const fetchSubTest = async () => {
     try {
       const data = await axios.get(`${API}/gettestsubcategory`, {
         headers: { authtoken: `${TOKEN}` },
@@ -54,17 +49,36 @@ const AddPriceListForm = () => {
     fetchSubTest();
   }, []);
 
-
-  const handleSubmit = async() => {
-
-      try {
-        const data = await axios.put(`${API}/addtestcategoryprice`,{status,subid,rate}, {
-          headers: { authtoken: `${TOKEN}` },
-        });
-      } catch (e) {
-        console.log(e);
+  const handleSubmit = async (values) => {
+    try {
+      const data = await axios.put(`${API}/addtestcategoryprice`, values, {
+        headers: { authtoken: `${TOKEN}` },
+      });
+      if(data){
+        toast.success("Price Added SuccessFully")
+      }else{
+        toast.error("Price Added Error")
       }
-  }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const validationSchema = Yup.object({
+    status: Yup.string().required("Category is required"),
+    rate: Yup.number().required("Rate is required"),
+    subid: Yup.string().required("Group Format is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      status: "",
+      rate: 0,
+      subid: "",
+    },
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
 
   return (
     <>
@@ -74,11 +88,14 @@ const AddPriceListForm = () => {
             <div className={classes.formname}>
               <div className={classes.formh2}>Add New Price list </div>
               <div className={classes.formspecification}>
-                {rows?.length} You can create new report group here
+                {rows?.length} You can create a new report group here
               </div>
             </div>
             <div>
-              <Buttons className={classes.formButton} onClick={() =>navigate('/add-price-list')}>
+              <Buttons
+                className={classes.formButton}
+                onClick={() => navigate("/add-price-list")}
+              >
                 &nbsp; Back to test table
               </Buttons>
             </div>
@@ -92,8 +109,9 @@ const AddPriceListForm = () => {
                     <div className={classes.formHeading}> New price list </div>
                     <div className={classes.formLable}>Select Category</div>
                     <Select
-                      value={status}
-                      onChange={(event) => setStatus(event.target.value)}
+                      name="status"
+                      value={formik.values.status}
+                      onChange={formik.handleChange}
                       className={classes.selectInput}
                     >
                       {rows?.map((option) => (
@@ -102,22 +120,30 @@ const AddPriceListForm = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                    {formik.errors.status && (
+                      <div className={classes.error}>{formik.errors.status}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Rate</div>
                     <Input
+                      name="rate"
                       type="number"
                       placeholder="Enter Rate"
                       className={classes.formInput}
-                      value={rate}
-                      onChange={(e)=>setPrice(e.target.value)}
-                    />{" "}
+                      value={formik.values.rate}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.errors.rate && (
+                      <div className={classes.error}>{formik.errors.rate}</div>
+                    )}
                     <br />
                   </div>
                   <div className={classes.formDiv3}>
                     <div className={classes.formLable}>Select Group Format</div>
                     <Select
-                      value={subid}
-                      onChange={(event) => setSubId(event.target.value)}
+                      name="subid"
+                      value={formik.values.subid}
+                      onChange={formik.handleChange}
                       className={classes.selectInput}
                     >
                       {sub?.map((option) => (
@@ -126,12 +152,20 @@ const AddPriceListForm = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                    {formik.errors.subid && (
+                      <div className={classes.error}>{formik.errors.subid}</div>
+                    )}
                     <br />
                   </div>
                 </div>
                 <div className={classes.formDiv4}>
                   <Buttons className={classes.cancelButton}>Cancel</Buttons>
-                  <Buttons className={classes.submitButton} onClick={handleSubmit}>Submit</Buttons>
+                  <Buttons
+                    className={classes.submitButton}
+                    onClick={formik.handleSubmit}
+                  >
+                    Submit
+                  </Buttons>
                 </div>
               </FormControl>
             </div>
