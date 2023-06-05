@@ -10,44 +10,60 @@ import axios from "axios";
 import { API } from "../config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const AddUserForm = () => {
   const classes = formStyles();
   const [rows, setRows] = useState();
 
-  const [name, setName] = useState("");
-  const [id, setId] = useState("");
-  const [phone, setPhone] = useState();
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
-  const [auditlockdays, setauditlockdays] = useState();
   const navigate = useNavigate();
-
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
 
   const TOKEN = localStorage.getItem("logintoken");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await axios.post(
-        `${API}/register-user`,
-        { id, phone, email, auditlockdays, name, status },
-        {
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    id: Yup.string().required("ID is required"),
+    phone: Yup.string().required("Phone number is required"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    auditlockdays: Yup.number().required("Audit lock days is required"),
+    status: Yup.string().required("Status is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      id: "",
+      phone: "",
+      email: "",
+      auditlockdays: "",
+      status: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const data = await axios.post(`${API}/register-user`, values, {
           headers: { authtoken: `${TOKEN}` },
+        });
+        if (data.data.errors) {
+          toast.error("User already Registered");
+        } else {
+          toast.success("User Registered Successfully");
         }
-      );
-      if (data.data.errors) {
-        toast.error("User already Registered");
-      } else {
-        toast.success("User Registered Succesfully");
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    },
+  });
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = formik;
 
   return (
     <>
@@ -81,27 +97,42 @@ const AddUserForm = () => {
                       type="text"
                       placeholder="Enter name"
                       className={classes.formInput}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />{" "}
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.name && touched.name && (
+                      <div style={{ color: "red" }}>{errors.name}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Phone number</div>
                     <Input
                       type="number"
                       placeholder="Enter Phone number"
                       className={classes.formInput}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />{" "}
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.phone && touched.phone && (
+                      <div style={{ color: "red" }}>{errors.phone}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Audit lock days</div>
                     <Input
                       type="number"
                       placeholder="Enter Audit lock days"
                       className={classes.formInput}
-                      value={auditlockdays}
-                      onChange={(e) => setauditlockdays(e.target.value)}
-                    />{" "}
+                      name="auditlockdays"
+                      value={values.auditlockdays}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.auditlockdays && touched.auditlockdays && (
+                      <div style={{ color: "red" }}>{errors.auditlockdays}</div>
+                    )}
                     <br />
                   </div>
                   <div className={classes.formDiv3}>
@@ -110,30 +141,45 @@ const AddUserForm = () => {
                       type="text"
                       placeholder="Enter ID"
                       className={classes.formInput}
-                      value={id}
-                      onChange={(e) => setId(e.target.value)}
-                    />{" "}
+                      name="id"
+                      value={values.id}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.id && touched.id && (
+                      <div style={{ color: "red" }}>{errors.id}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Email Id</div>
                     <Input
                       type="email"
                       placeholder="Enter Email Id"
                       className={classes.formInput}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />{" "}
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.email && touched.email && (
+                      <div style={{ color: "red" }}>{errors.email}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Status</div>
                     <Select
                       className={classes.selectInput}
                       placeholder="Select"
                       label="Select"
-                      value={status}
+                      name="status"
+                      value={values.status}
                       onChange={handleChange}
+                      onBlur={handleBlur}
                     >
                       <MenuItem value="Active">Active</MenuItem>
                       <MenuItem value="Inactive">Inactive</MenuItem>
                     </Select>{" "}
+                    {errors.status && touched.status && (
+                      <div style={{ color: "red" }}>{errors.status}</div>
+                    )}
                     <br />
                   </div>
                 </div>

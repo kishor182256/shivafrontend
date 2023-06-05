@@ -10,44 +10,59 @@ import axios from "axios";
 import { API } from "../config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const AddCollectorForm = () => {
   const classes = formStyles();
   const [rows, setRows] = useState();
 
-  const [name, setName] = useState("");
-  const [id, setId] = useState("");
-  const [phone, setPhone] = useState();
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("Inactive");
-  const [location, setLocation] = useState("");
   const navigate = useNavigate();
-
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
 
   const TOKEN = localStorage.getItem("logintoken");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await axios.post(
-        `${API}/register-collector`,
-        { id, phone, email, location, name, status },
-        {
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    id: Yup.string().required("ID is required"),
+    phone: Yup.string().required("Phone number is required"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    location: Yup.string().required("Location is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      id: "",
+      phone: "",
+      email: "",
+      location: "",
+      status: "Inactive",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const data = await axios.post(`${API}/register-collector`, values, {
           headers: { authtoken: `${TOKEN}` },
+        });
+        if (data.data.errors) {
+          toast.error("Collector already Registered");
+        } else {
+          toast.success("Collector Registered Successfully");
         }
-      );
-      if(data.data.errors){
-        toast.error('Collector already Registered')
-      }else{
-        toast.success('Collector Registered Succesfully')
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    },
+  });
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = formik;
 
   return (
     <>
@@ -61,7 +76,10 @@ const AddCollectorForm = () => {
               </div>
             </div>
             <div>
-              <Buttons className={classes.formButton} onClick={() => navigate("/register-collector")}>
+              <Buttons
+                className={classes.formButton}
+                onClick={() => navigate("/register-collector")}
+              >
                 &nbsp; Back to test table
               </Buttons>
             </div>
@@ -80,27 +98,42 @@ const AddCollectorForm = () => {
                       type="name"
                       placeholder="Enter name"
                       className={classes.formInput}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />{" "}
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.name && touched.name && (
+                      <div style={{ color: "red" }}>{errors.name}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Phone number</div>
                     <Input
                       type="number"
                       placeholder="Enter Phone number"
                       className={classes.formInput}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />{" "}
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.phone && touched.phone && (
+                      <div style={{ color: "red" }}>{errors.phone}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Location</div>
                     <Input
                       type="text"
                       placeholder="Enter Location"
                       className={classes.formInput}
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                    />{" "}
+                      name="location"
+                      value={values.location}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.location && touched.location && (
+                      <div style={{ color: "red" }}>{errors.location}</div>
+                    )}
                     <br />
                   </div>
                   <div className={classes.formDiv3}>
@@ -109,26 +142,38 @@ const AddCollectorForm = () => {
                       type="text"
                       placeholder="Enter ID"
                       className={classes.formInput}
-                      value={id}
-                      onChange={(e) => setId(e.target.value)}
-                    />{" "}
+                      name="id"
+                      value={values.id}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.id && touched.id && (
+                      <div style={{ color: "red" }}>{errors.id}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Email Id</div>
                     <Input
                       type="email"
                       placeholder="Enter Email Id"
                       className={classes.formInput}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />{" "}
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.email && touched.email && (
+                      <div style={{ color: "red" }}>{errors.email}</div>
+                    )}
                     <br />
                     <div className={classes.formLable}>Status</div>
                     <Select
                       className={classes.selectInput}
                       placeholder="Select"
                       label="Select"
-                      value={status}
+                      name="status"
+                      value={values.status}
                       onChange={handleChange}
+                      onBlur={handleBlur}
                     >
                       <MenuItem
                         value="Active"
@@ -136,7 +181,10 @@ const AddCollectorForm = () => {
                       >
                         Active
                       </MenuItem>
-                      <MenuItem value="Inactive" className={classes.menuInput}>
+                      <MenuItem
+                        value="Inactive"
+                        className={classes.menuInput}
+                      >
                         Inactive
                       </MenuItem>
                     </Select>{" "}
@@ -144,7 +192,12 @@ const AddCollectorForm = () => {
                   </div>
                 </div>
                 <div className={classes.formDiv4}>
-                  <Buttons className={classes.cancelButton} onClick={() => navigate("/register-collector")}>Cancel</Buttons>
+                  <Buttons
+                    className={classes.cancelButton}
+                    onClick={() => navigate("/register-collector")}
+                  >
+                    Cancel
+                  </Buttons>
 
                   <Buttons
                     className={classes.submitButton}
