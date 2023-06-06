@@ -29,17 +29,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const App = () => {
-
-  const [token,setToken] = useState();
+  const [token, setToken] = useState();
   const data = useSelector((state) => state.user.token);
   const TOKEN = localStorage.getItem("logintoken");
 
-
-  useEffect(()=>{
-     setToken(data || TOKEN )
-  },[token,TOKEN ])
-
-
+  useEffect(() => {
+    setToken(data || TOKEN);
+  }, [token, TOKEN]);
 
   return (
     <BrowserRouter>
@@ -96,17 +92,9 @@ const App = () => {
           element={<PatientInformationForm />}
         />
 
-        <Route
-          exact
-          path="/patience-cards"
-          element={<PatienceCardList />}
-        />
+        <Route exact path="/patience-cards" element={<PatienceCardList />} />
 
-<Route
-          exact
-          path="/add-patience-cards"
-          element={<PatientCardForm />}
-        />
+        <Route exact path="/add-patience-cards" element={<PatientCardForm />} />
         <Route exact path="/assign-collector" element={<PatientSample />} />
       </Routes>
     </BrowserRouter>

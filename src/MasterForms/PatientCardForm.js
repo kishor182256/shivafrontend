@@ -7,9 +7,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Buttons from "../Components/Shared/Buttons";
 import axios from "axios";
 import { API } from "../config";
+import { toast } from "react-toastify";
 
 const TOKEN = localStorage.getItem("logintoken");
-
 
 const PatientCardForm = () => {
   const classes = formStyles();
@@ -37,11 +37,18 @@ const PatientCardForm = () => {
   };
 
   const handleSubmit = async () => {
-    const data = await axios.post(`${API}/register-patience-card`,{patients,gender,status}, {
-      headers: { authtoken: `${TOKEN}` },
-    });
+    if(!patients.address||!patients.emailAddress||patients.phoneNumber){
+      toast.error("Please Enter All Fields")
+    }
+    const data = await axios.post(
+      `${API}/register-patience-card`,
+      { patients, gender, status },
+      {
+        headers: { authtoken: `${TOKEN}` },
+      }
+    );
     setRows(data.data.patients);
-    console.log('register-patience-card',data?.data)
+    console.log("register-patience-card", data?.data);
   };
 
   return (
@@ -78,7 +85,9 @@ const PatientCardForm = () => {
                       placeholder="Patient first name"
                       className={classes.formInput}
                       value={patients.firstName}
-                      onChange={(e)=>setPatience({...patients, firstName: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, firstName: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Gender*</div>
@@ -103,7 +112,12 @@ const PatientCardForm = () => {
                       placeholder="Enter Phone number"
                       className={classes.formInput}
                       value={patients.phoneNumber}
-                      onChange={(e) => setPatience({...patients, phoneNumber: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({
+                          ...patients,
+                          phoneNumber: e.target.value,
+                        })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Email address</div>
@@ -112,7 +126,12 @@ const PatientCardForm = () => {
                       placeholder="Enter Email address"
                       className={classes.formInput}
                       value={patients.emailAddress}
-                      onChange={(e) => setPatience({...patients, emailAddress: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({
+                          ...patients,
+                          emailAddress: e.target.value,
+                        })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Address</div>
@@ -121,7 +140,9 @@ const PatientCardForm = () => {
                       placeholder="Enter Address"
                       className={classes.formInput}
                       value={patients.address}
-                      onChange={(e) => setPatience({...patients, address: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, address: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Lab Pre*</div>
@@ -164,7 +185,9 @@ const PatientCardForm = () => {
                       placeholder="Patient last name"
                       className={classes.formInput}
                       value={patients.lastName}
-                      onChange={(e) => setPatience({...patients, lastName: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, lastName: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Age*</div>
@@ -173,7 +196,9 @@ const PatientCardForm = () => {
                       placeholder="Age"
                       className={classes.formInput}
                       value={patients.age}
-                      onChange={(e) => setPatience({...patients, age: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, age: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Patient id</div>
@@ -182,7 +207,9 @@ const PatientCardForm = () => {
                       placeholder="Enter id"
                       className={classes.formInput}
                       value={patients.patientId}
-                      onChange={(e) => setPatience({...patients, patientId: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, patientId: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Status</div>
@@ -207,7 +234,9 @@ const PatientCardForm = () => {
                       placeholder="Enter City"
                       className={classes.formInput}
                       value={patients.city}
-                      onChange={(e) => setPatience({...patients, city: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, city: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Lab no*</div>
@@ -216,7 +245,9 @@ const PatientCardForm = () => {
                       placeholder="Enter Lab no"
                       className={classes.formInput}
                       value={patients.labNumber}
-                      onChange={(e) => setPatience({...patients, labNumber: e.target.value})}
+                      onChange={(e) =>
+                        setPatience({ ...patients, labNumber: e.target.value })
+                      }
                     />{" "}
                     <br />
                     <div className={classes.formLable}>Reffered by</div>
@@ -239,9 +270,12 @@ const PatientCardForm = () => {
                 </div>
                 <div className={classes.formDiv4}>
                   <Buttons className={classes.cancelButton}>Cancel</Buttons>
-                  <Buttons 
-                  onClick={handleSubmit}
-                  className={classes.submitButton}>Submit</Buttons>
+                  <Buttons
+                    onClick={handleSubmit}
+                    className={classes.submitButton}
+                  >
+                    Submit
+                  </Buttons>
                 </div>
               </FormControl>
             </div>

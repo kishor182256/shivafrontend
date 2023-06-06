@@ -25,17 +25,20 @@ const ReportFormat = () => {
 
   const [rows, setRows] = useState();
   const [newData, setNewData] = useState(false);
+  const [page,setPage] = useState(1);
+  const [pageInfo,setPageInfo] = useState()
 
   const fetchData = async () => {
-    const data = await axios.get(`${API}/gettestcategory`, {
+    const data = await axios.get(`${API}/gettestcategory/${page}/10`, {
       headers: { authtoken: `${TOKEN}` },
     });
     setRows(data.data.testCategory);
+    setPageInfo(data.data)
   };
 
   useEffect(() => {
     fetchData();
-  }, [newData]);
+  }, [newData,page]);
 
   const handleDelete = (data) => {
     console.log("handleDelete", data);
@@ -44,6 +47,19 @@ const ReportFormat = () => {
   const handleEdit = (data) => {
     console.log("handleEdit", data);
   };
+
+  const setNextPage = () => {
+    if(pageInfo?.currentPage>0){
+      if(page===pageInfo?.totalPages) return 
+      setPage(page+1)
+    }
+  }
+
+  const setPrevPage = () => {
+    if(pageInfo.currentPage>1){
+      setPage(page-1)
+    }
+  }
 
   return (
     <div className={tableclasses.root}>
@@ -206,11 +222,15 @@ const ReportFormat = () => {
           </TableBody>
         </Table>
         <div className={tableclasses.pagination}>
-          <div className={tableclasses.name}>Showing 1 to 3 of 3 entries</div>
+          <div className={tableclasses.name}>Showing {rows?.length} of {pageInfo?.totalItems} entries</div>
           <div>
-            <Button className={tableclasses.pageButton}>Previous</Button>
-            <Button className={tableclasses.numButton}>1</Button>
-            <Button className={tableclasses.pageButton}>Next</Button>
+          <Button
+            onClick={setPrevPage}
+             className={tableclasses.pageButton}>Previous</Button>
+            <Button className={tableclasses.numButton}>{pageInfo?.currentPage}</Button>
+            <Button 
+             onClick={setNextPage}
+            className={tableclasses.pageButton}>Next</Button>
           </div>
         </div>
       </div>
