@@ -27,6 +27,10 @@ import PatientCardForm from "./MasterForms/PatientCardForm";
 import PatienceCardList from "./Pages/PatienceCardList";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import GetAccountList from "./Pages/GetAccountList";
+import GetSampleList from "./Pages/GetSampleList";
+import AddNewAccount from "./Pages/AddNewAccount";
+import EditAccount from "./Pages/EditAccount";
 
 const App = () => {
   const [token, setToken] = useState();
@@ -68,10 +72,19 @@ const App = () => {
           path="/register-report-group"
           element={<AddReportGroupForm />}
         />
+
+        <Route exact path="/add-new-account" element={<AddNewAccount />} />
+
         <Route
           exact
           path="/register-report-format"
           element={<AddReportFormatForm />}
+        />
+
+        <Route
+          exact
+          path="/edit-account-list/:id"
+          element={<EditAccount />}
         />
 
         <Route
@@ -84,6 +97,10 @@ const App = () => {
           path="/register-price-list"
           element={<AddPriceListForm />}
         />
+
+        <Route exact path="/get-account-list" element={<GetAccountList />} />
+
+        <Route exact path="/get-sample-list" element={<GetSampleList />} />
 
         <Route exact path="/list-patience" element={<Patient />} />
         <Route

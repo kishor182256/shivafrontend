@@ -181,9 +181,9 @@ const AddNewTest = () => {
             onClick={setPrevPage}
              className={tableclasses.pageButton}>Previous</Button>
             <Button className={tableclasses.numButton}>{pageInfo?.currentPage}</Button>
-            <Button 
+            {page<pageInfo?.totalPages&&<Button 
              onClick={setNextPage}
-            className={tableclasses.pageButton}>Next</Button>
+            className={tableclasses.pageButton}>Next</Button>}
           </div>
           {/* <div></div> */}
         </div>

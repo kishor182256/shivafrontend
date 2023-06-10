@@ -16,13 +16,13 @@ const Header = () => {
   const headclasses = headerStyles();
 
   useEffect(() => {
-    navigate('/register-doctor')
-  },[]);
+    navigate("/register-doctor");
+  }, []);
 
-  const logout = () =>{
-    localStorage.removeItem("logintoken")
-    navigate('/')
-  }
+  const logout = () => {
+    localStorage.removeItem("logintoken");
+    navigate("/");
+  };
 
   return (
     <div className={headclasses.headerMain}>
@@ -94,72 +94,89 @@ const Header = () => {
             </TabPanel>
             <TabPanel value="2">
               <div style={{ height: "80px" }}>
-                <Link to='/add-test'>
-                <Button
-                  component={Link}
-                  className={headclasses.customButton}
-                >
-                  Test
-                </Button>
+                <Link to="/add-test">
+                  <Button component={Link} className={headclasses.customButton}>
+                    Test
+                  </Button>
                 </Link>
-                <Link to='/add-report-group'>
-                <Button
-                  component={Link}
-                  to="/my-page"
-                  className={headclasses.customButton}
-                >
-                  Report Group
-                </Button>
+                <Link to="/add-report-group">
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Report Group
+                  </Button>
                 </Link>
-                <Link to='/add-report-format'>
-                <Button
-                  component={Link}
-                  to="/my-page"
-                  className={headclasses.customButton}
-                >
-                  Report Format
-                </Button>
+                <Link to="/add-report-format">
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Report Format
+                  </Button>
                 </Link>
-                <Link to='/add-price-list'>
-                <Button
-                  component={Link}
-                  to="/my-page"
-                  className={headclasses.customButton}
-                >
-                  Price list
-                </Button>
+                <Link to="/add-price-list">
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Price list
+                  </Button>
+                </Link>
+
+                <Link to="/get-account-list">
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Account List
+                  </Button>
+                </Link>
+
+                <Link to="/get-sample-list">
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Sample Form
+                  </Button>
                 </Link>
               </div>
             </TabPanel>
             <TabPanel value="3">
               <div style={{ height: "80px" }}>
-              <Link to='/list-patience'>
-                <Button
-                  component={Link}
-                  to="/list-patience"
-                  className={headclasses.customButton}
-                >
-                  Patients
-                </Button>
+                <Link to="/list-patience">
+                  <Button
+                    component={Link}
+                    to="/list-patience"
+                    className={headclasses.customButton}
+                  >
+                    Patients
+                  </Button>
                 </Link>
-                <Link to='/patience-cards'>
-                <Button
-                  component={Link}
-                  to="/patience-cards"
-                  className={headclasses.customButton}
-                >
-                  Patient cards 
-                </Button>
+                <Link to="/patience-cards">
+                  <Button
+                    component={Link}
+                    to="/patience-cards"
+                    className={headclasses.customButton}
+                  >
+                    Patient cards
+                  </Button>
                 </Link>
 
                 <Link to="/assign-collector">
-                <Button
-                  component={Link}
-                  to="/my-page"
-                  className={headclasses.customButton}
-                >
-                  Sample collectors
-                </Button>
+                  <Button
+                    component={Link}
+                    to="/my-page"
+                    className={headclasses.customButton}
+                  >
+                    Sample collectors
+                  </Button>
                 </Link>
               </div>
             </TabPanel>
@@ -182,12 +199,11 @@ const Header = () => {
               color: "#F4FFF3",
               textAlign: "right",
               marginRight: "6px",
-              cursor:"pointer"
-        
+              cursor: "pointer",
             }}
             onClick={logout}
           >
-            <span >Marvin McKinney</span>
+            <span>Marvin McKinney</span>
             <span>Admin</span>
           </div>
           <div>

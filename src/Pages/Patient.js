@@ -35,48 +35,39 @@ const Patient = () => {
   const [name, setName] = useState();
   const [assign, setAssign] = useState(false);
   const [id, setID] = useState();
-  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState();
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API}/getpatiencelist/`, {
+      const response = await axios.get(`${API}/getpatiencelist/${page}/10`, {
         headers: { authtoken: `${TOKEN}` },
-        params: { page, rowsPerPage },
       });
       setRows(response.data.patients);
+      setPageInfo(response.data);
     } catch (error) {
       console.error("Fetching Data Error", error);
     }
   };
 
-  const handleChangePage = (newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
   useEffect(() => {
     fetchData();
-  }, [newData, page, rowsPerPage,fetch]);
+  }, [newData, page, rowsPerPage, fetch]);
 
   const handleAssign = (data) => {
     setAssign(true);
   };
 
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`${API}/delete-patience/${id}`, {
         headers: { authtoken: `${TOKEN}` },
       });
-      if(response.data){
+      if (response.data) {
         setNewData(true);
-        toast.success("Patience deleted successfully")
+        toast.success("Patience deleted successfully");
         setNewData(false);
-
       }
     } catch (error) {
       console.error("Fetching Data Error", error);
@@ -98,10 +89,7 @@ const Patient = () => {
     return time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  const slicedRows = rows?.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
+  
 
   const header = [
     "SL No",
@@ -115,7 +103,18 @@ const Patient = () => {
     "Action",
   ];
 
-  
+  const setNextPage = () => {
+    if (pageInfo?.currentPage > 0) {
+      if (page === pageInfo?.totalPages) return;
+      setPage(page + 1);
+    }
+  };
+
+  const setPrevPage = () => {
+    if (pageInfo.currentPage > 1) {
+      setPage(page - 1);
+    }
+  };
 
   return (
     <div className={tableclasses.root}>
@@ -168,7 +167,7 @@ const Patient = () => {
             />
           </div>
         </div>
-        <TableContainer>
+        <>
           <Table className={tableclasses.table}>
             <TableHead className={tableclasses.tableHead}>
               <TableRow>
@@ -182,7 +181,7 @@ const Patient = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {slicedRows?.map((row, index) => (
+              {rows?.map((row, index) => (
                 <TableRow key={row.id}>
                   <TableCell
                     component="th"
@@ -275,20 +274,23 @@ const Patient = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </>
         <div className={tableclasses.pagination}>
           <div className={tableclasses.name}>
-            Showing {page} to {rowsPerPage} of {rows?.length} entries
+            Showing {rows?.length} of {pageInfo?.totalItems} entries
           </div>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 15]}
-            component="div"
-            count={rows?.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+          <div>
+            <Buttons onClick={setPrevPage} className={tableclasses.pageButton}>
+              Previous
+            </Buttons>
+            <Buttons className={tableclasses.numButton}>
+              {pageInfo?.currentPage}
+            </Buttons>
+            <Buttons onClick={setNextPage} className={tableclasses.pageButton}>
+              Next
+            </Buttons>
+          </div>
+          {/* <div></div> */}
         </div>
       </div>
     </div>
