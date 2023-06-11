@@ -26,6 +26,8 @@ const PatientInformationForm = () => {
   const [status1, setStatus1] = useState("");
   const [personName, setPersonName] = React.useState([]);
 
+  
+
   const [labnumber, setLabnumber] = useState();
   const [totalamount, settotalamount] = useState();
   const [discount, setDiscount] = useState();

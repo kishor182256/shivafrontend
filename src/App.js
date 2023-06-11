@@ -31,6 +31,8 @@ import GetAccountList from "./Pages/GetAccountList";
 import GetSampleList from "./Pages/GetSampleList";
 import AddNewAccount from "./Pages/AddNewAccount";
 import EditAccount from "./Pages/EditAccount";
+import AddSampleForm from "./Pages/AddSampleForm";
+import ViewPatientDetails from "./Pages/ViewPatientDetails";
 
 const App = () => {
   const [token, setToken] = useState();
@@ -101,8 +103,11 @@ const App = () => {
         <Route exact path="/get-account-list" element={<GetAccountList />} />
 
         <Route exact path="/get-sample-list" element={<GetSampleList />} />
+        <Route exact path="/register-sample-list" element={<AddSampleForm />} />
+
 
         <Route exact path="/list-patience" element={<Patient />} />
+        <Route exact path="/view-patient/:id" element={<ViewPatientDetails />} />
         <Route
           exact
           path="/add-patience"

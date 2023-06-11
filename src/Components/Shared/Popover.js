@@ -7,7 +7,7 @@ import {
   Popover,
 } from "@material-ui/core";
 
-const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign }) => {
+const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [path, setPath] = useState("");
 
@@ -61,7 +61,7 @@ const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign }) => {
           <>
             <MenuItem
               onClick={() => {
-                handleDelete(data);
+                handleView(data);
                 handleClose();
               }}
             >

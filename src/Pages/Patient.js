@@ -59,6 +59,10 @@ const Patient = () => {
     setAssign(true);
   };
 
+  const handleView = async (id) => {
+    navigate(`/view-patient/${id}`)
+  }
+
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`${API}/delete-patience/${id}`, {
@@ -256,6 +260,7 @@ const Patient = () => {
                       <PopoverMenu
                         data={rows}
                         handleDelete={() => handleDelete(row._id)}
+                        handleView={() => handleView(row._id)}
                         handleAssign={() => {
                           handleAssign(row._id);
                           setID(row._id);
