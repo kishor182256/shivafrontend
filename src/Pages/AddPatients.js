@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,17 +16,26 @@ import Input from "../Components/Shared/Input";
 import { formStyles } from "../Styles/Formstyle";
 import axios from "axios";
 import { API } from "../config";
-import { CrossIcon } from "../Components/Shared/UserSvg";
+import SelectDropDown from "../Components/Shared/SelectDropDown";
 
 const PatientInformationForm = () => {
   const classes = formStyles();
   const [value, setValue] = useState("1");
   const [rows, setRows] = useState();
   const [status, setStatus] = useState("");
-  const [status1, setStatus1] = useState("");
-  const [personName, setPersonName] = React.useState([]);
-
-  
+  const [category, setCategory] = useState();
+  const [subcategory, setsubCategory] = useState();
+  const [reportDelivery, setReportDelivery] = useState("");
+  const [sampleFrom, setSampleFrom] = useState("");
+  const [suffix, setSuffix] = useState("");
+  const [prefix, setPrefix] = useState("");
+  const [account, setAccount] = useState();
+  const [phone, setPhone] = useState();
+  const [doctor, setDoctor] = useState();
+  const [accountVal, setAccountVal] = useState("");
+  const [doctorVal, setDoctorVal] = useState("");
+  const [sampleStatus, setsamplestatus] = useState("");
+  const [sampleType, setsampleType] = useState("");
 
   const [labnumber, setLabnumber] = useState();
   const [totalamount, settotalamount] = useState();
@@ -36,7 +45,6 @@ const PatientInformationForm = () => {
   const [firstname, setfirstname] = useState();
   const [gender, setgender] = useState();
   const [notes, setNotes] = useState();
-  const [samplestatus, setsamplestatus] = useState();
   const [netamount, setnetamount] = useState();
   const [sample, setsample] = useState();
   const [referedby, setreferedby] = useState();
@@ -51,22 +59,56 @@ const PatientInformationForm = () => {
   const [subcategories, setsubcategories] = useState();
   const [isChecked, setIsChecked] = useState(false);
 
-
-  const handleChange2 = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const fetchTest = async (e) => {
+    try {
+      const data = await axios.get(`${API}/gettestcategory`, {
+        headers: { authtoken: `${TOKEN}` },
+      });
+      setRows(data.data.testCategory);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  console.log("Add patience", rows);
+
+  const fetchsubCategory = async (e) => {
+    try {
+      const data = await axios.get(`${API}/gettestsubcategory`, {
+        headers: { authtoken: `${TOKEN}` },
+      });
+      setsubCategory(data.data.subTestCategory);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchAccount = async () => {
+    const data = await axios.get(`${API}/getaccountdetails`, {
+      headers: { authtoken: `${TOKEN}` },
+    });
+    setAccount(data?.data?.accountDetails);
+  };
+
+  const fetchDoctor = async () => {
+    const data = await axios.get(`${API}/getdoctorlist`, {
+      headers: { authtoken: `${TOKEN}` },
+    });
+    setDoctor(data?.data?.doctors);
+  };
+
+  useEffect(() => {
+    fetchTest();
+    fetchsubCategory();
+    fetchAccount();
+    fetchDoctor();
+  }, []);
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
-  
+
   const handleChange1 = (event, newValue) => {
     setValue(newValue);
   };
@@ -76,7 +118,7 @@ const PatientInformationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-       await axios.post(
+      await axios.post(
         `${API}/register-user`,
         {},
         {
@@ -89,7 +131,6 @@ const PatientInformationForm = () => {
   };
 
   const registerPatience = async () => {
-
     try {
       const data = await axios.post(
         `${API}/register-patience`,
@@ -102,7 +143,7 @@ const PatientInformationForm = () => {
           lastname,
           firstname,
           gender,
-          samplestatus,
+          sampleStatus,
           netamount,
           sample,
           referedby,
@@ -125,28 +166,6 @@ const PatientInformationForm = () => {
       console.log(err);
     }
   };
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: "50%",
-      },
-    },
-  };
-
-  const names = [
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-    "Blood Group",
-  ];
 
   return (
     <div className={classes.root}>
@@ -207,19 +226,20 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
+                                value={prefix}
+                                onChange={(e) => setPrefix(e.target.value)}
                                 displayEmpty
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                {rows?.map((row) => {
+                                  return (
+                                    <MenuItem value={row?.prefix}>
+                                      <p>{row?.prefix}</p>
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -254,19 +274,15 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
+                                value={sampleFrom}
+                                onChange={(e) => setSampleFrom(e.target.value)}
                                 displayEmpty
                               >
                                 <MenuItem value="" disabled>
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                <MenuItem value="doctor">Doctor</MenuItem>
+                                <MenuItem value="lab">Lab</MenuItem>
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -324,43 +340,33 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
+                                value={accountVal}
+                                onChange={(e) => setAccountVal(e.target.val)}
                                 displayEmpty
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                {account?.map((account) => {
+                                  return (
+                                    <MenuItem value={account?.prefix}>
+                                      <p>{account?.prefix}</p>
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>{" "}
                             <br />
                             <div className={classes.formLable}>
                               Mobile Number
                             </div>
-                            <FormControl>
-                              <Select
-                                className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
-                              >
-                                <MenuItem value="" disabled>
-                                  <p>Select</p>
-                                </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
-                              </Select>
-                            </FormControl>{" "}
+                            <Input
+                              type="number"
+                              placeholder="Enter mobile here"
+                              className={classes.formInput2}
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                            />{" "}
                             <br />
                             <div className={classes.formLable}>Email</div>
                             <Input
@@ -380,19 +386,20 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
+                                value={suffix}
+                                onChange={(e) => setSuffix(e.target.value)}
                                 displayEmpty
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                {rows?.map((row) => {
+                                  return (
+                                    <MenuItem value={row?.suffix}>
+                                      <p>{row?.suffix}</p>
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -400,19 +407,19 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
+                                value={doctorVal}
+                                onChange={(e) => setDoctorVal(e.target.value)}
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                {doctor?.map((doctors) => {
+                                  return (
+                                    <MenuItem value={doctors.name}>
+                                      {doctors.name}
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -422,19 +429,16 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
+                                value={reportDelivery}
+                                onChange={(e) =>
+                                  setReportDelivery(e.target.value)
+                                }
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                <MenuItem value="email">Email</MenuItem>
+                                <MenuItem value="phone">Phone</MenuItem>
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -488,20 +492,17 @@ const PatientInformationForm = () => {
                             </div>
                             <FormControl>
                               <Select
+                                value={category}
+                                onChange={(event) =>
+                                  setCategory(event.target.value)
+                                }
                                 className={classes.selectInput}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
                               >
-                                <MenuItem value="" disabled>
-                                  <p>Select</p>
-                                </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                {rows?.map((option) => (
+                                  <MenuItem key={option._id} value={option._id}>
+                                    {option.name}
+                                  </MenuItem>
+                                ))}
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -509,134 +510,7 @@ const PatientInformationForm = () => {
                         </div>
                       </FormControl>
 
-                      <FormControl
-                        style={{
-                          width: "75%",
-                          margingLeft: "8px",
-                          "&.MuiInputLabel-shrink": {
-                            transform: "translate(0, 1.5px) scale(0)",
-                          },
-                          "&.MuiFormLabel-root": {
-                            padingRight: "8px",
-                          },
-                        }}
-                      >
-                        <InputLabel
-                          id="demo-multiple-checkbox-label"
-                          style={{
-                            width: "80%",
-                            "&.MuiInputLabel-shrink": {
-                              transform: "translate(0, 1.5px) scale(0)",
-                            },
-                            "&.MuiInputLabel": {
-                              transition: "none",
-                              padingRight: "8px",
-                            },
-                            "&.PrivateNotchedOutline-legendLabelled-39 > span":
-                              {
-                                display: "none",
-                              },
-                          }}
-                        >
-                          Select
-                        </InputLabel>
-                        <Select
-                          className={classes.selectInput}
-                          style={{ width: "720px" }}
-                          labelId="demo-multiple-checkbox-label"
-                          id="demo-multiple-checkbox"
-                          multiple
-                          value={personName}
-                          onChange={handleChange2}
-                          renderValue={(selected) => selected.join(", ")}
-                          MenuProps={MenuProps}
-                        >
-                          <div
-                            style={{
-                              paddingLeft: "16px",
-                              backgroundColor: "#FAFAFA",
-                              borderBottom: "1px solid #c4c4c4",
-                              height: "40px",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "22%",
-                            }}
-                          >
-                            <List>Test&nbsp;Name</List>
-                            <List>Test&nbsp;ID</List>
-                            <List>Rate/price</List>
-                          </div>
-                          {names.map((name) => (
-                            <MenuItem key={name} value={name}>
-                              <ListItemText primary={name} />
-                              <ListItemText primary={name} />
-                              <ListItemText primary={name} />
-                              <Checkbox
-                                color="default"
-                                checked={personName.indexOf(name) > -1}
-                              />
-                            </MenuItem>
-                          ))}
-
-                          <Button
-                            variant="contained"
-                            style={{
-                              marginLeft: "18px",
-                              backgroundColor: "#B82C3A",
-                              color: "#FFFFFF",
-                              marginTop: "20px",
-                            }}
-                          >
-                            Contained
-                          </Button>
-                        </Select>
-                        <div
-                          style={{
-                            width: "88%",
-                            display: "flex",
-                            marginBottom: "10px",
-                            border: "1px solid rgba(201, 201, 201, 1)",
-                            borderRadius: "4px",
-                            backgroundColor: "rgba(201, 201, 201, 0.15)",
-                          }}
-                        >
-                          <List style={{ margin: "0 20px" }}>Blood Group</List>
-                          <List style={{ margin: "0 120px" }}>BLOOD GRCT</List>
-                          <List style={{ margin: "0 50px" }}>₹564</List>
-                          <List style={{ margin: "0 40px" }}>
-                            <CrossIcon/>
-                          </List>
-                        </div>
-                        <div
-                          style={{
-                            width: "88%",
-                            display: "flex",
-                            marginBottom: "20px",
-                            border: "1px solid rgba(201, 201, 201, 1)",
-                            borderRadius: "4px",
-                            backgroundColor: "rgba(201, 201, 201, 0.15)",
-                          }}
-                        >
-                          <List style={{ margin: "0 20px" }}>Blood Group</List>
-                          <List style={{ margin: "0 120px" }}>BLOOD GRCT</List>
-                          <List style={{ margin: "0 50px" }}>₹564</List>
-                          <List style={{ margin: "0 40px" }}>
-                            <CrossIcon/>
-                          </List>
-                        </div>
-                        <div
-                          style={{
-                            width: "88%",
-                            marginBottom: "60px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "space-between",
-                          }}
-                        >
-                          <div>Investigation count (2)</div>
-                          <div>Total amount: ₹1128</div>
-                        </div>
-                      </FormControl>
+                      <SelectDropDown data={subcategory} />
 
                       <FormControl style={{ width: "75%" }}>
                         <div className={classes.formDiv1}>
@@ -646,19 +520,14 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
+                                value={sampleType}
+                                onChange={(e) => setsampleType(e.target.value)}
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
+                                <MenuItem value="blood">Blood</MenuItem>
+                                <MenuItem value="urine">Urine</MenuItem>
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -677,15 +546,17 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput}
-                                value={status}
-                                onChange={handleChange}
-                                displayEmpty
+                                value={sampleStatus}
+                                onChange={(e) =>
+                                  setsamplestatus(e.target.value)
+                                }
                               >
-                                <MenuItem value="" disabled>
+                                <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                <MenuItem value={"Group1"}>Group1</MenuItem>
-                                <MenuItem value={"Group2"}>Group2</MenuItem>
+                                <MenuItem value="collected">Collected</MenuItem>
+                                <MenuItem value="received">Received</MenuItem>
+                                <MenuItem value="pending">Pending</MenuItem>
                               </Select>
                             </FormControl>{" "}
                             <br />
@@ -722,74 +593,80 @@ const PatientInformationForm = () => {
                               />
                             </div>{" "}
                             <br />
-                            <div className={classes.formLable}>
-                              Total Bill amount
-                            </div>
-                            <Input
-                              type="number"
-                              placeholder="Enter here"
-                              className={classes.formInput}
-                              value={totalamount}
-                              onChange={(e) => settotalamount(e.target.value)}
-                              disabled={isChecked}
-                            />{" "}
-                            <br />
-                            <div className={classes.formLable}>
-                              Discount amount
-                            </div>
-                            <Input
-                              type="number"
-                              placeholder="Enter Discount here"
-                              className={classes.formInput}
-                              value={discount}
-                              onChange={(e) => setDiscount(e.target.value)}
-                              disabled={isChecked}
-                            />{" "}
-                            <br />
-                            <div className={classes.formLable}>
-                              Net amount to pay
-                            </div>
-                            <Input
-                              type="text"
-                              placeholder="Enter net amount here"
-                              className={classes.formInput}
-                              value={netamount}
-                              onChange={(e) => setnetamount(e.target.value)}
-                              disabled={isChecked}
-                            />{" "}
-                            <br />
-                            <div className={classes.formLable}>Paid amount</div>
-                            <Input
-                              type="text"
-                              placeholder="Enter here"
-                              className={classes.formInput}
-                              value={paidamount}
-                              onChange={(e) => setpaidamount(e.target.value)}
-                              disabled={isChecked}
-                            />{" "}
-                            <br />
-                            <div className={classes.formLable}>
-                              FOC/Discount by
-                            </div>
-                            <FormControl>
-                              <Select
-                                className={classes.selectInput}
-                                value={status}
-                                onChange={handleChange}
+                            <Box style={{display: 'flex'}}>
+                            <Box>
+                              <div className={classes.formLable}>
+                                Total Bill amount
+                              </div>
+                              <Input
+                                type="number"
+                                placeholder="Enter here"
+                                className={classes.formInput}
+                                value={totalamount}
+                                onChange={(e) => settotalamount(e.target.value)}
                                 disabled={isChecked}
-                              >
-                                <MenuItem value="" disabled>
-                                  <p>Select</p>
-                                </MenuItem>
-                                <MenuItem value={"Category1"}>
-                                  Category1
-                                </MenuItem>
-                                <MenuItem value={"Category2"}>
-                                  Category2
-                                </MenuItem>
-                              </Select>
-                            </FormControl>{" "}
-                            <br />
+                              />{" "}
+                              <br />
+                              <div className={classes.formLable}>
+                                Discount amount
+                              </div>
+                              <Input
+                                type="number"
+                                placeholder="Enter Discount here"
+                                className={classes.formInput}
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)}
+                                disabled={isChecked}
+                              />{" "}
+                              <br />
+                              <div className={classes.formLable}>
+                                Net amount to pay
+                              </div>
+                              <Input
+                                type="text"
+                                placeholder="Enter net amount here"
+                                className={classes.formInput}
+                                value={netamount}
+                                onChange={(e) => setnetamount(e.target.value)}
+                                disabled={isChecked}
+                              />{" "}
+                              <br />
+                              <div className={classes.formLable}>
+                                Paid amount
+                              </div>
+                              <Input
+                                type="text"
+                                placeholder="Enter here"
+                                className={classes.formInput}
+                                value={paidamount}
+                                onChange={(e) => setpaidamount(e.target.value)}
+                                disabled={isChecked}
+                              />{" "}
+                              <br />
+                              <div className={classes.formLable}>
+                                FOC/Discount by
+                              </div>
+                              <FormControl>
+                                <Select
+                                  className={classes.selectInput}
+                                  value={status}
+                                  onChange={handleChange}
+                                  disabled={isChecked}
+                                >
+                                  <MenuItem value="" disabled>
+                                    <p>Select</p>
+                                  </MenuItem>
+                                  <MenuItem value={"Category1"}>
+                                    Category1
+                                  </MenuItem>
+                                  <MenuItem value={"Category2"}>
+                                    Category2
+                                  </MenuItem>
+                                </Select>
+                              </FormControl>{" "}
+                              <br />
+                            </Box>
+                            <Box>
                             <div className={classes.formDiv3}>
                               <div
                                 className={classes.formLable}
@@ -845,10 +722,13 @@ const PatientInformationForm = () => {
                                 onChange={(e) =>
                                   setdiscountreason(e.target.value)
                                 }
-                                disabled={isChecked}
+                                
                               />
                               <br />
+                             
                             </div>
+                            </Box>
+                            </Box>
                           </div>
                         </div>
                         <div className={classes.formDiv4}>

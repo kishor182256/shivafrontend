@@ -26,7 +26,6 @@ import EditReportGroupForm from "./MasterForms/EditReportFormatForm";
 import PatientCardForm from "./MasterForms/PatientCardForm";
 import PatienceCardList from "./Pages/PatienceCardList";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import GetAccountList from "./Pages/GetAccountList";
 import GetSampleList from "./Pages/GetSampleList";
 import AddNewAccount from "./Pages/AddNewAccount";
@@ -35,17 +34,15 @@ import AddSampleForm from "./Pages/AddSampleForm";
 import ViewPatientDetails from "./Pages/ViewPatientDetails";
 
 const App = () => {
-  const [token, setToken] = useState();
-  const data = useSelector((state) => state.user.token);
-  const TOKEN = localStorage.getItem("logintoken");
+  const [token, setToken] = useState(localStorage.getItem("logintoken"));
 
   useEffect(() => {
-    setToken(data || TOKEN);
-  }, [token, TOKEN]);
+    setToken(localStorage.getItem("logintoken"));
+  }, []);
 
   return (
     <BrowserRouter>
-      {(token || TOKEN) && <Header />}
+      {token && <Header />}
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register-doctor" element={<Doctor />} />
