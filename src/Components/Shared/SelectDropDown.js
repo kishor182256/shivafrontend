@@ -10,7 +10,7 @@ import { Box, List, Typography } from "@material-ui/core";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-const SelectDropDown = ({ data }) => {
+const SelectDropDown = ({ data,setSelectedSub,setTotal }) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
   console.log(
     "selectedItems",
@@ -31,7 +31,13 @@ const SelectDropDown = ({ data }) => {
   };
   const handleItemSelect = (event, value) => {
     setSelectedItems(value);
+    setSelectedSub(value)
+    
   };
+
+  React.useEffect(()=>{
+    setTotal(totalPrice)
+  },[totalPrice])
 
   return (
     <>

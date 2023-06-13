@@ -23,7 +23,7 @@ const PatientInformationForm = () => {
   const [value, setValue] = useState("1");
   const [rows, setRows] = useState();
   const [status, setStatus] = useState("");
-  const [category, setCategory] = useState();
+  const [reportcategory, setCategory] = useState();
   const [subcategory, setsubCategory] = useState();
   const [reportDelivery, setReportDelivery] = useState("");
   const [sampleFrom, setSampleFrom] = useState("");
@@ -32,30 +32,36 @@ const PatientInformationForm = () => {
   const [account, setAccount] = useState();
   const [phone, setPhone] = useState();
   const [doctor, setDoctor] = useState();
-  const [accountVal, setAccountVal] = useState("");
+  const [accountVal, setAccountVal] = useState();
   const [doctorVal, setDoctorVal] = useState("");
   const [sampleStatus, setsamplestatus] = useState("");
   const [sampleType, setsampleType] = useState("");
+  const [refID, setRefId] = useState();
+  const [barcodeId,setBarCodeId] = useState();
+  const [gender,setGender] = useState();
+  const [selectedSub,setSelectedSub] = useState();
+ 
+
+
 
   const [labnumber, setLabnumber] = useState();
-  const [totalamount, settotalamount] = useState();
-  const [discount, setDiscount] = useState();
+  const [totalamount, settotalamount] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [paidamount, setpaidamount] = useState(0);
+  const [dueamount, setdueamount] = useState(0);
+  const [netamount, setnetamount] = useState(0);
+
   const [city, setCity] = useState();
   const [lastname, setLastname] = useState();
   const [firstname, setfirstname] = useState();
-  const [gender, setgender] = useState();
   const [notes, setNotes] = useState();
-  const [netamount, setnetamount] = useState();
   const [sample, setsample] = useState();
   const [referedby, setreferedby] = useState();
   const [age, setAge] = useState();
   const [address, setaddress] = useState();
-  const [refID, setrefID] = useState();
-  const [paidamount, setpaidamount] = useState();
-  const [dueamount, setdueamount] = useState();
+  
   const [discountreason, setdiscountreason] = useState();
   const [email, setemail] = useState();
-  const [reportcategory, setreportcategory] = useState();
   const [subcategories, setsubcategories] = useState();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -70,7 +76,39 @@ const PatientInformationForm = () => {
     }
   };
 
-  console.log("Add patience", rows);
+  const handleNetAmountCalculation = () => {
+    if (!isChecked) {
+      const calculatedNetAmount = totalamount - discount;
+      setnetamount(calculatedNetAmount);
+    }
+  };
+
+  const handleDueAmountCalculation = () => {
+    if (!isChecked) {
+      const calculatedDueAmount = netamount - paidamount;
+      setdueamount(calculatedDueAmount);
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  console.log("totalamount",totalamount);
+
+  useEffect(()=>{
+    handleNetAmountCalculation();
+    handleDueAmountCalculation();
+  },[totalamount,discount,paidamount])
+
+
+
+
+  useEffect(()=>{
+    setsubcategories(selectedSub?.map((selectedSub)=>selectedSub._id))
+  },[selectedSub])
+
+  
 
   const fetchsubCategory = async (e) => {
     try {
@@ -106,7 +144,7 @@ const PatientInformationForm = () => {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const handleChange = (event) => {
-    setStatus(event.target.value);
+    setGender(event.target.value);
   };
 
   const handleChange1 = (event, newValue) => {
@@ -114,29 +152,18 @@ const PatientInformationForm = () => {
   };
 
   const TOKEN = localStorage.getItem("logintoken");
+  console.log("subcategories",subcategories);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        `${API}/register-user`,
-        {},
-        {
-          headers: { authtoken: `${TOKEN}` },
-        }
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  
 
   const registerPatience = async () => {
+   
     try {
       const data = await axios.post(
         `${API}/register-patience`,
         {
-          // labprescition,
-          labnumber,
+          prefix,suffix,
+          labnumber,reportDelivery,
           totalamount,
           discount,
           city,
@@ -147,13 +174,13 @@ const PatientInformationForm = () => {
           netamount,
           sample,
           referedby,
-          age,
+          age,sampleFrom,
           address,
           refID,
           paidamount,
           dueamount,
           discountreason,
-          // phone,
+          phone,
           reportcategory,
           subcategories,
           email,
@@ -199,18 +226,18 @@ const PatientInformationForm = () => {
                   <Tab
                     label="Patient Information"
                     className={classes.tablist}
-                    value="1"
+                    value="tab1"
                   />
                   <Tab
                     label="Investigations"
                     className={classes.tablist}
-                    value="2"
+                    value="tab2"
                   />
-                  <Tab label="Payments" className={classes.tablist} value="3" />
+                  <Tab label="Payments" className={classes.tablist} value="tab3" />
                 </TabList>
               </Box>
               <Box sx={{ marginBottom: "40px" }}>
-                <TabPanel value="1">
+                <TabPanel value="tab1">
                   <div>
                     <div className={classes.formMain}>
                       <FormControl style={{ width: "100%" }}>
@@ -247,7 +274,7 @@ const PatientInformationForm = () => {
                               Patient First Name*
                             </div>
                             <Input
-                              type="number"
+                              type="text"
                               placeholder="Enter First Name  here"
                               className={classes.formInput2}
                               value={firstname}
@@ -258,7 +285,7 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={status}
+                                value={gender}
                                 onChange={handleChange}
                                 displayEmpty
                               >
@@ -293,6 +320,8 @@ const PatientInformationForm = () => {
                               type="text"
                               placeholder="Enter here"
                               className={classes.formInput2}
+                              value={refID}
+                              onChange={(e)=>setRefId(e.target.value)}
                             />{" "}
                             <br />
                             <div className={classes.formLable}>Address</div>
@@ -311,7 +340,7 @@ const PatientInformationForm = () => {
                           >
                             <div className={classes.formLable}>Lab no*</div>
                             <Input
-                              type="text"
+                              type="number"
                               placeholder="Enter here"
                               className={classes.formInput2}
                               value={labnumber}
@@ -329,7 +358,7 @@ const PatientInformationForm = () => {
                             <br />
                             <div className={classes.formLable}>Age*</div>
                             <Input
-                              type="text"
+                              type="number"
                               placeholder="Enter here"
                               className={classes.formInput2}
                               value={age}
@@ -341,16 +370,15 @@ const PatientInformationForm = () => {
                               <Select
                                 className={classes.selectInput2}
                                 value={accountVal}
-                                onChange={(e) => setAccountVal(e.target.val)}
-                                displayEmpty
+                                onChange={(e) => setAccountVal(e.target.val)}   
                               >
                                 <MenuItem value="">
                                   <p>Select</p>
                                 </MenuItem>
-                                {account?.map((account) => {
+                                {account?.map((acc) => {
                                   return (
-                                    <MenuItem value={account?.prefix}>
-                                      <p>{account?.prefix}</p>
+                                    <MenuItem value={acc._id}>
+                                      <p>{acc.prefix}</p>
                                     </MenuItem>
                                   );
                                 })}
@@ -415,7 +443,7 @@ const PatientInformationForm = () => {
                                 </MenuItem>
                                 {doctor?.map((doctors) => {
                                   return (
-                                    <MenuItem value={doctors.name}>
+                                    <MenuItem value={doctors._id}>
                                       {doctors.name}
                                     </MenuItem>
                                   );
@@ -470,15 +498,17 @@ const PatientInformationForm = () => {
                           <Buttons className={classes.cancelButton}>
                             Cancel
                           </Buttons>
-                          <Buttons className={classes.submitButton}>
-                            Submit
+                          <Buttons
+                          onClick={() => setValue("tab2")}
+                           className={classes.submitButton}>
+                            To Investigations
                           </Buttons>
                         </div>
                       </FormControl>
                     </div>
                   </div>
                 </TabPanel>
-                <TabPanel value="2">
+                <TabPanel value="tab2">
                   <div>
                     <div className={classes.formMain}>
                       <FormControl style={{ width: "75%" }}>
@@ -492,7 +522,7 @@ const PatientInformationForm = () => {
                             </div>
                             <FormControl>
                               <Select
-                                value={category}
+                                value={reportcategory}
                                 onChange={(event) =>
                                   setCategory(event.target.value)
                                 }
@@ -510,7 +540,7 @@ const PatientInformationForm = () => {
                         </div>
                       </FormControl>
 
-                      <SelectDropDown data={subcategory} />
+                      <SelectDropDown data={subcategory} setSelectedSub={setSelectedSub} setTotal={settotalamount} />
 
                       <FormControl style={{ width: "75%" }}>
                         <div className={classes.formDiv1}>
@@ -533,9 +563,11 @@ const PatientInformationForm = () => {
                             <br />
                             <div className={classes.formLable}>Bar code ID</div>
                             <Input
-                              type="number"
+                              type="text"
                               placeholder="Enter here"
                               className={classes.formInput}
+                              value={barcodeId}
+                              onChange={(e)=>setBarCodeId(e.target.value)}
                             />{" "}
                             <br />
                           </div>
@@ -566,15 +598,17 @@ const PatientInformationForm = () => {
                           <Buttons className={classes.cancelButton}>
                             Cancel
                           </Buttons>
-                          <Buttons className={classes.submitButton}>
-                            Submit
+                          <Buttons
+                           onClick={() => setValue("tab3")}
+                           className={classes.submitButton}>
+                            To Payment
                           </Buttons>
                         </div>
                       </FormControl>
                     </div>
                   </div>
                 </TabPanel>
-                <TabPanel value="3" sx={{}}>
+                <TabPanel value="tab3" sx={{}}>
                   <div>
                     <div className={classes.formMain}>
                       <FormControl>
@@ -589,107 +623,111 @@ const PatientInformationForm = () => {
                                 {...label}
                                 color="default"
                                 checked={isChecked}
-                                // onChange={()=>setIsChecked(!isChecked)}
+                                onChange={handleCheckboxChange}
                               />
                             </div>{" "}
                             <br />
-                            <Box style={{display: 'flex'}}>
-                            <Box>
-                              <div className={classes.formLable}>
-                                Total Bill amount
-                              </div>
-                              <Input
-                                type="number"
-                                placeholder="Enter here"
-                                className={classes.formInput}
-                                value={totalamount}
-                                onChange={(e) => settotalamount(e.target.value)}
-                                disabled={isChecked}
-                              />{" "}
-                              <br />
-                              <div className={classes.formLable}>
-                                Discount amount
-                              </div>
-                              <Input
-                                type="number"
-                                placeholder="Enter Discount here"
-                                className={classes.formInput}
-                                value={discount}
-                                onChange={(e) => setDiscount(e.target.value)}
-                                disabled={isChecked}
-                              />{" "}
-                              <br />
-                              <div className={classes.formLable}>
-                                Net amount to pay
-                              </div>
-                              <Input
-                                type="text"
-                                placeholder="Enter net amount here"
-                                className={classes.formInput}
-                                value={netamount}
-                                onChange={(e) => setnetamount(e.target.value)}
-                                disabled={isChecked}
-                              />{" "}
-                              <br />
-                              <div className={classes.formLable}>
-                                Paid amount
-                              </div>
-                              <Input
-                                type="text"
-                                placeholder="Enter here"
-                                className={classes.formInput}
-                                value={paidamount}
-                                onChange={(e) => setpaidamount(e.target.value)}
-                                disabled={isChecked}
-                              />{" "}
-                              <br />
-                              <div className={classes.formLable}>
-                                FOC/Discount by
-                              </div>
-                              <FormControl>
-                                <Select
-                                  className={classes.selectInput}
-                                  value={status}
-                                  onChange={handleChange}
+                            <Box style={{ display: "flex" }}>
+                              <Box>
+                                <div className={classes.formLable}>
+                                  Total Bill amount
+                                </div>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter here"
                                   disabled={isChecked}
-                                >
-                                  <MenuItem value="" disabled>
-                                    <p>Select</p>
-                                  </MenuItem>
-                                  <MenuItem value={"Category1"}>
-                                    Category1
-                                  </MenuItem>
-                                  <MenuItem value={"Category2"}>
-                                    Category2
-                                  </MenuItem>
-                                </Select>
-                              </FormControl>{" "}
-                              <br />
-                            </Box>
-                            <Box>
-                            <div className={classes.formDiv3}>
-                              <div
-                                className={classes.formLable}
-                                style={{ marginTop: "60px" }}
-                              >
-                                Payment mode
-                              </div>
-                              <FormControl>
-                                <Select
-                                  className={classes.selectInput}
-                                  value={status}
-                                  onChange={handleChange}
+                                  className={classes.formInput}
+                                  value={totalamount}
+                                  // onChange={(e) =>
+                                  //   settotalamount(e.target.value)
+                                  // }
+                                />{" "}
+                                <br />
+                                <div className={classes.formLable}>
+                                  Discount amount
+                                </div>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter Discount here"
+                                  className={classes.formInput}
+                                  value={discount}
+                                  onChange={(e) => setDiscount(e.target.value)}
                                   disabled={isChecked}
-                                >
-                                  <MenuItem value="">
-                                    <p>Select</p>
-                                  </MenuItem>
-                                  <MenuItem value="online">OnLine</MenuItem>
-                                  <MenuItem value="cash">Cash</MenuItem>
-                                </Select>
-                              </FormControl>{" "}
-                              <br />
-                              {/* <div className={classes.formLable}>Payment no</div>
+                                />{" "}
+                                <br />
+                                <div className={classes.formLable}>
+                                  Net amount to pay
+                                </div>
+                                <Input
+                                  type="text"
+                                  placeholder="Enter net amount here"
+                                  className={classes.formInput}
+                                  value={netamount}
+                                  onChange={(e) => setnetamount(e.target.value)}
+                                  disabled={isChecked}
+                                />{" "}
+                                <br />
+                                <div className={classes.formLable}>
+                                  Paid amount
+                                </div>
+                                <Input
+                                  type="text"
+                                  placeholder="Enter here"
+                                  className={classes.formInput}
+                                  value={paidamount}
+                                  onChange={(e) =>
+                                    setpaidamount(e.target.value)
+                                  }
+                                  disabled={isChecked}
+                                />{" "}
+                                <br />
+                                <div className={classes.formLable}>
+                                  FOC/Discount by
+                                </div>
+                                <FormControl>
+                                  <Select
+                                    className={classes.selectInput}
+                                    value={status}
+                                    onChange={handleChange}
+                                    disabled={isChecked}
+                                  >
+                                    <MenuItem value="" disabled>
+                                      <p>Select</p>
+                                    </MenuItem>
+                                    <MenuItem value={"Category1"}>
+                                      Category1
+                                    </MenuItem>
+                                    <MenuItem value={"Category2"}>
+                                      Category2
+                                    </MenuItem>
+                                  </Select>
+                                </FormControl>{" "}
+                                <br />
+                              </Box>
+                              <Box>
+                                <div className={classes.formDiv3}>
+                                  <div
+                                    className={classes.formLable}
+                                    style={{ marginTop: "60px" }}
+                                  >
+                                    Payment mode
+                                  </div>
+                                  <FormControl>
+                                    <Select
+                                      className={classes.selectInput}
+                                      value={status}
+                                      onChange={handleChange}
+                                      disabled={isChecked}
+                                    >
+                                      <MenuItem value="">
+                                        <p>Select</p>
+                                      </MenuItem>
+                                      <MenuItem value="online">OnLine</MenuItem>
+                                      <MenuItem value="cash">Cash</MenuItem>
+                                    </Select>
+                                  </FormControl>{" "}
+                                  <br />
+                                  {/* <div className={classes.formLable}>Payment no</div>
                             <Input
                               type="text"
                               placeholder="Enter here"
@@ -697,50 +735,47 @@ const PatientInformationForm = () => {
                               value={dueamount}
                               onChange={(e)=>setdueamount(e.target.value)}
                             />{" "} */}
-                              <br />
-                              <br />
-                              <div className={classes.formLable}>
-                                Due amount
-                              </div>
-                              <Input
-                                type="text"
-                                placeholder="Enter here"
-                                className={classes.formInput}
-                                value={dueamount}
-                                onChange={(e) => setdueamount(e.target.value)}
-                                disabled={isChecked}
-                              />{" "}
-                              <br />
-                              <div className={classes.formLable}>
-                                FOC/Discount reason
-                              </div>
-                              <Input
-                                type="text"
-                                placeholder="Enter Discount reason here"
-                                className={classes.formInput}
-                                value={discountreason}
-                                onChange={(e) =>
-                                  setdiscountreason(e.target.value)
-                                }
-                                
-                              />
-                              <br />
-                             
-                            </div>
-                            </Box>
+                                  <br />
+                                  <br />
+                                  <div className={classes.formLable}>
+                                    Due amount
+                                  </div>
+                                  <Input
+                                    type="text"
+                                    placeholder="Enter here"
+                                    className={classes.formInput}
+                                    value={dueamount}
+                                    onChange={(e) =>
+                                      setdueamount(e.target.value)
+                                    }
+                                    disabled={isChecked}
+                                  />{" "}
+                                  <br />
+                                  <div className={classes.formLable}>
+                                    FOC/Discount reason
+                                  </div>
+                                  <Input
+                                    type="text"
+                                    placeholder="Enter Discount reason here"
+                                    className={classes.formInput}
+                                    value={discountreason}
+                                    onChange={(e) =>
+                                      setdiscountreason(e.target.value)
+                                    }
+                                  />
+                                  <br />
+                                </div>
+                              </Box>
                             </Box>
                           </div>
                         </div>
                         <div className={classes.formDiv4}>
-                          <Buttons
-                            className={classes.cancelButton}
-                            onclick={handleSubmit}
-                          >
+                          <Buttons className={classes.cancelButton}>
                             Cancel
                           </Buttons>
                           <Buttons
                             className={classes.submitButton}
-                            onclick={handleSubmit}
+                            onClick={registerPatience}
                           >
                             Submit
                           </Buttons>
