@@ -7,25 +7,49 @@ import {
   Popover,
 } from "@material-ui/core";
 
-const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView }) => {
+const PopoverMenu = ({
+  data,
+  handleEdit,
+  handleDelete,
+  handleAssign,
+  handleView,
+  handlePreview,
+  handleVerify,
+  handleEntry,
+  viewReport,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [path, setPath] = useState("");
+  const [dynamic,setDynamic] = useState("")
+
+  console.log("setPath", path);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const urlValue = () => {
+    const path = window.location.pathname;
+    if (path.startsWith("/patient-report/")) {
+      const phone = path.split("/")[2];
+      setPath(path);
+      setDynamic(path)
+    } else {
+      const extractedValue = path.split("/").pop();
+      setPath(extractedValue);
+    }
+  };
 
   useEffect(() => {
-    const path = window.location.pathname;
-    const extractedValue = path.split("/").pop();
-    setPath(extractedValue);
+    // const path = window.location.pathname;
+    // const extractedValue = path.split("/").pop();
+    // setPath(extractedValue);
+    urlValue();
   }, [path]);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <div>
@@ -47,7 +71,7 @@ const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView })
           <ListItemIcon>{/* <Edit /> */}</ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        <MenuItem
+        {path !== dynamic &&<MenuItem
           onClick={() => {
             handleDelete(data);
             handleClose();
@@ -55,9 +79,9 @@ const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView })
         >
           <ListItemIcon>{/* <Delete /> */}</ListItemIcon>
           <ListItemText primary="Delete" />
-        </MenuItem>
+        </MenuItem>}
 
-        {path && path === "list-patience" ? (
+        {path === "list-patience" && (
           <>
             <MenuItem
               onClick={() => {
@@ -79,7 +103,7 @@ const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView })
             </MenuItem>
             <MenuItem
               onClick={() => {
-                handleAssign(data._id);
+                viewReport(data._id);
                 handleClose();
               }}
             >
@@ -87,7 +111,39 @@ const PopoverMenu = ({ data, handleEdit, handleDelete,handleAssign,handleView })
               <ListItemText primary="Report" />
             </MenuItem>
           </>
-        ) : null}
+        )}
+
+        {path === dynamic && (
+          <>
+            <MenuItem
+              onClick={() => {
+                handleEntry(data);
+                handleClose();
+              }}
+            >
+              <ListItemIcon>{/* <Delete /> */}</ListItemIcon>
+              <ListItemText primary="Entry" />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleVerify(data._id);
+                handleClose();
+              }}
+            >
+              <ListItemIcon>{/* <Delete /> */}</ListItemIcon>
+              <ListItemText primary="Verify" />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handlePreview(data._id);
+                handleClose();
+              }}
+            >
+              <ListItemIcon>{/* <Delete /> */}</ListItemIcon>
+              <ListItemText primary="Preview" />
+            </MenuItem>
+          </>
+        )}
       </Popover>
     </div>
   );

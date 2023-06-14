@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 
-const Input = ({ label, value, onChange, className, placeholder,type,name }) => {
+const Input = ({ label, value, onChange, className, placeholder,type,name,disabled }) => {
   return (
     <TextField
       label={label}
@@ -13,6 +13,7 @@ const Input = ({ label, value, onChange, className, placeholder,type,name }) => 
       margin="normal"
       type={type}
       name={name}
+      disabled={disabled}
     />
   );
 }

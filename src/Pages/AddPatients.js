@@ -33,7 +33,7 @@ const PatientInformationForm = () => {
   const [phone, setPhone] = useState();
   const [doctor, setDoctor] = useState();
   const [accountVal, setAccountVal] = useState();
-  const [doctorVal, setDoctorVal] = useState("");
+  const [referedby, setDoctorVal] = useState();
   const [sampleStatus, setsamplestatus] = useState("");
   const [sampleType, setsampleType] = useState("");
   const [refID, setRefId] = useState();
@@ -56,7 +56,6 @@ const PatientInformationForm = () => {
   const [firstname, setfirstname] = useState();
   const [notes, setNotes] = useState();
   const [sample, setsample] = useState();
-  const [referedby, setreferedby] = useState();
   const [age, setAge] = useState();
   const [address, setaddress] = useState();
   
@@ -115,7 +114,7 @@ const PatientInformationForm = () => {
       const data = await axios.get(`${API}/gettestsubcategory`, {
         headers: { authtoken: `${TOKEN}` },
       });
-      setsubCategory(data.data.subTestCategory);
+      setsubCategory(data?.data?.subTestCategory);
     } catch (e) {
       console.log(e);
     }
@@ -435,7 +434,7 @@ const PatientInformationForm = () => {
                             <FormControl>
                               <Select
                                 className={classes.selectInput2}
-                                value={doctorVal}
+                                value={referedby}
                                 onChange={(e) => setDoctorVal(e.target.value)}
                               >
                                 <MenuItem value="">

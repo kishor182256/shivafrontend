@@ -63,6 +63,10 @@ const Patient = () => {
     navigate(`/view-patient/${id}`)
   }
 
+  const viewReport = async (id) => {
+    navigate(`/patient-report/${id}`)
+  }
+
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`${API}/delete-patience/${id}`, {
@@ -81,6 +85,9 @@ const Patient = () => {
   const filteredData = rows?.filter((item) =>
     item?.name?.toLowerCase().includes(name?.toLowerCase())
   );
+
+  console.log("row.referedby.name",rows?.map((row)=>row.referedby))
+
 
   const formatedDate = (newDate) => {
     const date = new Date(newDate);
@@ -221,7 +228,7 @@ const Patient = () => {
                     <div>{row.labnumber}</div>
                   </TableCell>
                   <TableCell className={tableclasses.customTableCell}>
-                    <div>{row.referedby}</div>
+                    <div>{row?.referedby?.map((ref)=>ref.name)}</div>
                   </TableCell>
                   <TableCell className={tableclasses.customTableCell}>
                     <div>{row.sample}</div>
@@ -261,6 +268,7 @@ const Patient = () => {
                         data={rows}
                         handleDelete={() => handleDelete(row._id)}
                         handleView={() => handleView(row._id)}
+                        viewReport={() => viewReport(row.phone)}
                         handleAssign={() => {
                           handleAssign(row._id);
                           setID(row._id);

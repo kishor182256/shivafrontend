@@ -411,20 +411,80 @@ export const tableStyles = makeStyles({
     borderRadius: "12px",
   },
 
-  patienceTypo:{
-width: "259px !important",
-height: "21px !important",
-left: "29.5px !important",
-top: "138.95px !important",
+  patienceTypo: {
+    width: "259px !important",
+    height: "21px !important",
+    left: "29.5px !important",
+    top: "138.95px !important",
 
-fontFamily: 'Poppins !important',
-fontStyle: "normal",
-fontWeight: "500",
-fontSize: "14px !important",
-lineHeight: "21px !important",
-/* identical to box height */
+    fontFamily: "Poppins !important",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px !important",
+    lineHeight: "21px !important",
+    /* identical to box height */
 
+    color: "#464E5F",
+  },
 
-color: "#464E5F",
-  }
+  entryHeader: {
+    position: "absolute",
+    height: "60px",
+    left: "0.65px",
+    right: "0.5px",
+    top: "0.47px",
+    background: "#FAFAFA",
+    borderRadius: "6px",
+    marginTop: "17px",
+    width: "100%",
+    border: "1px solid #464E5F",
+  },
+
+  entryHeaderTypo: {
+    width: "151px",
+    height: "21px",
+    left: "47.64px",
+    top: "20px",
+    marginLeft: "47px",
+    marginTop: "17px",
+
+    fontFamily: "Poppins !important",
+    fontStyle: "bold",
+    fontWeight: 500,
+    fontSize: "18px",
+    lineHeight: "21px",
+
+    color: "#212121 !important",
+  },
+
+  patienceDetailsMain: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: "65px",
+    justifyContent: "space-between",
+  },
+
+  patienceDetailstime: {
+    marginLeft: "200px",
+  },
+
+  patienceDetailsReport: {
+    marginLeft: "100px",
+  },
+
+  patienceFont: {
+    width: "243px !important",
+    height: "20px",
+    left: "41px",
+    top: "105px",
+
+    fontFamily: "Poppins !important",
+    fontStyle: "normal !important",
+    fontWeight: "500",
+    fontSize: "13px",
+    lineHeight: "20px",
+    /* identical to box height */
+
+    color: "#464E5F",
+  },
 });

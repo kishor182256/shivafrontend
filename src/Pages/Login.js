@@ -24,6 +24,7 @@ const Login = () => {
   const handleLogin = async ({ email, password }) => {
     try {
       await dispatch(loginUser({ email, password }));
+      navigate("/register-doctor")
     } catch (error) {
       // Handle error
     }

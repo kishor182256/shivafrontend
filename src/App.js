@@ -32,6 +32,8 @@ import AddNewAccount from "./Pages/AddNewAccount";
 import EditAccount from "./Pages/EditAccount";
 import AddSampleForm from "./Pages/AddSampleForm";
 import ViewPatientDetails from "./Pages/ViewPatientDetails";
+import PatientReport from "./Pages/PatientReport";
+import NewReportEntry from "./Components/modal/NewEntryReport";
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("logintoken"));
@@ -73,6 +75,9 @@ const App = () => {
         />
 
         <Route exact path="/add-new-account" element={<AddNewAccount />} />
+        <Route exact path="/patient-report/:phone" element={<PatientReport/>} />
+        <Route exact path="/new-report-entry/:id" element={<NewReportEntry/>} />
+
 
         <Route
           exact
