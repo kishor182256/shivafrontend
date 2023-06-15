@@ -59,8 +59,8 @@ const PatientReport = () => {
   };
 
 
-  const handleEntry = (id) => {
-    navigate(`/new-report-entry/${id}`);
+  const handleEntry = (phone) => {
+    navigate(`/new-report-entry/${phone}`);
   };
 
   const handleVerify = (id) => {
@@ -184,7 +184,7 @@ const PatientReport = () => {
                       handleEdit={() => handleEdit(row._id)}
                       handlePreview={() => handlePreview(row._id)}
                       handleVerify={() => handleVerify(row._id)}
-                      handleEntry={() => handleEntry(row._id)}
+                      handleEntry={() => handleEntry(row.phone)}
                     />
                   </div>
                 </TableCell>

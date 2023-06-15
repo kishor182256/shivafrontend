@@ -76,7 +76,7 @@ const App = () => {
 
         <Route exact path="/add-new-account" element={<AddNewAccount />} />
         <Route exact path="/patient-report/:phone" element={<PatientReport/>} />
-        <Route exact path="/new-report-entry/:id" element={<NewReportEntry/>} />
+        <Route exact path="/new-report-entry/:phone" element={<NewReportEntry/>} />
 
 
         <Route
