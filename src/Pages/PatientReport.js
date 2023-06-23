@@ -26,7 +26,6 @@ const PatientReport = () => {
 
   const name= rows?.length>1 ?rows[0] :rows;
 
-  console.log("name",name)
 
   const TOKEN = localStorage.getItem("logintoken");
 
@@ -37,6 +36,11 @@ const PatientReport = () => {
     console.log()
     setRows(data.data);
   };
+
+ const subcategories= rows?.map((row)=>row?.subcategories)
+
+//  console.log("subcategories", subcategories);
+
 
  
 
@@ -137,8 +141,12 @@ const PatientReport = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row,index) => (
-              <TableRow key={row._id}>
+            {subcategories?.map((row,index) =>{
+              return (
+                <>
+                {row.map((row)=>{
+                  return (
+                    <TableRow key={row._id}>
                 <TableCell
                   component="th"
                   scope="row"
@@ -150,8 +158,9 @@ const PatientReport = () => {
                     </div>
                   </div>
                 </TableCell>
+                { console.log("subcategories===>", row)}
                 <TableCell className={tableclasses.customTableCell}>
-                  <div>{row.reportcategory.map((rep)=>rep.name)}</div>
+                  <div>{row?.name}</div>
                 </TableCell>
                 <TableCell className={tableclasses.customTableCell}>
                   <div>Operator</div>
@@ -189,7 +198,11 @@ const PatientReport = () => {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+                  )
+                })}
+                </>
+              )
+            })}
           </TableBody>
         </Table>
       </div>
